@@ -305,9 +305,9 @@
                     // Mengganti karakter error  menjadi bullet point atau strip
                     let desc = d.description || '';
                     // 1. Ganti  di awal baris dengan Bullet Point
-                    desc = desc.replace(/\n/g, '\n•').replace(/^/, '•');
+                    desc = desc.replace(/\n\uFFFD/g, '\n•').replace(/^\uFFFD/, '•');
                     // 2. Ganti  lainnya dengan Strip (misal pemisah harga)
-                    desc = desc.replace(//g, '-');
+                    desc = desc.replace(/\uFFFD/g, '-');
 
                     return {
                         id: doc.id,
