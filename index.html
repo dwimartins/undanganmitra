@@ -293,16 +293,32 @@
 
                 allProducts = snapshot.docs.map(doc => {
                     let d = doc.data();
+                    
+                    // --- DATA CLEANING (PEMBERSIH SPASI) ---
+                    // Pastikan variants selalu array dan tidak ada spasi di awal/akhir string
+                    let variants = d.variants || [];
+                    if (Array.isArray(variants)) {
+                        variants = variants.map(v => v.trim()); // Hapus spasi " animasi" -> "animasi"
+                    }
+
+                    // --- FIX ENCODING DESCRIPTION ---
+                    // Mengganti karakter error  menjadi bullet point atau strip
+                    let desc = d.description || '';
+                    // 1. Ganti  di awal baris dengan Bullet Point
+                    desc = desc.replace(/\n/g, '\n•').replace(/^/, '•');
+                    // 2. Ganti  lainnya dengan Strip (misal pemisah harga)
+                    desc = desc.replace(//g, '-');
+
                     return {
                         id: doc.id,
                         title: d.title || d['title '] || 'Tanpa Judul',
                         category: d.category || 'Umum',
                         price_real: d.price_real || d['price-real'] || 0,
                         price_fake: d.price_fake || d['price-fake'] || 0,
-                        description: d.description || '',
+                        description: desc, // Gunakan deskripsi yang sudah dibersihkan
                         folder_id: d.folder_id || doc.id,
-                        tier: d.tier || 'Starter',
-                        variants: d.variants || [],
+                        tier: (d.tier || 'Starter').trim(), // Bersihkan juga tier
+                        variants: variants,
                         link: d.link || '#'
                     };
                 });
@@ -429,7 +445,11 @@
             
             const baseUrl = item.link.replace(/\/$/, ""); 
             const sortOrder = ['foto', 'animasi', 'no-foto'];
-            const sortedVariants = (item.variants || []).sort((a,b) => sortOrder.indexOf(a) - sortOrder.indexOf(b));
+            
+            // Urutkan dan Filter varian yang valid saja
+            const sortedVariants = (item.variants || [])
+                .filter(v => ['foto', 'animasi', 'no-foto'].includes(v))
+                .sort((a,b) => sortOrder.indexOf(a) - sortOrder.indexOf(b));
 
             // LOGIC:
             // 0 Varian -> Default Primary
