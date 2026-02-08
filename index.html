@@ -4,96 +4,217 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>UndanganWeb - Katalog Digital</title>
+    
+    <!-- Framework & Library -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f1f5f9; -webkit-tap-highlight-color: transparent; }
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-        [x-cloak] { display: none !important; }
+        .skeleton { background: #e2e8f0; animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
     </style>
 </head>
 
+<!-- x-data langsung panggil fungsi global -->
 <body x-data="katalog" class="text-slate-800 pb-24">
 
-    <div x-show="status !== 'Siap'" class="fixed top-0 left-0 w-full bg-slate-900 text-white text-xs p-2 z-50 text-center font-mono">
-        Status: <span x-text="status"></span> 
-        <span x-show="errorMsg" class="block text-red-400 font-bold mt-1" x-text="errorMsg"></span>
-    </div>
-
-    <div class="fixed top-0 w-full bg-white/95 backdrop-blur z-40 shadow-sm border-b border-slate-100 mt-8"> <div class="px-4 py-3 flex justify-between items-center max-w-md mx-auto">
-            <h1 class="font-bold text-lg text-slate-900">UndanganWeb</h1>
+    <!-- HEADER & NAVIGASI -->
+    <div class="fixed top-0 w-full bg-white/95 backdrop-blur z-40 shadow-sm border-b border-slate-200">
+        <!-- Baris Atas: Logo & Status -->
+        <div class="px-4 py-3 flex justify-between items-center max-w-md mx-auto">
+            <div>
+                <h1 class="font-bold text-lg text-slate-900 tracking-tight">UndanganWeb</h1>
+                <!-- Indikator Jumlah Data (Supaya kamu tau data masuk) -->
+                <p class="text-[10px] font-medium" 
+                   :class="products.length > 0 ? 'text-green-600' : 'text-slate-400'" 
+                   x-text="products.length > 0 ? 'Online • ' + products.length + ' Tema' : status"></p>
+            </div>
+            <!-- Cart Icon (Hiasan) -->
+            <div class="bg-slate-50 p-2 rounded-full border border-slate-100">
+               <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            </div>
         </div>
 
-        <div class="px-4 pb-3 max-w-md mx-auto">
-            <input type="text" x-model="search" placeholder="Cari tema..." 
-                class="w-full bg-slate-100 text-sm py-2 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <!-- Search Bar -->
+        <div class="px-4 pb-2 max-w-md mx-auto">
+            <div class="relative">
+                <input type="text" x-model="search" placeholder="Cari tema (Jawa, Floral...)" 
+                    class="w-full bg-slate-100 text-sm py-2.5 pl-10 pr-4 rounded-xl focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-500 transition-all border-transparent border focus:border-blue-100">
+                <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
         </div>
 
-        <div class="flex overflow-x-auto gap-2 px-4 pb-3 hide-scroll max-w-md mx-auto">
+        <!-- Kategori Tabs -->
+        <div class="flex overflow-x-auto gap-2 px-4 pb-3 hide-scroll max-w-md mx-auto mt-1">
             <template x-for="cat in categories" :key="cat">
                 <button @click="activeCategory = cat" 
-                    :class="activeCategory === cat ? 'bg-slate-900 text-white' : 'bg-white border border-slate-200 text-slate-600'"
-                    class="px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors"
+                    :class="activeCategory === cat ? 'bg-slate-900 text-white shadow-lg shadow-slate-300' : 'bg-white border border-slate-200 text-slate-600'"
+                    class="px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all active:scale-95"
                     x-text="cat"></button>
             </template>
         </div>
     </div>
 
-    <div class="h-48"></div> 
+    <!-- SPACER (Supaya konten tidak ketutup header) -->
+    <div class="h-44 w-full"></div>
 
+    <!-- LOADING STATE (Muncul saat awal buka) -->
     <div x-show="loading" class="px-4 grid grid-cols-2 gap-3 max-w-md mx-auto">
         <template x-for="i in 4">
-            <div class="bg-white p-2 rounded-xl shadow-sm border border-slate-100 animate-pulse">
-                <div class="bg-slate-200 h-32 rounded-lg mb-2"></div>
-                <div class="bg-slate-200 h-3 w-3/4 rounded mb-1"></div>
+            <div class="bg-white p-2 rounded-xl shadow-sm border border-slate-100">
+                <div class="skeleton h-32 rounded-lg mb-2"></div>
+                <div class="skeleton h-3 w-3/4 rounded mb-1"></div>
+                <div class="skeleton h-3 w-1/2 rounded"></div>
             </div>
         </template>
     </div>
 
-    <div x-show="!loading" class="px-3 grid grid-cols-2 gap-3 max-w-md mx-auto transition-opacity duration-500">
+    <!-- ERROR MESSAGE (Kalau data beneran kosong) -->
+    <div x-show="!loading && products.length === 0" class="px-4 text-center mt-10" style="display: none;">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+            <p class="font-bold text-slate-800 mb-1">Tidak Ada Data</p>
+            <p class="text-xs text-slate-500 mb-4" x-text="errorMsg || 'Cek koneksi database atau coba refresh.'"></p>
+            <button @click="location.reload()" class="bg-blue-600 text-white text-xs px-4 py-2 rounded-lg font-bold">Refresh Halaman</button>
+        </div>
+    </div>
+
+    <!-- GRID PRODUK UTAMA -->
+    <div x-show="!loading && products.length > 0" class="px-3 grid grid-cols-2 gap-3 max-w-md mx-auto">
         <template x-for="item in filteredProducts" :key="item.id">
-            <div @click="openModal(item)" class="bg-white p-2.5 rounded-xl shadow-sm border border-slate-100 active:scale-95 transition-transform cursor-pointer">
+            <div @click="openModal(item)" class="bg-white p-2.5 rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-slate-100 active:scale-95 transition-transform cursor-pointer hover:border-blue-200 relative group">
+                
+                <!-- Gambar Thumbnail -->
                 <div class="relative overflow-hidden rounded-lg bg-slate-100 aspect-[3/4] mb-2">
                     <img :src="getImageUrl(item.folder_id, 'thumb')" 
-                         class="w-full h-full object-cover">
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                         loading="lazy"
+                         onerror="this.src='https://placehold.co/300x400/f1f5f9/94a3b8?text=No+Image'">
                     
-                    <div class="absolute top-1 left-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow">
-                        -<span x-text="Math.round(((item.price_fake - item.price_real)/item.price_fake)*100)"></span>%
+                    <!-- Label Diskon -->
+                    <div class="absolute top-1.5 left-1.5 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow-sm">
+                        -<span x-text="calculateDiscount(item)"></span>%
                     </div>
                 </div>
-                <h3 class="text-xs font-bold text-slate-800 truncate" x-text="item.title"></h3>
-                <p class="text-sm font-bold text-blue-600" x-text="'Rp' + (item.price_real/1000) + 'k'"></p>
+
+                <!-- Info Produk -->
+                <h3 class="text-xs font-bold text-slate-800 truncate leading-tight" x-text="item.title || 'Tanpa Judul'"></h3>
+                
+                <div class="flex items-end gap-1.5 mt-1.5">
+                    <p class="text-sm font-bold text-blue-600" x-text="formatPrice(item.price_real)"></p>
+                    <p class="text-[10px] text-slate-400 line-through mb-0.5" x-text="formatPrice(item.price_fake)"></p>
+                </div>
+
+                <!-- Label Tier/Kategori Kecil -->
+                <div class="mt-2 flex gap-1">
+                    <span class="text-[9px] px-1.5 py-0.5 bg-slate-50 text-slate-500 rounded border border-slate-100 uppercase tracking-wide" x-text="item.tier || 'Standard'"></span>
+                </div>
             </div>
         </template>
-    </div>
-
-    <div x-show="detailOpen" x-cloak class="fixed inset-0 bg-white z-50 overflow-y-auto max-w-md mx-auto flex flex-col">
-        <button @click="closeModal()" class="absolute top-4 left-4 z-50 bg-black/30 text-white p-2 rounded-full backdrop-blur">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-        </button>
-        <div class="h-[55vh] bg-slate-200 relative shrink-0">
-             <img :src="getImageUrl(selectedItem?.folder_id, 'detail')" class="w-full h-full object-cover">
-        </div>
-        <div class="flex-1 p-6 -mt-6 bg-white rounded-t-3xl relative shadow-lg">
-            <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded border border-blue-100" x-text="selectedItem?.category"></span>
-            <h1 class="text-2xl font-bold text-slate-900 mt-3" x-text="selectedItem?.title"></h1>
-            <p class="text-xl font-bold text-green-600 mt-1" x-text="'Rp ' + (selectedItem?.price_real || 0).toLocaleString('id-ID')"></p>
-            <p class="text-sm text-slate-600 mt-4 leading-relaxed whitespace-pre-line" x-text="selectedItem?.description"></p>
-            <div class="h-24"></div>
-        </div>
-        <div class="fixed bottom-0 w-full max-w-md bg-white border-t p-4 flex gap-3 z-50">
-            <a :href="selectedItem?.link" target="_blank" class="flex-1 bg-slate-100 text-slate-700 font-bold py-3 rounded-xl text-center text-sm flex justify-center items-center">Preview</a>
-            <button class="flex-[2] bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-200 text-sm">Pesan Sekarang</button>
+        
+        <!-- Pesan jika hasil search nihil -->
+        <div x-show="products.length > 0 && filteredProducts.length === 0" class="col-span-2 text-center py-12">
+            <p class="text-slate-400 text-sm">Tema tidak ditemukan...</p>
+            <button @click="search = ''; activeCategory = 'Semua'" class="text-blue-600 text-xs font-bold mt-2">Reset Filter</button>
         </div>
     </div>
 
+
+    <!-- ==========================================
+         MODAL DETAIL (POPUP FULLSCREEN)
+    =========================================== -->
+    <div x-show="detailOpen" 
+         class="fixed inset-0 bg-white z-50 overflow-y-auto max-w-md mx-auto flex flex-col"
+         style="display: none;"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="translate-y-full"
+         x-transition:enter-end="translate-y-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="translate-y-0"
+         x-transition:leave-end="translate-y-full">
+        
+        <!-- Navbar Modal -->
+        <div class="absolute top-0 w-full p-4 flex justify-between items-center z-10 bg-gradient-to-b from-black/40 to-transparent pointer-events-none">
+            <button @click="closeModal()" class="bg-black/20 backdrop-blur-md text-white p-2 rounded-full pointer-events-auto hover:bg-black/40 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+        </div>
+
+        <!-- Slider Gambar (Scroll Samping) -->
+        <div class="h-[60vh] bg-slate-200 relative shrink-0 overflow-x-auto flex snap-x snap-mandatory hide-scroll">
+            <!-- Loop 3 gambar simulasi -->
+            <template x-for="i in 3">
+                <div class="w-full h-full flex-shrink-0 snap-center relative">
+                     <img :src="getImageUrl(selectedItem?.folder_id, 'slide-' + i)" 
+                          class="w-full h-full object-cover">
+                </div>
+            </template>
+            <!-- Badge Slide Info -->
+            <div class="absolute bottom-6 right-4 bg-black/50 backdrop-blur text-white text-[10px] px-2 py-1 rounded-full">
+                Geser untuk lihat foto lain 👉
+            </div>
+        </div>
+        
+        <!-- Konten Detail -->
+        <div class="flex-1 p-6 -mt-8 bg-white rounded-t-[2rem] relative shadow-[0_-5px_20px_rgba(0,0,0,0.1)] z-0">
+            <!-- Garis Handle -->
+            <div class="w-12 h-1 bg-slate-200 rounded-full mx-auto mb-6"></div>
+            
+            <div class="flex justify-between items-start mb-2">
+                <div>
+                    <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100 uppercase tracking-wider" x-text="selectedItem?.category"></span>
+                    <h1 class="text-2xl font-bold text-slate-900 mt-2 leading-tight" x-text="selectedItem?.title"></h1>
+                </div>
+            </div>
+
+            <div class="flex items-end gap-2 mt-2 pb-6 border-b border-slate-100">
+                <p class="text-2xl font-bold text-green-600" x-text="formatPrice(selectedItem?.price_real)"></p>
+                <p class="text-sm text-slate-400 line-through mb-1" x-text="formatPrice(selectedItem?.price_fake)"></p>
+            </div>
+            
+            <div class="mt-6">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Deskripsi Tema</p>
+                <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line font-medium" x-text="selectedItem?.description"></p>
+            </div>
+            
+            <!-- Varian Features -->
+            <div class="mt-6">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Fitur Tersedia</p>
+                <div class="flex flex-wrap gap-2">
+                    <template x-for="v in (selectedItem?.variants || [])">
+                        <span class="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-600 capitalize" x-text="v"></span>
+                    </template>
+                </div>
+            </div>
+
+            <div class="h-24"></div> <!-- Spacer Bawah -->
+        </div>
+
+        <!-- Sticky Bottom Bar -->
+        <div class="fixed bottom-0 w-full max-w-md bg-white border-t border-slate-100 p-4 flex gap-3 z-50 safe-area-bottom">
+            <a :href="selectedItem?.link" target="_blank" class="flex-1 bg-slate-50 text-slate-700 font-bold py-3.5 rounded-xl text-center text-sm border border-slate-200 hover:bg-slate-100 transition active:scale-95 flex items-center justify-center gap-2">
+                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                Live Preview
+            </a>
+            <button class="flex-[2] bg-slate-900 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-slate-300 text-sm active:scale-95 transition flex items-center justify-center gap-2">
+                Pesan Sekarang
+                <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         LOGIC ENGINE
+    =========================================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
+        // CONFIG DATABASE KAMU
         const firebaseConfig = {
             apiKey: "AIzaSyDq6LjlUFRDm5CqGSqVLiJ9gItIyw71bAU",
             authDomain: "db-katalog.firebaseapp.com",
@@ -106,68 +227,114 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // DAFTARKAN LOGIKA KE ALPINE JS
         document.addEventListener('alpine:init', () => {
             Alpine.data('katalog', () => ({
                 products: [],
                 loading: true,
                 search: '',
                 activeCategory: 'Semua',
-                categories: ['Semua', 'Wedding', 'Khitan', 'Ultah'],
+                categories: ['Semua', 'Wedding', 'Khitan', 'Ultah', 'Formal'], // Tab Kategori
                 detailOpen: false,
                 selectedItem: null,
-                status: 'Menghubungkan ke Database...',
-                errorMsg: '',
+                status: 'Menghubungkan...',
+                errorMsg: null,
 
                 async init() {
+                    console.log("🚀 Memulai sinkronisasi...");
                     try {
-                        // Cek koneksi ke collection "themes"
                         const querySnapshot = await getDocs(collection(db, "themes"));
                         
                         if (querySnapshot.empty) {
-                            this.status = "KONEKSI BERHASIL, TAPI DATA KOSONG";
-                            this.errorMsg = "Tidak ada dokumen di collection 'themes'. Cek Admin Upload.";
+                            this.status = "Data Kosong";
                             this.loading = false;
                             return;
                         }
 
                         let data = [];
                         querySnapshot.forEach((doc) => {
-                            // Ambil data dan pastikan ID ada
                             let item = doc.data();
-                            item.id = doc.id; 
+                            item.id = doc.id;
+                            
+                            // AUTO FIX DATA (Jaga-jaga kalau ada nama kolom yg aneh)
+                            // Kita normalkan semua jadi format standar
+                            item.price_real = item.price_real || item['price-real'] || 0;
+                            item.price_fake = item.price_fake || item['price-fake'] || 0;
+                            item.title = item.title || item['title '] || "Tanpa Judul";
+                            
                             data.push(item);
                         });
                         
                         this.products = data;
                         this.loading = false;
-                        this.status = "Siap"; // Indikator sukses
-                        
+                        this.status = "Siap"; 
+                        console.log(`✅ ${data.length} tema berhasil dimuat.`);
+
                     } catch (e) {
-                        console.error(e);
-                        this.status = "ERROR KONEKSI";
-                        this.errorMsg = e.message; // Tampilkan pesan error asli Firebase
+                        console.error("❌ Error:", e);
+                        this.status = "Error Koneksi";
+                        this.errorMsg = e.message;
                         this.loading = false;
                     }
                 },
 
                 get filteredProducts() {
                     if (this.products.length === 0) return [];
+                    
                     return this.products.filter(item => {
-                        const catMatch = this.activeCategory === 'Semua' ? true : 
-                             (item.category && item.category.toLowerCase().includes(this.activeCategory.toLowerCase()));
-                        const judul = item.title ? item.title.toLowerCase() : "";
+                        // 1. Logic Filter Kategori (Lebih Pintar/Loose)
+                        let catMatch = true;
+                        if (this.activeCategory !== 'Semua') {
+                             // "tema-wedding" mengandung "Wedding" ? YA.
+                             const itemCat = (item.category || "").toLowerCase();
+                             const filterCat = this.activeCategory.toLowerCase();
+                             catMatch = itemCat.includes(filterCat);
+                        }
+
+                        // 2. Logic Search
+                        const judul = (item.title || "").toLowerCase();
                         const searchMatch = judul.includes(this.search.toLowerCase());
+                        
                         return catMatch && searchMatch;
                     });
                 },
 
-                getImageUrl(folderId, type) {
-                    // Placeholder Image
-                    return `https://placehold.co/400x600/e2e8f0/334155?text=${folderId}`;
+                // UTILITY FUNCTIONS
+                formatPrice(val) {
+                    if (!val) return 'Rp0';
+                    // Format: 69000 -> Rp69k (Biar ringkas)
+                    return 'Rp' + Math.floor(val / 1000) + 'k';
+                    // Kalau mau lengkap: return 'Rp ' + val.toLocaleString('id-ID');
                 },
 
-                openModal(item) { this.selectedItem = item; this.detailOpen = true; document.body.style.overflow = 'hidden'; },
-                closeModal() { this.detailOpen = false; document.body.style.overflow = 'auto'; }
+                calculateDiscount(item) {
+                    const real = item.price_real || 0;
+                    const fake = item.price_fake || 0;
+                    if (fake <= real) return 0;
+                    return Math.round(((fake - real) / fake) * 100);
+                },
+
+                getImageUrl(folderId, type) {
+                    // LINK SEMENTARA (Placeholder)
+                    // Nanti kalau ImageKit sudah aktif, ganti baris ini.
+                    // const folder = encodeURIComponent(folderId || 'default');
+                    // return `https://ik.imagekit.io/id_kamu/${folder}/${type}.jpg`;
+                    
+                    const text = encodeURIComponent(folderId || 'Tema');
+                    // Ganti warna random biar gak bosen
+                    return `https://placehold.co/400x600/f8fafc/64748b?text=${text}`;
+                },
+
+                openModal(item) { 
+                    this.selectedItem = item; 
+                    this.detailOpen = true; 
+                    document.body.style.overflow = 'hidden'; // Kunci scroll body
+                },
+                
+                closeModal() { 
+                    this.detailOpen = false; 
+                    document.body.style.overflow = 'auto'; // Buka kunci scroll
+                }
             }));
         });
     </script>
