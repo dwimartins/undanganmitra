@@ -12,7 +12,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -216,6 +216,16 @@
         // Definisi urutan Tier
         const TIER_ORDER = ["Starter", "Bronze", "Silver", "Gold", "Platinum", "Diamond"];
 
+        // Config Emoji untuk Tier
+        const TIER_CONFIG = {
+            "Starter": "🟢",
+            "Bronze": "🟤",
+            "Silver": "⚪",
+            "Gold": "🟡",
+            "Platinum": "🔵",
+            "Diamond": "💎"
+        };
+
         // FUNGSI NAVIGASI HALAMAN (ROUTER SEDERHANA)
         let navigationStack = ['view-home'];
 
@@ -292,6 +302,17 @@
                 const products = groupedProducts[tier];
                 if (!products || products.length === 0) return;
 
+                // Hitung Min-Max Harga
+                const prices = products.map(p => p.price_real);
+                const minPrice = Math.min(...prices);
+                const maxPrice = Math.max(...prices);
+                const priceRange = minPrice === maxPrice 
+                    ? `Rp${Math.floor(minPrice/1000)}k` 
+                    : `Rp${Math.floor(minPrice/1000)}k - Rp${Math.floor(maxPrice/1000)}k`;
+
+                // Ambil Emoji
+                const emoji = TIER_CONFIG[tier] || "📦";
+
                 const previewProducts = products.slice(0, 3);
                 const section = document.createElement('div');
                 section.className = "bg-wa-header mb-2 py-4 shadow-sm"; 
@@ -314,8 +335,16 @@
 
                 section.innerHTML = `
                     <div class="px-4 flex justify-between items-center mb-3">
-                        <h2 class="text-wa-light font-medium text-sm">Paket ${tier}</h2>
-                        <button onclick="openCategory('${tier}')" class="text-wa-gray text-xs font-medium hover:text-wa-teal">Lihat Semua ></button>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-lg">${emoji}</span>
+                                <h2 class="text-wa-light font-bold text-base">Paket ${tier}</h2>
+                            </div>
+                            <p class="text-xs text-wa-gray mt-0.5 ml-7 font-medium">${priceRange}</p>
+                        </div>
+                        <button onclick="openCategory('${tier}')" class="bg-[#2a373f] border border-wa-divider text-wa-teal text-xs font-bold px-3 py-1.5 rounded-full hover:bg-wa-teal hover:text-white transition active:scale-95 shadow-sm">
+                            Lihat Semua
+                        </button>
                     </div>
                     <div class="px-4 grid grid-cols-3 gap-3">
                         ${cardsHtml}
@@ -372,7 +401,7 @@
             // Tambah Judul Section agar user sadar ini tombol preview
             const titleLabel = document.createElement('h3');
             titleLabel.className = "text-xs font-bold text-wa-gray uppercase tracking-wider mb-2 col-span-full";
-            titleLabel.innerText = "Lihat Contoh Hasil Jadi";
+            titleLabel.innerHTML = "Lihat <span class='text-wa-teal'>Live Pre</span>view";
             
             // Container sementara untuk grid (supaya judul ga masuk grid)
             const gridWrapper = document.createElement('div');
