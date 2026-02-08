@@ -21,8 +21,8 @@
                     colors: {
                         wa: {
                             bg: '#111b21',       /* Background Utama Gelap */
-                            header: '#202c33',   /* Header/Card */
-                            button: '#2a373f',   /* Button Background (Lighter) */
+                            header: '#202c33',   /* Header/Card Background */
+                            button: '#2a373f',   /* Button Lighter */
                             teal: '#00a884',     /* Hijau WA */
                             light: '#e9edef',    /* Teks Utama */
                             gray: '#8696a0',     /* Teks Secondary */
@@ -63,35 +63,37 @@
     ======================== -->
     <div id="view-home" class="view-section">
         <!-- Header Home -->
-        <div class="sticky top-0 z-40 bg-wa-header shadow-md border-b border-wa-divider">
+        <div class="sticky top-0 z-40 bg-wa-header/95 backdrop-blur-sm shadow-md border-b border-wa-divider">
             <div class="px-4 h-14 flex justify-between items-center max-w-md mx-auto">
-                <h1 class="font-medium text-lg text-wa-light tracking-wide">Katalog Undangan</h1>
+                <h1 class="font-bold text-lg text-wa-light tracking-wide flex items-center gap-2">
+                    <span class="text-wa-teal">●</span> Katalog
+                </h1>
                 <div class="flex gap-4">
-                    <svg class="w-5 h-5 text-wa-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    <svg class="w-5 h-5 text-wa-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path></svg>
+                    <svg class="w-5 h-5 text-wa-gray hover:text-wa-light transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </div>
             </div>
             
             <!-- Filter Chips -->
-            <div class="px-4 pb-3 flex gap-2 overflow-x-auto hide-scroll max-w-md mx-auto">
-                <button class="bg-[#374248] text-wa-teal px-4 py-1.5 rounded-full text-xs font-medium border border-wa-divider">Semua</button>
-                <button class="bg-transparent text-wa-gray px-4 py-1.5 rounded-full text-xs font-medium border border-wa-divider">Wedding</button>
-                <button class="bg-transparent text-wa-gray px-4 py-1.5 rounded-full text-xs font-medium border border-wa-divider">Khitan</button>
+            <div class="px-4 pb-3 flex gap-2 overflow-x-auto hide-scroll max-w-md mx-auto pt-1">
+                <button class="bg-wa-teal text-wa-bg px-4 py-1.5 rounded-full text-xs font-bold shadow-lg shadow-wa-teal/20 transition hover:bg-[#008f6f]">Semua</button>
+                <button class="bg-[#374248] text-wa-gray px-4 py-1.5 rounded-full text-xs font-medium border border-wa-divider hover:bg-[#435057] transition">Wedding</button>
+                <button class="bg-[#374248] text-wa-gray px-4 py-1.5 rounded-full text-xs font-medium border border-wa-divider hover:bg-[#435057] transition">Khitan</button>
             </div>
         </div>
 
         <!-- Loading Skeleton -->
-        <div id="home-loading" class="max-w-md mx-auto p-4 space-y-6">
-            <div class="h-6 w-32 bg-wa-header rounded animate-pulse"></div>
-            <div class="grid grid-cols-3 gap-2">
-                <div class="aspect-[4/5] bg-wa-header rounded animate-pulse"></div>
-                <div class="aspect-[4/5] bg-wa-header rounded animate-pulse"></div>
-                <div class="aspect-[4/5] bg-wa-header rounded animate-pulse"></div>
+        <div id="home-loading" class="max-w-md mx-auto p-4 space-y-8">
+            <div class="space-y-3">
+                <div class="h-6 w-32 bg-wa-header rounded animate-pulse"></div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="aspect-[4/5] bg-wa-header rounded-xl animate-pulse"></div>
+                    <div class="aspect-[4/5] bg-wa-header rounded-xl animate-pulse"></div>
+                </div>
             </div>
         </div>
 
         <!-- Container List Tier -->
-        <div id="tier-list-container" class="max-w-md mx-auto pb-10 space-y-2 mt-2">
+        <div id="tier-list-container" class="max-w-md mx-auto pb-10 space-y-6 mt-4">
             <!-- Inject via JS -->
         </div>
     </div>
@@ -104,7 +106,7 @@
         <!-- Header Category -->
         <div class="sticky top-0 z-40 bg-wa-header shadow-md border-b border-wa-divider">
             <div class="px-2 h-14 flex items-center gap-2 max-w-md mx-auto">
-                <button onclick="goBack()" class="p-2 rounded-full hover:bg-[#374248]">
+                <button onclick="goBack()" class="p-2 rounded-full hover:bg-[#374248] transition">
                     <svg class="w-6 h-6 text-wa-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 </button>
                 <h1 id="cat-header-title" class="font-medium text-lg text-wa-light">Nama Kategori</h1>
@@ -122,16 +124,11 @@
     ======================== -->
     <div id="view-detail" class="view-section bg-wa-bg min-h-screen">
         <!-- Header Detail (Transparan/Overlay) -->
-        <div class="fixed top-0 w-full z-50 max-w-md mx-auto left-0 right-0">
-            <div class="flex justify-between items-center p-4 bg-gradient-to-b from-black/60 to-transparent">
-                <button onclick="goBack()" class="bg-black/30 backdrop-blur p-2 rounded-full text-white hover:bg-black/50">
+        <div class="fixed top-0 w-full z-50 max-w-md mx-auto left-0 right-0 pointer-events-none">
+            <div class="flex justify-between items-center p-4 bg-gradient-to-b from-black/70 to-transparent">
+                <button onclick="goBack()" class="bg-black/30 backdrop-blur-md p-2 rounded-full text-white hover:bg-black/50 transition pointer-events-auto border border-white/10">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                 </button>
-                <div class="flex gap-3">
-                    <button class="bg-black/30 backdrop-blur p-2 rounded-full text-white hover:bg-black/50">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
-                    </button>
-                </div>
             </div>
         </div>
 
@@ -144,15 +141,15 @@
             </div>
             
             <!-- Progress Bar -->
-            <div class="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
-                <div id="slider-progress" class="h-full bg-wa-teal transition-all duration-300 w-[10%]"></div>
+            <div class="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
+                <div id="slider-progress" class="h-full bg-wa-teal transition-all duration-300 w-[10%] shadow-[0_0_10px_rgba(0,168,132,0.5)]"></div>
             </div>
 
             <!-- Navigation Arrows (Overlay) -->
-            <button onclick="scrollSlider(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 backdrop-blur p-3 rounded-full text-white hover:bg-black/60 transition opacity-0 group-hover:opacity-100 hidden md:block">
+            <button onclick="scrollSlider(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md p-3 rounded-full text-white hover:bg-black/70 transition opacity-0 group-hover:opacity-100 hidden md:block border border-white/10">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
             </button>
-            <button onclick="scrollSlider(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 backdrop-blur p-3 rounded-full text-white hover:bg-black/60 transition shadow-lg animate-pulse md:animate-none">
+            <button onclick="scrollSlider(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md p-3 rounded-full text-white hover:bg-black/70 transition shadow-lg animate-pulse md:animate-none border border-white/10">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </button>
         </div>
@@ -160,14 +157,14 @@
         <!-- Content Body -->
         <div class="max-w-md mx-auto bg-wa-bg p-5 pb-24">
             <!-- Title & Price -->
-            <div class="border-b border-wa-divider pb-4 mb-4">
+            <div class="border-b border-wa-divider pb-5 mb-5">
                 <div class="flex justify-between items-start">
-                    <h1 id="detail-title" class="text-xl font-medium text-wa-light leading-snug"></h1>
-                    <span id="detail-category" class="text-[10px] text-wa-teal border border-wa-teal/30 px-2 py-0.5 rounded uppercase tracking-wide ml-2 shrink-0">Wedding</span>
+                    <h1 id="detail-title" class="text-xl font-bold text-wa-light leading-snug tracking-tight"></h1>
+                    <span id="detail-category" class="text-[10px] font-bold text-wa-teal bg-wa-teal/10 border border-wa-teal/20 px-2.5 py-1 rounded-full uppercase tracking-wider ml-2 shrink-0">Wedding</span>
                 </div>
-                <div class="mt-2 flex items-center gap-3">
-                    <span id="detail-price-real" class="text-lg font-bold text-wa-light"></span>
-                    <span id="detail-price-fake" class="text-sm text-wa-gray line-through"></span>
+                <div class="mt-3 flex items-center gap-3">
+                    <span id="detail-price-real" class="text-2xl font-bold text-wa-light"></span>
+                    <span id="detail-price-fake" class="text-sm text-wa-gray line-through decoration-red-500/50 decoration-2"></span>
                 </div>
 
                 <!-- PREVIEW BUTTONS VARIANT -->
@@ -178,22 +175,28 @@
 
             <!-- Description -->
             <div class="space-y-3">
-                <h3 class="text-sm font-medium text-wa-gray uppercase tracking-wide">Deskripsi Item</h3>
+                <h3 class="text-xs font-bold text-wa-gray uppercase tracking-widest flex items-center gap-2">
+                    <span class="w-1 h-4 bg-wa-teal rounded-full"></span>
+                    Deskripsi Item
+                </h3>
                 <p id="detail-desc" class="text-sm text-wa-light leading-relaxed whitespace-pre-line"></p>
             </div>
 
             <!-- Variants Chips -->
-            <div class="mt-6 pt-4 border-t border-wa-divider">
-                <h3 class="text-sm font-medium text-wa-gray uppercase tracking-wide mb-3">Fitur Paket</h3>
+            <div class="mt-8 pt-5 border-t border-wa-divider">
+                <h3 class="text-xs font-bold text-wa-gray uppercase tracking-widest mb-3 flex items-center gap-2">
+                    <span class="w-1 h-4 bg-wa-teal rounded-full"></span>
+                    Fitur Paket
+                </h3>
                 <div id="detail-variants" class="flex flex-wrap gap-2"></div>
             </div>
         </div>
 
         <!-- Sticky Footer Action -->
-        <div class="fixed bottom-0 w-full bg-wa-header border-t border-wa-divider p-3 z-50">
+        <div class="fixed bottom-0 w-full bg-wa-header/95 backdrop-blur-md border-t border-wa-divider p-3 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.2)]">
             <div class="max-w-md mx-auto flex gap-3">
-                <button onclick="kirimPesanWA()" class="flex-1 bg-wa-teal text-white font-medium py-3 rounded-full shadow-lg text-sm flex justify-center items-center gap-2 hover:bg-[#008f6f] transition">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                <button onclick="kirimPesanWA()" class="flex-1 bg-wa-teal text-white font-bold py-3.5 rounded-full shadow-lg shadow-wa-teal/20 text-sm flex justify-center items-center gap-2 hover:bg-[#008f6f] active:scale-[0.98] transition group">
+                    <svg class="w-5 h-5 group-hover:animate-bounce" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                     Pesan via WhatsApp
                 </button>
             </div>
@@ -204,18 +207,14 @@
          VIEW 4: FULLSCREEN GALLERY
     ======================== -->
     <div id="view-gallery" class="fixed inset-0 z-[60] bg-black gallery-closed flex flex-col">
-        <!-- Close Button -->
-        <button onclick="closeGallery()" class="absolute top-4 right-4 z-50 bg-black/50 text-white p-3 rounded-full backdrop-blur-md">
+        <button onclick="closeGallery()" class="absolute top-4 right-4 z-50 bg-black/50 text-white p-3 rounded-full backdrop-blur-md border border-white/10 active:bg-white/10 transition">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
-        
-        <!-- Vertical Scroll Container -->
         <div id="gallery-container" class="flex-1 overflow-y-auto hide-scroll snap-y snap-mandatory">
             <!-- Images Injected Here -->
         </div>
-        
         <div class="absolute bottom-6 left-0 right-0 text-center pointer-events-none">
-            <span class="bg-black/50 text-white text-xs px-3 py-1 rounded-full backdrop-blur">Scroll Kebawah</span>
+            <span class="bg-black/60 text-white text-xs px-4 py-2 rounded-full backdrop-blur border border-white/10 font-medium">Scroll Kebawah Untuk Detail</span>
         </div>
     </div>
 
@@ -239,12 +238,11 @@
         const TIER_ORDER = ["Starter", "Bronze", "Silver", "Gold", "Platinum", "Diamond"];
         const TIER_CONFIG = { "Starter": "🟢", "Bronze": "🟤", "Silver": "⚪", "Gold": "🟡", "Platinum": "🔵", "Diamond": "💎" };
 
-        // --- SISTEM ROUTER & DEEP LINKING ---
         window.addEventListener('hashchange', router);
 
         function router() {
             const hash = window.location.hash;
-            closeGallery(); // Tutup galeri jika pindah halaman
+            closeGallery(); 
 
             if (!hash || hash === '#/') {
                 switchView('view-home');
@@ -285,7 +283,6 @@
             window.history.back();
         }
 
-        // --- LOAD DATA ---
         async function loadData() {
             try {
                 const snapshot = await db.collection('themes').get();
@@ -293,20 +290,13 @@
 
                 allProducts = snapshot.docs.map(doc => {
                     let d = doc.data();
-                    
-                    // --- DATA CLEANING (PEMBERSIH SPASI) ---
-                    // Pastikan variants selalu array dan tidak ada spasi di awal/akhir string
                     let variants = d.variants || [];
                     if (Array.isArray(variants)) {
-                        variants = variants.map(v => v.trim()); // Hapus spasi " animasi" -> "animasi"
+                        variants = variants.map(v => v.trim()); 
                     }
-
-                    // --- FIX ENCODING DESCRIPTION ---
-                    // Mengganti karakter error  menjadi bullet point atau strip
+                    
                     let desc = d.description || '';
-                    // 1. Ganti  di awal baris dengan Bullet Point
                     desc = desc.replace(/\n\uFFFD/g, '\n•').replace(/^\uFFFD/, '•');
-                    // 2. Ganti  lainnya dengan Strip (misal pemisah harga)
                     desc = desc.replace(/\uFFFD/g, '-');
 
                     return {
@@ -315,9 +305,9 @@
                         category: d.category || 'Umum',
                         price_real: d.price_real || d['price-real'] || 0,
                         price_fake: d.price_fake || d['price-fake'] || 0,
-                        description: desc, // Gunakan deskripsi yang sudah dibersihkan
+                        description: desc,
                         folder_id: d.folder_id || doc.id,
-                        tier: (d.tier || 'Starter').trim(), // Bersihkan juga tier
+                        tier: (d.tier || 'Starter').trim(),
                         variants: variants,
                         link: d.link || '#'
                     };
@@ -361,31 +351,47 @@
                 
                 let cardsHtml = '';
                 previewProducts.forEach(item => {
-                    const imgUrl = `${IMAGEKIT_BASE}/${item.folder_id}/01.png?tr=w-300`;
+                    const imgUrl = `${IMAGEKIT_BASE}/${item.folder_id}/01.png?tr=w-400`;
                     const price = 'Rp' + Math.floor(item.price_real / 1000) + 'k';
+                    const fakePrice = 'Rp' + Math.floor(item.price_fake / 1000) + 'k';
+                    
+                    let discountHtml = '';
+                    if (item.price_fake > item.price_real) {
+                        const discount = Math.round(((item.price_fake - item.price_real) / item.price_fake) * 100);
+                        discountHtml = `<div class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm z-10 border border-white/10">-${discount}%</div>`;
+                    }
+
                     cardsHtml += `
-                        <div onclick="navigateTo('#/detail/${item.id}')" class="cursor-pointer active:opacity-75 transition">
-                            <div class="aspect-square rounded-lg overflow-hidden bg-wa-bg mb-2 border border-wa-divider/30">
-                                <img src="${imgUrl}" class="w-full h-full object-cover" loading="lazy">
+                        <div onclick="navigateTo('#/detail/${item.id}')" class="group relative bg-[#202c33] rounded-xl overflow-hidden border border-wa-divider hover:border-wa-teal/50 transition-all duration-300 active:scale-[0.98] cursor-pointer shadow-sm">
+                            <div class="aspect-square overflow-hidden relative">
+                                ${discountHtml}
+                                <img src="${imgUrl}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
                             </div>
-                            <h4 class="text-xs text-wa-light font-medium truncate">${item.title}</h4>
-                            <span class="text-xs text-wa-teal font-bold">${price}</span>
+                            <div class="p-3">
+                                <h4 class="text-sm text-wa-light font-medium truncate group-hover:text-white transition-colors tracking-tight">${item.title}</h4>
+                                <div class="flex items-center gap-1.5 mt-1.5">
+                                    <span class="text-sm text-wa-teal font-bold">${price}</span>
+                                    ${item.price_fake > item.price_real ? `<span class="text-[10px] text-wa-gray line-through decoration-red-500/50">${fakePrice}</span>` : ''}
+                                </div>
+                            </div>
                         </div>
                     `;
                 });
 
                 const section = document.createElement('div');
-                section.className = "bg-wa-header mb-2 py-4 shadow-sm"; 
+                // Removed bg-wa-header to make tiers float independently
+                section.className = "mb-4"; 
                 section.innerHTML = `
                     <div class="px-4 flex justify-between items-center mb-3">
-                        <div>
+                        <div class="border-l-4 border-wa-teal pl-3">
                             <div class="flex items-center gap-2">
-                                <span class="text-lg">${emoji}</span>
-                                <h2 class="text-wa-light font-bold text-base">Paket ${tier}</h2>
+                                <span class="text-lg filter drop-shadow-sm">${emoji}</span>
+                                <h2 class="text-wa-light font-bold text-base tracking-wide">Paket ${tier}</h2>
                             </div>
-                            <p class="text-xs text-wa-gray mt-0.5 ml-7 font-medium">${priceRange}</p>
+                            <p class="text-[11px] text-wa-gray mt-0.5 font-medium tracking-wide uppercase">${priceRange}</p>
                         </div>
-                        <button onclick="navigateTo('#/category/${tier}')" class="bg-[#2a373f] border border-wa-divider text-wa-teal text-xs font-bold px-3 py-1.5 rounded-full hover:bg-wa-teal hover:text-white transition active:scale-95 shadow-sm">
+                        <button onclick="navigateTo('#/category/${tier}')" class="bg-[#2a373f] border border-wa-divider text-wa-teal text-[11px] font-bold px-3.5 py-1.5 rounded-full hover:bg-wa-teal hover:text-white hover:border-transparent transition active:scale-95 shadow-sm uppercase tracking-wider">
                             Lihat Semua
                         </button>
                     </div>
@@ -408,15 +414,30 @@
             products.forEach(item => {
                 const imgUrl = `${IMAGEKIT_BASE}/${item.folder_id}/01.png?tr=w-400`;
                 const price = 'Rp' + Math.floor(item.price_real / 1000) + 'k';
+                const fakePrice = 'Rp' + Math.floor(item.price_fake / 1000) + 'k';
+                
+                let discountHtml = '';
+                if (item.price_fake > item.price_real) {
+                    const discount = Math.round(((item.price_fake - item.price_real) / item.price_fake) * 100);
+                    discountHtml = `<div class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm z-10 border border-white/10">-${discount}%</div>`;
+                }
+
                 const card = document.createElement('div');
-                card.className = "bg-wa-header p-2 rounded-lg border border-wa-divider active:scale-[0.98] transition cursor-pointer";
+                card.className = "group relative bg-[#202c33] rounded-xl overflow-hidden border border-wa-divider hover:border-wa-teal/50 transition-all duration-300 active:scale-[0.98] cursor-pointer shadow-sm";
                 card.onclick = () => navigateTo(`#/detail/${item.id}`);
                 card.innerHTML = `
-                    <div class="aspect-square rounded overflow-hidden bg-wa-bg mb-2">
-                        <img src="${imgUrl}" class="w-full h-full object-cover" loading="lazy">
+                    <div class="aspect-square overflow-hidden relative">
+                        ${discountHtml}
+                        <img src="${imgUrl}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
                     </div>
-                    <h3 class="text-sm font-medium text-wa-light truncate">${item.title}</h3>
-                    <p class="text-sm font-bold text-wa-teal mt-1">${price}</p>
+                    <div class="p-3">
+                        <h4 class="text-sm text-wa-light font-medium truncate group-hover:text-white transition-colors tracking-tight">${item.title}</h4>
+                        <div class="flex items-center gap-1.5 mt-1.5">
+                            <span class="text-sm text-wa-teal font-bold">${price}</span>
+                            ${item.price_fake > item.price_real ? `<span class="text-[10px] text-wa-gray line-through decoration-red-500/50">${fakePrice}</span>` : ''}
+                        </div>
+                    </div>
                 `;
                 container.appendChild(card);
             });
@@ -428,17 +449,14 @@
             document.getElementById('detail-price-fake').innerText = 'Rp ' + item.price_fake.toLocaleString('id-ID');
             document.getElementById('detail-desc').innerText = item.description;
 
-            // --- 1. SET BUTTONS PREVIEW (SMART LAYOUT) ---
             const previewContainer = document.getElementById('detail-preview-buttons');
             previewContainer.innerHTML = '';
             
-            // Title
             const titleLabel = document.createElement('h3');
-            titleLabel.className = "text-xs font-bold text-wa-gray uppercase tracking-wider mb-2 col-span-full";
-            titleLabel.innerHTML = "Lihat <span class='text-wa-teal'>Live Pre</span>view";
+            titleLabel.className = "text-xs font-bold text-wa-gray uppercase tracking-widest mb-3 col-span-full flex items-center gap-2";
+            titleLabel.innerHTML = "<span class='w-1 h-3 bg-wa-teal rounded-full'></span> Lihat <span class='text-wa-teal'>Live Pre</span>view";
             previewContainer.appendChild(titleLabel);
 
-            // Container Wrapper
             const buttonsWrapper = document.createElement('div');
             buttonsWrapper.className = "flex flex-col gap-2";
             previewContainer.appendChild(buttonsWrapper);
@@ -446,42 +464,29 @@
             const baseUrl = item.link.replace(/\/$/, ""); 
             const sortOrder = ['foto', 'animasi', 'no-foto'];
             
-            // Urutkan dan Filter varian yang valid saja
             const sortedVariants = (item.variants || [])
                 .filter(v => ['foto', 'animasi', 'no-foto'].includes(v))
                 .sort((a,b) => sortOrder.indexOf(a) - sortOrder.indexOf(b));
 
-            // LOGIC:
-            // 0 Varian -> Default Primary
-            // 1 Varian -> Primary (Apapun jenisnya)
-            // 2 Varian -> Grid 2 Kolom (Boxy)
-            // 3 Varian -> 1 Primary (Atas) + 2 Grid Boxy (Bawah)
-
             if (sortedVariants.length === 0) {
                 createPreviewButton(buttonsWrapper, item.link, "Preview Undangan", "default", true);
             } else if (sortedVariants.length === 1) {
-                // 1 VARIANT -> ALWAYS PRIMARY
                 const variant = sortedVariants[0];
                 const d = getVariantDetails(variant, item, sortedVariants);
                 createPreviewButton(buttonsWrapper, d.url, "Preview " + d.label, d.icon, true);
             } else if (sortedVariants.length === 2) {
-                // 2 VARIANTS -> GRID 2 COL (BOXY)
                 const grid = document.createElement('div');
                 grid.className = "grid grid-cols-2 gap-2";
                 buttonsWrapper.appendChild(grid);
-                
                 sortedVariants.forEach(v => {
                     const d = getVariantDetails(v, item, sortedVariants);
                     createPreviewButton(grid, d.url, d.label, d.icon, false);
                 });
             } else {
-                // 3 VARIANTS -> MIXED
-                // Item 1 (Primary)
                 const v1 = sortedVariants[0];
                 const d1 = getVariantDetails(v1, item, sortedVariants);
                 createPreviewButton(buttonsWrapper, d1.url, "Preview " + d1.label, d1.icon, true);
 
-                // Rest (Grid)
                 const grid = document.createElement('div');
                 grid.className = "grid grid-cols-2 gap-2";
                 buttonsWrapper.appendChild(grid);
@@ -493,18 +498,16 @@
                 }
             }
 
-            // Variants Chips
             const variantContainer = document.getElementById('detail-variants');
             variantContainer.innerHTML = '';
             if(item.variants && item.variants.length > 0) {
                 item.variants.forEach(v => {
-                    variantContainer.innerHTML += `<span class="text-xs bg-wa-bg border border-wa-divider text-wa-gray px-3 py-1 rounded-full capitalize">${v}</span>`;
+                    variantContainer.innerHTML += `<span class="text-[11px] bg-wa-header border border-wa-divider text-wa-light px-3 py-1.5 rounded-lg capitalize tracking-wide shadow-sm">${v}</span>`;
                 });
             } else {
                 variantContainer.innerHTML = '<span class="text-xs text-wa-gray italic">Tidak ada info fitur khusus</span>';
             }
 
-            // --- IMAGE SLIDER LOGIC ---
             const slider = document.getElementById('detail-slider');
             slider.innerHTML = '';
             window.currentGalleryItem = item; 
@@ -519,7 +522,7 @@
                 imgUrl += "?tr=w-800"; 
                 
                 const slideItem = document.createElement('div');
-                slideItem.className = "snap-center shrink-0 w-[85%] h-full flex items-center justify-center bg-wa-bg rounded-lg overflow-hidden relative border border-wa-divider/30 cursor-pointer";
+                slideItem.className = "snap-center shrink-0 w-[85%] h-full flex items-center justify-center bg-wa-header rounded-xl overflow-hidden relative border border-wa-divider cursor-pointer shadow-lg";
                 slideItem.onclick = () => openGallery(); 
                 slideItem.innerHTML = `<img src="${imgUrl}" class="w-full h-full object-cover" loading="${i===1?'eager':'lazy'}" onerror="this.src='https://placehold.co/400x500/333?text=Slide+Error'">`;
                 slider.appendChild(slideItem);
@@ -534,7 +537,6 @@
             progressBar.style.width = "10%";
         }
 
-        // --- HELPER UNTUK INFO VARIAN ---
         function getVariantDetails(variant, item, allVariants) {
             const baseUrl = item.link.replace(/\/$/, ""); 
             let url = item.link;
@@ -557,7 +559,6 @@
             return { url, label, icon };
         }
 
-        // --- GALLERY / LIGHTBOX FUNCTIONS ---
         function openGallery() {
             const item = window.currentGalleryItem;
             if(!item) return;
@@ -572,8 +573,8 @@
                 imgUrl += "?tr=w-1000"; 
 
                 const wrapper = document.createElement('div');
-                wrapper.className = "w-full min-h-[50vh] snap-start mb-1"; 
-                wrapper.innerHTML = `<img src="${imgUrl}" class="w-full h-auto object-contain" loading="lazy">`;
+                wrapper.className = "w-full min-h-[50vh] snap-start mb-1 flex items-center justify-center py-4"; 
+                wrapper.innerHTML = `<img src="${imgUrl}" class="max-w-full h-auto object-contain rounded-lg shadow-2xl" loading="lazy">`;
                 container.appendChild(wrapper);
             }
 
@@ -587,7 +588,6 @@
             galleryView.classList.add('gallery-closed');
         }
 
-        // --- SLIDER NAVIGATION (DESKTOP) ---
         function scrollSlider(direction) {
             const slider = document.getElementById('detail-slider');
             const scrollAmount = slider.offsetWidth * 0.85; 
@@ -611,16 +611,14 @@
             let classes = "relative overflow-hidden group border border-wa-divider rounded-xl hover:border-wa-teal transition-all active:scale-[0.98] ";
             
             if (isPrimary) {
-                // Primary Button Style (Horizontal, Full Width)
-                classes += "bg-[#202c33] p-4 flex items-center justify-center gap-3 w-full shadow-md";
+                classes += "bg-wa-header p-4 flex items-center justify-center gap-3 w-full shadow-lg shadow-black/20";
                 btn.innerHTML = `
                     <div class="text-wa-teal group-hover:text-white transition-colors">${iconSvg}</div>
                     <span class="text-sm font-bold text-wa-light tracking-wide uppercase group-hover:text-white">${text}</span>
                     <div class="absolute inset-0 bg-wa-teal/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 `;
             } else {
-                // Secondary Button Style (Vertical/Boxy)
-                classes += "bg-[#2a373f] p-3 flex flex-col items-center justify-center gap-2 h-20 shadow-sm";
+                classes += "bg-[#2a373f] p-3 flex flex-col items-center justify-center gap-2 h-20 shadow-md shadow-black/20";
                 btn.innerHTML = `
                     <div class="text-wa-teal/80 group-hover:text-white transition-colors scale-90">${iconSvg}</div>
                     <span class="text-xs font-medium text-wa-gray group-hover:text-wa-light text-center leading-tight">${text}</span>
