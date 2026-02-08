@@ -207,8 +207,9 @@
                     <span class="w-1 h-4 bg-wa-teal rounded-full"></span>
                     FITUR LENGKAP
                 </h3>
-                <!-- Container untuk Kapsul Fitur -->
-                <div id="detail-features" class="flex flex-wrap gap-2"></div>
+                <div id="detail-features" class="flex flex-wrap gap-2">
+                    <!-- Features injected here -->
+                </div>
             </div>
         </div>
 
@@ -272,7 +273,6 @@
         const TIER_CONFIG = { "Starter": "🟢", "Bronze": "🟤", "Silver": "⚪", "Gold": "🟡", "Platinum": "🔵", "Diamond": "💎" };
 
         // DATA FITUR LENGKAP
-        // Update Animasi Icon to Couple
         const FEATURES_DB = [
             { id: 'guest', title: "Custom Nama Tamu", icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z", desc: "Sebarkan undanganmu lebih personal dengan menulis nama mereka secara otomatis pada cover undangan." },
             { id: 'unlimited', title: "Unlimited Tamu", icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z", desc: "Kamu bisa kirim undanganmu kepada sebanyak mungkin tamu yang mau kamu undang tanpa biaya tambahan." },
@@ -603,6 +603,7 @@
 
             const slider = document.getElementById('detail-slider');
             slider.innerHTML = '';
+            window.currentGalleryItem = item; 
 
             requestAnimationFrame(() => {
                 slider.scrollLeft = 0;
@@ -752,7 +753,7 @@
             if(!window.currentItem) return;
             const item = window.currentItem;
             const price = item.price_real.toLocaleString('id-ID');
-            const text = `Halo kak 👋\nSaya ingin pesan tema *${item.title}*.\nApakah betul harganya Rp. ${price}?`;
+            const text = `Halo kak 👋\nSaya ingin pesan tema *${item.title}* (Paket ${item.tier}).\nApakah betul harganya Rp. ${price}?`;
             const url = `https://wa.me/6285117173637?text=${encodeURIComponent(text)}`;
             window.open(url, '_blank');
         }
