@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>UndanganWeb - Katalog Digital</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -21,20 +18,18 @@
 
 <body x-data="katalog" class="text-slate-800 pb-24">
 
-    <div class="fixed top-0 w-full bg-white/95 backdrop-blur z-40 shadow-sm border-b border-slate-100">
-        <div class="px-4 py-3 flex justify-between items-center max-w-md mx-auto">
-            <div>
-                <h1 class="font-bold text-lg text-slate-900">UndanganWeb</h1>
-                <p class="text-[10px] text-slate-500">Mode Preview (Offline)</p>
-            </div>
-            <div class="bg-slate-100 p-2 rounded-full">
-               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-            </div>
+    <div x-show="status !== 'Siap'" class="fixed top-0 left-0 w-full bg-slate-900 text-white text-xs p-2 z-50 text-center font-mono">
+        Status: <span x-text="status"></span> 
+        <span x-show="errorMsg" class="block text-red-400 font-bold mt-1" x-text="errorMsg"></span>
+    </div>
+
+    <div class="fixed top-0 w-full bg-white/95 backdrop-blur z-40 shadow-sm border-b border-slate-100 mt-8"> <div class="px-4 py-3 flex justify-between items-center max-w-md mx-auto">
+            <h1 class="font-bold text-lg text-slate-900">UndanganWeb</h1>
         </div>
 
-        <div class="px-4 pb-3 max-w-md mx-auto mt-2">
+        <div class="px-4 pb-3 max-w-md mx-auto">
             <input type="text" x-model="search" placeholder="Cari tema..." 
-                class="w-full bg-slate-100 text-sm py-2 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                class="w-full bg-slate-100 text-sm py-2 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
 
         <div class="flex overflow-x-auto gap-2 px-4 pb-3 hide-scroll max-w-md mx-auto">
@@ -47,110 +42,128 @@
         </div>
     </div>
 
-    <div class="h-44"></div> 
+    <div class="h-48"></div> 
 
-    <div class="px-3 grid grid-cols-2 gap-3 max-w-md mx-auto transition-opacity duration-500">
+    <div x-show="loading" class="px-4 grid grid-cols-2 gap-3 max-w-md mx-auto">
+        <template x-for="i in 4">
+            <div class="bg-white p-2 rounded-xl shadow-sm border border-slate-100 animate-pulse">
+                <div class="bg-slate-200 h-32 rounded-lg mb-2"></div>
+                <div class="bg-slate-200 h-3 w-3/4 rounded mb-1"></div>
+            </div>
+        </template>
+    </div>
+
+    <div x-show="!loading" class="px-3 grid grid-cols-2 gap-3 max-w-md mx-auto transition-opacity duration-500">
         <template x-for="item in filteredProducts" :key="item.id">
             <div @click="openModal(item)" class="bg-white p-2.5 rounded-xl shadow-sm border border-slate-100 active:scale-95 transition-transform cursor-pointer">
-                
                 <div class="relative overflow-hidden rounded-lg bg-slate-100 aspect-[3/4] mb-2">
-                    <img :src="'https://placehold.co/300x400/e2e8f0/334155?text=' + item.title" 
+                    <img :src="getImageUrl(item.folder_id, 'thumb')" 
                          class="w-full h-full object-cover">
                     
                     <div class="absolute top-1 left-1 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow">
                         -<span x-text="Math.round(((item.price_fake - item.price_real)/item.price_fake)*100)"></span>%
                     </div>
                 </div>
-
                 <h3 class="text-xs font-bold text-slate-800 truncate" x-text="item.title"></h3>
-                <div class="flex items-end gap-1 mt-1">
-                    <p class="text-sm font-bold text-blue-600" x-text="'Rp' + (item.price_real/1000) + 'k'"></p>
-                    <p class="text-[10px] text-slate-400 line-through mb-0.5" x-text="'Rp' + (item.price_fake/1000) + 'k'"></p>
-                </div>
+                <p class="text-sm font-bold text-blue-600" x-text="'Rp' + (item.price_real/1000) + 'k'"></p>
             </div>
         </template>
     </div>
 
-    <div x-show="detailOpen" x-cloak 
-         class="fixed inset-0 bg-white z-50 overflow-y-auto max-w-md mx-auto flex flex-col">
-        
+    <div x-show="detailOpen" x-cloak class="fixed inset-0 bg-white z-50 overflow-y-auto max-w-md mx-auto flex flex-col">
         <button @click="closeModal()" class="absolute top-4 left-4 z-50 bg-black/30 text-white p-2 rounded-full backdrop-blur">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
         </button>
-
         <div class="h-[55vh] bg-slate-200 relative shrink-0">
-             <img :src="'https://placehold.co/400x800/e2e8f0/334155?text=' + selectedItem?.title + '+Detail'" class="w-full h-full object-cover">
+             <img :src="getImageUrl(selectedItem?.folder_id, 'detail')" class="w-full h-full object-cover">
         </div>
-        
-        <div class="flex-1 p-6 -mt-6 bg-white rounded-t-3xl relative shadow-[0_-5px_20px_rgba(0,0,0,0.1)]">
-            <div class="w-10 h-1 bg-slate-200 rounded-full mx-auto mb-6"></div>
-            
+        <div class="flex-1 p-6 -mt-6 bg-white rounded-t-3xl relative shadow-lg">
             <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded border border-blue-100" x-text="selectedItem?.category"></span>
-            
             <h1 class="text-2xl font-bold text-slate-900 mt-3" x-text="selectedItem?.title"></h1>
             <p class="text-xl font-bold text-green-600 mt-1" x-text="'Rp ' + (selectedItem?.price_real || 0).toLocaleString('id-ID')"></p>
-            
-            <div class="mt-6 border-t pt-4">
-                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Deskripsi</p>
-                <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line" x-text="selectedItem?.description"></p>
-            </div>
-            
-            <div class="h-24"></div> 
+            <p class="text-sm text-slate-600 mt-4 leading-relaxed whitespace-pre-line" x-text="selectedItem?.description"></p>
+            <div class="h-24"></div>
         </div>
-
         <div class="fixed bottom-0 w-full max-w-md bg-white border-t p-4 flex gap-3 z-50">
             <a :href="selectedItem?.link" target="_blank" class="flex-1 bg-slate-100 text-slate-700 font-bold py-3 rounded-xl text-center text-sm flex justify-center items-center">Preview</a>
             <button class="flex-[2] bg-blue-600 text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-200 text-sm">Pesan Sekarang</button>
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDq6LjlUFRDm5CqGSqVLiJ9gItIyw71bAU",
+            authDomain: "db-katalog.firebaseapp.com",
+            projectId: "db-katalog",
+            storageBucket: "db-katalog.firebasestorage.app",
+            messagingSenderId: "597535674259",
+            appId: "1:597535674259:web:0577885c617f623bb82266"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         document.addEventListener('alpine:init', () => {
             Alpine.data('katalog', () => ({
+                products: [],
+                loading: true,
                 search: '',
                 activeCategory: 'Semua',
-                categories: ['Semua', 'Wedding', 'Khitan'],
+                categories: ['Semua', 'Wedding', 'Khitan', 'Ultah'],
                 detailOpen: false,
                 selectedItem: null,
-                
-                // DATA DUMMY (Langsung ditanam disini)
-                products: [
-                    {
-                        id: '1',
-                        title: 'Jawa Klasik Elegan',
-                        category: 'Wedding',
-                        price_real: 49000,
-                        price_fake: 99000,
-                        description: 'Undangan nuansa adat Jawa dengan sentuhan modern.',
-                        link: '#'
-                    },
-                    {
-                        id: '2',
-                        title: 'Floral Blue Modern',
-                        category: 'Wedding',
-                        price_real: 69000,
-                        price_fake: 129000,
-                        description: 'Tema bunga biru yang sangat aesthetic dan kekinian.',
-                        link: '#'
-                    },
-                    {
-                        id: '3',
-                        title: 'Khitan Ceria',
-                        category: 'Khitan',
-                        price_real: 35000,
-                        price_fake: 70000,
-                        description: 'Tema anak-anak yang ceria untuk acara syukuran khitan.',
-                        link: '#'
+                status: 'Menghubungkan ke Database...',
+                errorMsg: '',
+
+                async init() {
+                    try {
+                        // Cek koneksi ke collection "themes"
+                        const querySnapshot = await getDocs(collection(db, "themes"));
+                        
+                        if (querySnapshot.empty) {
+                            this.status = "KONEKSI BERHASIL, TAPI DATA KOSONG";
+                            this.errorMsg = "Tidak ada dokumen di collection 'themes'. Cek Admin Upload.";
+                            this.loading = false;
+                            return;
+                        }
+
+                        let data = [];
+                        querySnapshot.forEach((doc) => {
+                            // Ambil data dan pastikan ID ada
+                            let item = doc.data();
+                            item.id = doc.id; 
+                            data.push(item);
+                        });
+                        
+                        this.products = data;
+                        this.loading = false;
+                        this.status = "Siap"; // Indikator sukses
+                        
+                    } catch (e) {
+                        console.error(e);
+                        this.status = "ERROR KONEKSI";
+                        this.errorMsg = e.message; // Tampilkan pesan error asli Firebase
+                        this.loading = false;
                     }
-                ],
+                },
 
                 get filteredProducts() {
+                    if (this.products.length === 0) return [];
                     return this.products.filter(item => {
                         const catMatch = this.activeCategory === 'Semua' ? true : 
-                             item.category.includes(this.activeCategory);
-                        const searchMatch = item.title.toLowerCase().includes(this.search.toLowerCase());
+                             (item.category && item.category.toLowerCase().includes(this.activeCategory.toLowerCase()));
+                        const judul = item.title ? item.title.toLowerCase() : "";
+                        const searchMatch = judul.includes(this.search.toLowerCase());
                         return catMatch && searchMatch;
                     });
+                },
+
+                getImageUrl(folderId, type) {
+                    // Placeholder Image
+                    return `https://placehold.co/400x600/e2e8f0/334155?text=${folderId}`;
                 },
 
                 openModal(item) { this.selectedItem = item; this.detailOpen = true; document.body.style.overflow = 'hidden'; },
