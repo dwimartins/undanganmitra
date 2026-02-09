@@ -51,9 +51,9 @@
             overscroll-behavior-y: contain; /* Prevent parent scrolling */
         }
 
-        /* REVISI 1: Memastikan area slider tetap bisa discroll vertikal (halaman) */
-        .touch-pan-y {
-            touch-action: pan-y;
+        /* REVISI 2: Mengizinkan Pan-X (Swipe Gambar) DAN Pan-Y (Scroll Halaman) secara bersamaan */
+        .touch-allow-all {
+            touch-action: pan-x pan-y;
         }
 
         .snap-x { scroll-snap-type: x mandatory; }
@@ -178,10 +178,10 @@
         </div>
 
         <!-- Image Slider (Horizontal Thumbnail) -->
-        <!-- REVISI 1: touch-pan-y ditambahkan ke class untuk fix scroll -->
+        <!-- REVISI 2: touch-allow-all ditambahkan untuk mengizinkan geser gambar horizontal dan scroll halaman vertikal -->
         <div class="max-w-md mx-auto relative bg-black group">
             <div class="w-full aspect-square relative overflow-hidden">
-                <div id="detail-slider" class="flex overflow-x-auto snap-x snap-mandatory hide-scroll h-full items-center px-4 gap-3 smooth-scroll touch-pan-y"></div>
+                <div id="detail-slider" class="flex overflow-x-auto snap-x snap-mandatory hide-scroll h-full items-center px-4 gap-3 smooth-scroll touch-allow-all"></div>
                 
                 <!-- Hint Overlay -->
                 <div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -733,7 +733,7 @@
                 let imgJpg = `${imgBase}.jpg?tr=w-400`;
                 
                 const slideItem = document.createElement('div');
-                slideItem.className = "snap-center shrink-0 w-[85%] h-full flex items-center justify-center bg-wa-header rounded-xl overflow-hidden relative border border-wa-divider cursor-pointer shadow-lg active:scale-[0.98] transition-transform";
+                slideItem.className = "snap-center shrink-0 w-[90%] h-full flex items-center justify-center bg-wa-header rounded-xl overflow-hidden relative border border-wa-divider cursor-pointer shadow-lg active:scale-[0.98] transition-transform";
                 slideItem.onclick = () => openGallery(); 
                 
                 // REVISI: Menggunakan inline onerror untuk slider
