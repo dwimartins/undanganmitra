@@ -12,7 +12,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -31,6 +31,7 @@
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
                     }
                 }
             }
@@ -78,6 +79,18 @@
         #smart-header { transition: transform 0.3s ease-in-out, opacity 0.3s ease; }
         .header-hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
         .header-visible { transform: translateY(0); opacity: 1; pointer-events: auto; }
+
+        /* Grid Item Custom Styles */
+        .grid-item-shadow {
+            box-shadow: 0 4px 0 0 rgba(255, 255, 255, 0.1); /* Default bottom thick outline */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .grid-item-shadow:active {
+            box-shadow: 0 2px 0 0 rgba(255, 255, 255, 0.1);
+            transform: translateY(2px);
+        }
+        /* Specific Colors for Bottom Outline based on category hover/active could be added if needed, 
+           but user requested elegant visible outline always. */
     </style>
 </head>
 
@@ -138,8 +151,8 @@
         <!-- ==============================================
              REVISI GRID MENU (OUTLINED & SPACIOUS)
         =============================================== -->
-        <div id="grid-menu" class="max-w-md mx-auto px-4 py-6 my-8">
-            <div class="mb-5 flex justify-between items-end">
+        <div id="grid-menu" class="max-w-md mx-auto px-4 py-8">
+            <div class="mb-6 flex justify-between items-end">
                 <div>
                     <h3 class="text-xl font-bold text-wa-light">Telusuri Kategori</h3>
                     <p class="text-xs text-wa-gray mt-1">Pilih jenis acara yang kamu inginkan</p>
@@ -147,59 +160,77 @@
                 <div class="h-1 w-10 bg-wa-teal rounded-full"></div>
             </div>
 
+            <!-- Grid Items dengan Outline Tebal Bawah (Always Visible) -->
             <div class="grid grid-cols-3 gap-3">
-                <!-- 1. Wedding -->
-                <div onclick="selectCategory('Wedding')" class="group cursor-pointer bg-[#202c33] border border-gray-600/60 rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] hover:border-wa-teal transition-all active:scale-95 shadow-sm">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-2 text-wa-teal group-hover:text-white transition-colors border border-white/5">
+                
+                <!-- 1. WEDDING (Icon Emas/Kuning) -->
+                <div onclick="selectCategory('Wedding')" class="grid-item-shadow group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] hover:border-yellow-500/50 transition-all">
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-yellow-500 border border-white/5">
                         💍
                     </div>
-                    <span class="text-[10px] font-bold text-wa-gray uppercase tracking-widest group-hover:text-wa-light">Wedding</span>
+                    <span class="text-[9px] md:text-[10px] font-bold text-yellow-500 uppercase tracking-widest group-hover:text-white transition-colors">WEDDING</span>
                 </div>
 
-                <!-- 2. Kids -->
-                <div onclick="selectCategory('Kids')" class="group cursor-pointer bg-[#202c33] border border-gray-600/60 rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] hover:border-orange-400 transition-all active:scale-95 shadow-sm">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-2 text-orange-400 group-hover:text-white transition-colors border border-white/5">
+                <!-- 2. ACARA ANAK (Icon Biru Muda) -->
+                <div onclick="selectCategory('Kids')" class="grid-item-shadow group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] hover:border-cyan-400/50 transition-all">
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-cyan-400 border border-white/5">
                         🎈
                     </div>
-                    <span class="text-[10px] font-bold text-wa-gray uppercase tracking-widest group-hover:text-wa-light">Acara Anak</span>
+                    <span class="text-[9px] md:text-[10px] font-bold text-cyan-400 uppercase tracking-widest group-hover:text-white transition-colors">ACARA ANAK</span>
                 </div>
 
-                <!-- 3. Formal -->
-                <div onclick="selectCategory('Formal')" class="group cursor-pointer bg-[#202c33] border border-gray-600/60 rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] hover:border-blue-400 transition-all active:scale-95 shadow-sm">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-2 text-blue-400 group-hover:text-white transition-colors border border-white/5">
+                <!-- 3. ACARA FORMAL (Icon Biru) -->
+                <div onclick="selectCategory('Formal')" class="grid-item-shadow group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] hover:border-blue-500/50 transition-all">
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-blue-500 border border-white/5">
                         🏢
                     </div>
-                    <span class="text-[10px] font-bold text-wa-gray uppercase tracking-widest group-hover:text-wa-light">Formal</span>
+                    <span class="text-[9px] md:text-[10px] font-bold text-blue-500 uppercase tracking-widest group-hover:text-white transition-colors">ACARA FORMAL</span>
                 </div>
 
-                <!-- 4. Teen -->
-                <div onclick="selectCategory('Teen')" class="group cursor-pointer bg-[#202c33] border border-gray-600/60 rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] hover:border-purple-400 transition-all active:scale-95 shadow-sm">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-2 text-purple-400 group-hover:text-white transition-colors border border-white/5">
+                <!-- 4. TEEN & CARD (Icon Ungu) -->
+                <div onclick="selectCategory('Teen')" class="grid-item-shadow group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] hover:border-purple-500/50 transition-all">
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-purple-500 border border-white/5">
                         🎸
                     </div>
-                    <span class="text-[10px] font-bold text-wa-gray uppercase tracking-widest group-hover:text-wa-light">Teen & Card</span>
+                    <span class="text-[9px] md:text-[10px] font-bold text-purple-500 uppercase tracking-widest group-hover:text-white transition-colors">TEEN & CARD</span>
                 </div>
 
-                <!-- 5. Religi (Diganti label School/Religi biar mirip ref, logic tetap Religi) -->
-                <div onclick="selectCategory('Religi')" class="group cursor-pointer bg-[#202c33] border border-gray-600/60 rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] hover:border-green-400 transition-all active:scale-95 shadow-sm">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-2 text-green-400 group-hover:text-white transition-colors border border-white/5">
-                        🕌
+                <!-- 5. SCHOOL & GRADUATION (Icon Merah) -->
+                <div onclick="selectCategory('Religi')" class="grid-item-shadow group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] hover:border-red-500/50 transition-all">
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-red-500 border border-white/5">
+                        🎓
                     </div>
-                    <span class="text-[10px] font-bold text-wa-gray uppercase tracking-widest group-hover:text-wa-light">Religi</span>
+                    <!-- Note: Logic tetap 'Religi' tapi tampilan teks disesuaikan permintaan -->
+                    <span class="text-[8px] md:text-[9px] font-bold text-red-500 uppercase tracking-widest group-hover:text-white transition-colors leading-tight">SCHOOL & GRADUATION</span>
                 </div>
 
-                <!-- 6. Lainnya -->
-                <div onclick="selectCategory('Lainnya')" class="group cursor-pointer bg-[#202c33] border border-gray-600/60 rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] hover:border-yellow-400 transition-all active:scale-95 shadow-sm">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-2 text-yellow-400 group-hover:text-white transition-colors border border-white/5">
+                <!-- 6. ACARA LAINNYA (Icon Kuning) -->
+                <div onclick="selectCategory('Lainnya')" class="grid-item-shadow group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] hover:border-yellow-400/50 transition-all">
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-yellow-400 border border-white/5">
                         📂
                     </div>
-                    <span class="text-[10px] font-bold text-wa-gray uppercase tracking-widest group-hover:text-wa-light">Lainnya</span>
+                    <span class="text-[9px] md:text-[10px] font-bold text-yellow-400 uppercase tracking-widest group-hover:text-white transition-colors">ACARA LAINNYA</span>
                 </div>
             </div>
         </div>
         <!-- ==============================================
              END REVISI GRID MENU
         =============================================== -->
+        
+        <!-- SECTION DIVIDER & ELEGANT TITLE -->
+        <div class="max-w-md mx-auto px-6 py-8 mt-4 mb-4 text-center relative">
+            <div class="absolute inset-x-10 top-1/2 h-px bg-gradient-to-r from-transparent via-wa-divider to-transparent -z-10"></div>
+            <div class="bg-wa-bg inline-block px-4 relative z-10">
+                <span class="block text-wa-teal text-[10px] font-bold tracking-[0.3em] uppercase mb-2">Exclusive Series</span>
+                <h2 class="text-2xl font-serif italic text-white leading-tight">
+                    Wedding Collections
+                </h2>
+                <div class="w-12 h-0.5 bg-wa-teal mx-auto mt-3 rounded-full"></div>
+                <p class="text-xs text-wa-gray mt-3 font-light tracking-wide max-w-[200px] mx-auto">
+                    Temukan desain undangan pernikahan impian Anda di sini.
+                </p>
+            </div>
+        </div>
 
         <!-- Loading Skeleton -->
         <div id="home-loading" class="max-w-md mx-auto p-4 space-y-8">
