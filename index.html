@@ -303,15 +303,18 @@
 
 
     <!-- =======================
-         VIEW 2: CATEGORY FULL
+         VIEW 2: CATEGORY FULL (REVISED HEADER)
     ======================== -->
     <div id="view-category" class="view-section bg-wa-bg min-h-screen">
-        <div class="sticky top-0 z-40 bg-wa-header shadow-md border-b border-wa-divider">
-            <div class="px-2 h-14 flex items-center gap-2 max-w-md mx-auto">
-                <button onclick="goBack()" class="p-2 rounded-full hover:bg-[#374248] transition">
+        <div class="sticky top-0 z-40 bg-gradient-to-r from-wa-header to-[#102924] shadow-md border-b border-wa-divider">
+            <div class="px-2 h-14 flex items-center gap-3 max-w-md mx-auto">
+                <button onclick="goBack()" class="p-2 rounded-full hover:bg-white/5 transition">
                     <svg class="w-6 h-6 text-wa-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 </button>
-                <h1 id="cat-header-title" class="font-medium text-lg text-wa-light">Nama Kategori</h1>
+                <div>
+                    <h1 id="cat-header-title" class="font-bold text-base text-wa-light leading-tight">Nama Kategori</h1>
+                    <p id="cat-header-count" class="text-[10px] text-wa-teal font-medium tracking-wide">0 Tema Tersedia</p>
+                </div>
             </div>
         </div>
         <div id="cat-grid-container" class="max-w-md mx-auto p-3 grid grid-cols-2 gap-3"></div>
@@ -609,11 +612,19 @@
             document.getElementById('header-cat-text').innerText = catName;
             document.getElementById('header-cat-icon').innerText = CATEGORY_CONFIG[catName] || '📂';
             
-            // In a real app, you would filter products here.
-            // For now, we will just scroll to the tier list as feedback
-            document.getElementById('tier-list-container').scrollIntoView({behavior: 'smooth', block: 'start'});
+            // REVISI: Smooth Scroll dengan Offset agar tidak tertutup header
+            const target = document.getElementById('tier-list-container');
+            if (target) {
+                // Tinggi sticky header (64px) + extra padding (20px) = ~85px
+                const headerOffset = 85; 
+                const elementPosition = target.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
             
-            // Optional: You can filter `groupedProducts` and re-call `renderHome()` based on mapping logic here
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
         }
 
         // --- NEW: GENERIC SHEET LOGIC ---
@@ -894,6 +905,9 @@
             const emoji = TIER_CONFIG[tierName] || (tierName.includes("Adat") ? "🔴" : "🔴");
 
             document.getElementById('cat-header-title').innerText = `${emoji} ${tierName}`;
+            // REVISI: Update Jumlah Tema
+            document.getElementById('cat-header-count').innerText = `${products.length} Tema Tersedia`;
+
             const container = document.getElementById('cat-grid-container');
             container.innerHTML = '';
 
