@@ -114,24 +114,22 @@
             </div>
         </div>
 
-        <!-- HERO SECTION (REVISI: Ditambah padding bottom lebih besar untuk efek overlap) -->
-        <div class="relative w-full h-[480px] overflow-hidden group bg-wa-bg">
+        <!-- HERO SECTION (REVISI: Text & Button Restored) -->
+        <div class="relative w-full h-[450px] overflow-hidden border-b border-wa-divider/50 group bg-wa-bg">
             <div class="absolute inset-0 max-w-md mx-auto relative h-full">
-                <!-- Background Image -->
-                <img src="https://ik.imagekit.io/undangandigital/general/hero.webp" class="w-full h-full object-cover opacity-60 transition-transform duration-1000 group-hover:scale-105" alt="Hero Banner">
+                <img src="https://ik.imagekit.io/undangandigital/general/hero.webp" class="w-full h-full object-cover opacity-50 transition-transform duration-1000 group-hover:scale-105" alt="Hero Banner">
+                <div class="absolute inset-0 bg-gradient-to-t from-wa-bg via-wa-bg/80 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-wa-bg/40 to-transparent"></div>
                 
-                <!-- Gradient Overlay -->
-                <div class="absolute inset-0 bg-gradient-to-t from-wa-bg via-wa-bg/60 to-transparent"></div>
-                <div class="absolute inset-0 bg-gradient-to-b from-wa-bg/30 to-transparent"></div>
-                
-                <!-- Content centered but slightly higher to accommodate the card below -->
-                <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-6 pb-24 z-10">
-                    <div class="mb-5 animate-[fadeIn_0.8s_ease-out]">
-                        <span class="inline-block py-1.5 px-4 rounded-full bg-wa-teal/20 border border-wa-teal/40 text-wa-teal text-[10px] font-bold tracking-[0.2em] uppercase mb-4 backdrop-blur-md shadow-lg">Premium Collection</span>
-                        <h2 class="text-4xl md:text-5xl font-bold text-white leading-tight mb-3 tracking-tight drop-shadow-lg">Undangan Digital <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-emerald-400">Eksklusif & Modern</span></h2>
-                        <p class="text-wa-gray text-sm max-w-xs mx-auto leading-relaxed opacity-90">Bagikan momen bahagiamu dengan desain yang elegan, fitur lengkap, dan pengalaman tanpa batas.</p>
+                <div class="absolute inset-0 flex flex-col justify-end items-center text-center px-6 pb-12 z-10">
+                    <div class="mb-4 animate-[fadeIn_0.8s_ease-out]">
+                        <span class="inline-block py-1 px-3 rounded-full bg-wa-teal/10 border border-wa-teal/30 text-wa-teal text-[10px] font-bold tracking-widest uppercase mb-3 backdrop-blur-sm">Premium Collection</span>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white leading-tight mb-2 tracking-tight">Undangan Digital <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-emerald-500">Eksklusif & Modern</span></h2>
+                        <!-- RESTORED TEXT -->
+                        <p class="text-wa-gray text-xs md:text-sm max-w-md mx-auto leading-relaxed mt-2">Temukan berbagai undangan premium dengan desain eksklusif. Jadikan hari spesialmu lebih berkesan & modern.</p>
                     </div>
-                    <button onclick="kirimPesanUmum()" class="bg-wa-teal text-white font-bold py-3.5 px-8 rounded-full shadow-xl shadow-wa-teal/20 text-sm flex items-center gap-2 hover:bg-[#008f6f] active:scale-95 transition-all animate-[fadeIn_1s_ease-out_0.3s_both] border border-white/10">
+                    <!-- RESTORED BUTTON -->
+                    <button onclick="kirimPesanUmum()" class="bg-wa-teal text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-wa-teal/30 text-sm flex items-center gap-2 hover:bg-[#008f6f] active:scale-95 transition-all animate-[fadeIn_1s_ease-out_0.3s_both]">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                         Konsultasi Gratis
                     </button>
@@ -139,51 +137,44 @@
             </div>
         </div>
 
-        <!-- NEW GRID MENU: OVERLAPPING CARD (Solusi Gantung) -->
-        <div id="grid-menu-container" class="max-w-md mx-auto px-4 relative z-20 -mt-16 mb-8">
-            <div class="bg-[#202c33] rounded-2xl p-4 shadow-2xl border border-wa-divider/50 backdrop-blur-sm">
-                <!-- Label Kecil -->
-                <div class="flex justify-between items-center mb-3 px-1">
-                    <h3 class="text-xs font-bold text-wa-gray uppercase tracking-widest">Kategori Pilihan</h3>
-                    <span class="w-1.5 h-1.5 bg-wa-teal rounded-full animate-pulse"></span>
+        <!-- NEW GRID MENU: More Colorful & Alive (3x2 Layout) -->
+        <div id="grid-menu" class="max-w-md mx-auto px-4 py-8">
+            <div class="grid grid-cols-3 gap-3">
+                <!-- 1. Wedding (Teal Gradient) -->
+                <div onclick="selectCategory('Wedding')" class="bg-[#202c33] p-3 rounded-xl border border-wa-divider flex flex-col items-center justify-center gap-2 group cursor-pointer hover:border-wa-teal transition active:scale-95 shadow-sm relative overflow-hidden">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-teal-400 to-emerald-600 flex items-center justify-center text-xl shadow-lg z-10">💍</div>
+                    <span class="text-xs font-semibold text-wa-light z-10">Wedding</span>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
                 </div>
 
-                <div class="grid grid-cols-3 gap-3">
-                    <!-- 1. WEDDING -->
-                    <div onclick="selectCategory('Wedding')" class="flex flex-col items-center gap-2 group cursor-pointer p-2 rounded-xl hover:bg-[#2a373f] transition active:scale-95">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-teal-400/20 to-emerald-600/20 flex items-center justify-center text-2xl border border-teal-500/30 group-hover:border-teal-500 transition">💍</div>
-                        <span class="text-[10px] font-bold text-wa-light text-center leading-tight group-hover:text-wa-teal">WEDDING</span>
-                    </div>
+                <!-- 2. Kids (Pink/Orange Gradient) -->
+                <div onclick="selectCategory('Kids')" class="bg-[#202c33] p-3 rounded-xl border border-wa-divider flex flex-col items-center justify-center gap-2 group cursor-pointer hover:border-orange-400 transition active:scale-95 shadow-sm relative overflow-hidden">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center text-xl shadow-lg z-10">🎈</div>
+                    <span class="text-xs font-semibold text-wa-light z-10">Kids</span>
+                </div>
 
-                    <!-- 2. ACARA ANAK -->
-                    <div onclick="selectCategory('Kids')" class="flex flex-col items-center gap-2 group cursor-pointer p-2 rounded-xl hover:bg-[#2a373f] transition active:scale-95">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400/20 to-pink-500/20 flex items-center justify-center text-2xl border border-orange-500/30 group-hover:border-orange-500 transition">🎈</div>
-                        <span class="text-[10px] font-bold text-wa-light text-center leading-tight group-hover:text-orange-400">ACARA<br>ANAK</span>
-                    </div>
+                <!-- 3. Formal (Blue Gradient) -->
+                <div onclick="selectCategory('Formal')" class="bg-[#202c33] p-3 rounded-xl border border-wa-divider flex flex-col items-center justify-center gap-2 group cursor-pointer hover:border-blue-400 transition active:scale-95 shadow-sm relative overflow-hidden">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-indigo-600 flex items-center justify-center text-xl shadow-lg z-10">🏢</div>
+                    <span class="text-xs font-semibold text-wa-light z-10">Formal</span>
+                </div>
 
-                    <!-- 3. ACARA FORMAL -->
-                    <div onclick="selectCategory('Formal')" class="flex flex-col items-center gap-2 group cursor-pointer p-2 rounded-xl hover:bg-[#2a373f] transition active:scale-95">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400/20 to-indigo-600/20 flex items-center justify-center text-2xl border border-blue-500/30 group-hover:border-blue-500 transition">🏢</div>
-                        <span class="text-[10px] font-bold text-wa-light text-center leading-tight group-hover:text-blue-400">ACARA<br>FORMAL</span>
-                    </div>
+                <!-- 4. Teen (Purple Gradient) -->
+                <div onclick="selectCategory('Teen')" class="bg-[#202c33] p-3 rounded-xl border border-wa-divider flex flex-col items-center justify-center gap-2 group cursor-pointer hover:border-purple-400 transition active:scale-95 shadow-sm relative overflow-hidden">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-fuchsia-600 flex items-center justify-center text-xl shadow-lg z-10">🎸</div>
+                    <span class="text-xs font-semibold text-wa-light z-10">Teen</span>
+                </div>
 
-                    <!-- 4. TEEN & CARD -->
-                    <div onclick="selectCategory('Teen')" class="flex flex-col items-center gap-2 group cursor-pointer p-2 rounded-xl hover:bg-[#2a373f] transition active:scale-95">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400/20 to-fuchsia-600/20 flex items-center justify-center text-2xl border border-purple-500/30 group-hover:border-purple-500 transition">🎸</div>
-                        <span class="text-[10px] font-bold text-wa-light text-center leading-tight group-hover:text-purple-400">TEEN &<br>CARD</span>
-                    </div>
+                <!-- 5. Religi (Green Gradient) -->
+                <div onclick="selectCategory('Religi')" class="bg-[#202c33] p-3 rounded-xl border border-wa-divider flex flex-col items-center justify-center gap-2 group cursor-pointer hover:border-green-400 transition active:scale-95 shadow-sm relative overflow-hidden">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-700 flex items-center justify-center text-xl shadow-lg z-10">🕌</div>
+                    <span class="text-xs font-semibold text-wa-light z-10">Religi</span>
+                </div>
 
-                    <!-- 5. SCHOOL & GRAD -->
-                    <div onclick="selectCategory('School')" class="flex flex-col items-center gap-2 group cursor-pointer p-2 rounded-xl hover:bg-[#2a373f] transition active:scale-95">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400/20 to-amber-600/20 flex items-center justify-center text-2xl border border-yellow-500/30 group-hover:border-yellow-500 transition">🎓</div>
-                        <span class="text-[10px] font-bold text-wa-light text-center leading-tight group-hover:text-yellow-400">SCHOOL &<br>GRADUATION</span>
-                    </div>
-
-                    <!-- 6. LAINNYA -->
-                    <div onclick="selectCategory('Lainnya')" class="flex flex-col items-center gap-2 group cursor-pointer p-2 rounded-xl hover:bg-[#2a373f] transition active:scale-95">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-gray-400/20 to-slate-600/20 flex items-center justify-center text-2xl border border-gray-500/30 group-hover:border-gray-500 transition">📂</div>
-                        <span class="text-[10px] font-bold text-wa-light text-center leading-tight group-hover:text-gray-400">ACARA<br>LAINNYA</span>
-                    </div>
+                <!-- 6. Lainnya (Gray Gradient) -->
+                <div onclick="selectCategory('Lainnya')" class="bg-[#202c33] p-3 rounded-xl border border-wa-divider flex flex-col items-center justify-center gap-2 group cursor-pointer hover:border-gray-400 transition active:scale-95 shadow-sm relative overflow-hidden">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-500 to-slate-700 flex items-center justify-center text-xl shadow-lg z-10">📂</div>
+                    <span class="text-xs font-semibold text-wa-light z-10">Lainnya</span>
                 </div>
             </div>
         </div>
@@ -308,195 +299,7 @@
                     <span class="w-1 h-4 bg-wa-teal rounded-full"></span>
                     FITUR LENGKAP
                 </h3>
-                <div id="detail-features" class="flex flex-wrap gap-2">
-                    <!-- Features injected here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Sticky Footer -->
-        <div class="fixed bottom-0 w-full bg-wa-header/95 backdrop-blur-md border-t border-wa-divider p-3 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.2)]">
-            <div class="max-w-md mx-auto flex gap-3">
-                <button onclick="kirimPesanWA()" class="flex-1 bg-wa-teal text-white font-bold py-3.5 rounded-full shadow-lg shadow-wa-teal/20 text-sm flex justify-center items-center gap-2 hover:bg-[#008f6f] active:scale-[0.98] transition group">
-                    <svg class="w-5 h-5 group-hover:animate-bounce" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                        Konsultasi Gratis
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- NEW GRID MENU: OVERLAPPING CARD (Solusi Gantung) -->
-        <div id="grid-menu-container" class="max-w-md mx-auto px-4 relative z-20 -mt-16 mb-8">
-            <div class="bg-[#202c33] rounded-2xl p-4 shadow-2xl border border-wa-divider/50 backdrop-blur-sm">
-                <!-- Label Kecil -->
-                <div class="flex justify-between items-center mb-3 px-1">
-                    <h3 class="text-xs font-bold text-wa-gray uppercase tracking-widest">Kategori Pilihan</h3>
-                    <span class="w-1.5 h-1.5 bg-wa-teal rounded-full animate-pulse"></span>
-                </div>
-
-                <div class="grid grid-cols-3 gap-3">
-                    <!-- 1. WEDDING -->
-                    <div onclick="selectCategory('Wedding')" class="flex flex-col items-center gap-2 group cursor-pointer p-2 rounded-xl hover:bg-[#2a373f] transition active:scale-95">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-teal-400/20 to-emerald-600/20 flex items-center justify-center text-2xl border border-teal-500/30 group-hover:border-teal-500 transition">💍</div>
-                        <span class="text-[10px] font-bold text-wa-light text-center leading-tight group-hover:text-wa-teal">WEDDING</span>
-                    </div>
-
-                    <!-- 2. ACARA ANAK -->
-                    <div onclick="selectCategory('Kids')" class="flex flex-col items-center gap-2 group cursor-pointer p-2 rounded-xl hover:bg-[#2a373f] transition active:scale-95">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400/20 to-pink-500/20 flex items-center justify-center text-2xl border border-orange-500/30 group-hover:border-orange-500 transition">🎈</div>
-                        <span class="text-[10px] font-bold text-wa-light text-center leading-tight group-hover:text-orange-400">ACARA<br>ANAK</span>
-                    </div>
-
-                    <!-- 3. ACARA FORMAL -->
-                    <div onclick="selectCategory('Formal')" class="flex flex-col items-center gap-2 group cursor-pointer p-2 rounded-xl hover:bg-[#2a373f] transition active:scale-95">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400/20 to-indigo-600/20 flex items-center justify-center text-2xl border border-blue-500/30 group-hover:border-blue-500 transition">🏢</div>
-                        <span class="text-[10px] font-bold text-wa-light text-center leading-tight group-hover:text-blue-400">ACARA<br>FORMAL</span>
-                    </div>
-
-                    <!-- 4. TEEN & CARD -->
-                    <div onclick="selectCategory('Teen')" class="flex flex-col items-center gap-2 group cursor-pointer p-2 rounded-xl hover:bg-[#2a373f] transition active:scale-95">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400/20 to-fuchsia-600/20 flex items-center justify-center text-2xl border border-purple-500/30 group-hover:border-purple-500 transition">🎸</div>
-                        <span class="text-[10px] font-bold text-wa-light text-center leading-tight group-hover:text-purple-400">TEEN &<br>CARD</span>
-                    </div>
-
-                    <!-- 5. SCHOOL & GRAD -->
-                    <div onclick="selectCategory('School')" class="flex flex-col items-center gap-2 group cursor-pointer p-2 rounded-xl hover:bg-[#2a373f] transition active:scale-95">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400/20 to-amber-600/20 flex items-center justify-center text-2xl border border-yellow-500/30 group-hover:border-yellow-500 transition">🎓</div>
-                        <span class="text-[10px] font-bold text-wa-light text-center leading-tight group-hover:text-yellow-400">SCHOOL &<br>GRADUATION</span>
-                    </div>
-
-                    <!-- 6. LAINNYA -->
-                    <div onclick="selectCategory('Lainnya')" class="flex flex-col items-center gap-2 group cursor-pointer p-2 rounded-xl hover:bg-[#2a373f] transition active:scale-95">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-gray-400/20 to-slate-600/20 flex items-center justify-center text-2xl border border-gray-500/30 group-hover:border-gray-500 transition">📂</div>
-                        <span class="text-[10px] font-bold text-wa-light text-center leading-tight group-hover:text-gray-400">ACARA<br>LAINNYA</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Loading Skeleton -->
-        <div id="home-loading" class="max-w-md mx-auto p-4 space-y-8">
-            <div class="space-y-3">
-                <div class="h-6 w-32 bg-wa-header rounded animate-pulse"></div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="aspect-[4/5] bg-wa-header rounded-xl animate-pulse"></div>
-                    <div class="aspect-[4/5] bg-wa-header rounded-xl animate-pulse"></div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Error Message (Hidden by default) -->
-        <div id="error-message" class="hidden max-w-md mx-auto p-6 text-center">
-            <div class="bg-red-900/30 border border-red-500/50 text-red-200 p-4 rounded-xl">
-                <p class="font-bold text-sm">Gagal Memuat Data</p>
-                <p id="error-text" class="text-xs mt-1 opacity-80">Periksa koneksi internet Anda.</p>
-                <button onclick="location.reload()" class="mt-3 bg-red-600 px-4 py-2 rounded-lg text-xs font-bold">Coba Lagi</button>
-            </div>
-        </div>
-
-        <!-- Container List Tier -->
-        <div id="tier-list-container" class="max-w-md mx-auto pb-10 space-y-6"></div>
-    </div>
-
-
-    <!-- =======================
-         VIEW 2: CATEGORY FULL
-    ======================== -->
-    <div id="view-category" class="view-section bg-wa-bg min-h-screen">
-        <div class="sticky top-0 z-40 bg-wa-header shadow-md border-b border-wa-divider">
-            <div class="px-2 h-14 flex items-center gap-2 max-w-md mx-auto">
-                <button onclick="goBack()" class="p-2 rounded-full hover:bg-[#374248] transition">
-                    <svg class="w-6 h-6 text-wa-light" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                </button>
-                <h1 id="cat-header-title" class="font-medium text-lg text-wa-light">Nama Kategori</h1>
-            </div>
-        </div>
-        <div id="cat-grid-container" class="max-w-md mx-auto p-3 grid grid-cols-2 gap-3"></div>
-    </div>
-
-
-    <!-- =======================
-         VIEW 3: DETAIL PRODUCT
-    ======================== -->
-    <div id="view-detail" class="view-section bg-wa-bg min-h-screen">
-        <!-- Header Detail -->
-        <div class="fixed top-0 w-full z-50 max-w-md mx-auto left-0 right-0 pointer-events-none">
-            <div class="flex justify-between items-center p-4 bg-gradient-to-b from-black/70 to-transparent">
-                <button onclick="goBack()" class="bg-black/30 backdrop-blur-md p-2 rounded-full text-white hover:bg-black/50 transition pointer-events-auto border border-white/10">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                </button>
-            </div>
-        </div>
-
-        <!-- Image Slider -->
-        <div class="max-w-md mx-auto relative bg-black group">
-            <div class="w-full aspect-square relative overflow-hidden">
-                <div id="detail-slider" class="flex overflow-x-auto snap-x snap-mandatory hide-scroll h-full items-center px-4 gap-3 smooth-scroll touch-allow-all"></div>
-                
-                <div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div class="bg-black/50 backdrop-blur px-3 py-1 rounded-full border border-white/20">
-                        <span class="text-white text-xs font-medium">Klik untuk memperbesar</span>
-                    </div>
-                </div>
-
-                <button onclick="scrollSlider(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md p-2 rounded-full text-white border border-white/10 hover:bg-black/60 transition z-10">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                </button>
-                <button onclick="scrollSlider(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md p-2 rounded-full text-white border border-white/10 hover:bg-black/60 transition z-10 animate-pulse">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                </button>
-            </div>
-            
-            <div class="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
-                <div id="slider-progress" class="h-full bg-wa-teal transition-all duration-300 w-[10%] shadow-[0_0_10px_rgba(0,168,132,0.5)]"></div>
-            </div>
-        </div>
-
-        <!-- Content Body -->
-        <div class="max-w-md mx-auto bg-wa-bg p-5 pb-24">
-            <!-- Title & Price -->
-            <div class="border-b border-wa-divider pb-5 mb-5">
-                <div class="flex justify-between items-start">
-                    <h1 id="detail-title" class="text-xl font-bold text-wa-light leading-snug tracking-tight"></h1>
-                    <span id="detail-category" class="text-[10px] font-bold text-wa-teal bg-wa-teal/10 border border-wa-teal/20 px-2.5 py-1 rounded-full uppercase tracking-wider ml-2 shrink-0">Wedding</span>
-                </div>
-                <div class="mt-3 flex items-center gap-3">
-                    <span id="detail-price-real" class="text-2xl font-bold text-wa-light"></span>
-                    <span id="detail-price-fake" class="text-sm text-wa-gray line-through decoration-red-500/50 decoration-2"></span>
-                </div>
-                <div id="detail-preview-buttons" class="mt-6"></div>
-            </div>
-
-            <!-- Description -->
-            <div class="space-y-3">
-                <h3 class="text-xs font-bold text-wa-gray uppercase tracking-widest flex items-center gap-2">
-                    <span class="w-1 h-4 bg-wa-teal rounded-full"></span>
-                    Deskripsi Item
-                </h3>
-                <p id="detail-desc" class="text-sm text-wa-light leading-relaxed whitespace-pre-line"></p>
-            </div>
-
-            <!-- PHOTO REQUIRED ALERT -->
-            <div id="detail-photo-alert" class="mt-6 hidden"></div>
-
-            <!-- Variants Chips -->
-            <div class="mt-8 pt-5 border-t border-wa-divider">
-                <h3 class="text-xs font-bold text-wa-gray uppercase tracking-widest mb-3 flex items-center gap-2">
-                    <span class="w-1 h-4 bg-wa-teal rounded-full"></span>
-                    VARIAN TEMA
-                </h3>
-                <div id="detail-variants" class="flex flex-wrap gap-2"></div>
-            </div>
-
-            <!-- FEATURES CHIPS SECTION -->
-            <div class="mt-8 pt-5 border-t border-wa-divider">
-                <h3 class="text-xs font-bold text-wa-gray uppercase tracking-widest mb-4 flex items-center gap-2">
-                    <span class="w-1 h-4 bg-wa-teal rounded-full"></span>
-                    FITUR LENGKAP
-                </h3>
-                <div id="detail-features" class="flex flex-wrap gap-2">
-                    <!-- Features injected here -->
-                </div>
+                <div id="detail-features" class="flex flex-wrap gap-2"></div>
             </div>
         </div>
 
@@ -666,7 +469,7 @@
             'Kids': '🎈',
             'Formal': '🏢',
             'Teen': '🎸',
-            'School': '🎓',
+            'Religi': '🕌',
             'Lainnya': '📂'
         };
 
@@ -695,7 +498,7 @@
         // --- NEW: CATEGORY SELECTION LOGIC ---
         function selectCategory(catName) {
             // Update UI Header
-            document.getElementById('header-cat-text').innerText = catName === 'School' ? 'Graduation' : catName;
+            document.getElementById('header-cat-text').innerText = catName;
             document.getElementById('header-cat-icon').innerText = CATEGORY_CONFIG[catName] || '📂';
             
             // In a real app, you would filter products here.
@@ -1266,7 +1069,6 @@
                     <div class="absolute inset-0 bg-wa-teal/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 `;
             } else {
-                // Horizontal secondary buttons
                 classes += "bg-[#2a373f] p-4 flex flex-row items-center justify-center gap-3 w-full shadow-sm";
                 btn.innerHTML = `
                     <div class="text-wa-teal/80 group-hover:text-white transition-colors scale-90">${iconSvg}</div>
