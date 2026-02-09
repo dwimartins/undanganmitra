@@ -240,11 +240,11 @@
                 <div class="absolute -right-4 -bottom-4 w-16 h-16 bg-wa-teal/10 rounded-full blur-xl"></div>
 
                 <div class="relative z-10">
-                    <span class="inline-block py-1 px-3 rounded-full bg-wa-teal/10 text-wa-teal text-[10px] font-bold tracking-[0.2em] uppercase mb-3 border border-wa-teal/20">Exclusive Series</span>
-                    <h2 class="text-2xl font-serif italic text-white leading-tight mb-2 drop-shadow-sm">
+                    <span id="collection-badge" class="inline-block py-1 px-3 rounded-full bg-wa-teal/10 text-wa-teal text-[10px] font-bold tracking-[0.2em] uppercase mb-3 border border-wa-teal/20">Exclusive Series</span>
+                    <h2 id="collection-title" class="text-2xl font-serif italic text-white leading-tight mb-2 drop-shadow-sm">
                         Wedding Collections
                     </h2>
-                    <p class="text-xs text-wa-gray font-light tracking-wide max-w-[240px] mx-auto leading-relaxed">
+                    <p id="collection-desc" class="text-xs text-wa-gray font-light tracking-wide max-w-[240px] mx-auto leading-relaxed">
                         Temukan desain undangan pernikahan impian Anda dengan kualitas terbaik di sini.
                     </p>
                 </div>
@@ -563,8 +563,12 @@
 
         let allProducts = [];
         let groupedProducts = {};
+        // DEFAULT CATEGORY FILTER
+        let currentCategoryFilter = 'tema-wedding'; 
+
         const IMAGEKIT_BASE = "https://ik.imagekit.io/undangandigital";
         
+        // BASE ORDER FOR WEDDING (DEFAULT)
         const TIER_ORDER = [
             "Starter", "Bronze", "Silver", "Gold", "Platinum", "Diamond", 
             "Tema Adat Jawa", "Tema Adat Bugis", "Tema Adat Batak", "Tema Adat Karo", "Tema Adat Nias"
@@ -575,13 +579,14 @@
             "Tema Adat Jawa": "🔴", "Tema Adat Bugis": "🔴", "Tema Adat Batak": "🔴", "Tema Adat Karo": "🔴", "Tema Adat Nias": "🔴"
         };
 
-        const CATEGORY_CONFIG = {
-            'Wedding': '💍',
-            'Kids': '🎈',
-            'Formal': '🏢',
-            'Teen': '🎸',
-            'School': '🎓',
-            'Lainnya': '📂'
+        // MAPPING UI KEYS TO DB VALUES AND DISPLAY INFO
+        const CATEGORY_DATA = {
+            'Wedding': { id: 'tema-wedding', label: 'Wedding Collections', icon: '💍', desc: 'Temukan desain undangan pernikahan impian Anda.' },
+            'Kids': { id: 'acara-anak', label: 'Kids Collections', icon: '🎈', desc: 'Tema ceria untuk Aqiqah, Ulang Tahun, dan Khitan.' },
+            'Formal': { id: 'acara-formal', label: 'Formal Events', icon: '🏢', desc: 'Undangan resmi untuk Seminar, Rapat, dan Gathering.' },
+            'Teen': { id: 'teen-and-card', label: 'Teen & Cards', icon: '🎸', desc: 'Desain kekinian untuk Sweet 17 dan Ucapan Digital.' },
+            'School': { id: 'school-and-graduation', label: 'School & Grad', icon: '🎓', desc: 'Rayakan kelulusan dan perpisahan sekolah.' },
+            'Lainnya': { id: 'acara-lainnya', label: 'Other Events', icon: '📂', desc: 'Berbagai tema unik untuk kebutuhan acaramu.' }
         };
 
         // --- NEW: SCROLL LOGIC FOR STICKY HEADER ---
@@ -606,16 +611,28 @@
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        // --- NEW: CATEGORY SELECTION LOGIC ---
-        function selectCategory(catName) {
-            // Update UI Header
-            document.getElementById('header-cat-text').innerText = catName;
-            document.getElementById('header-cat-icon').innerText = CATEGORY_CONFIG[catName] || '📂';
+        // --- UPDATED: CATEGORY SELECTION LOGIC ---
+        function selectCategory(uiKey) {
+            const catData = CATEGORY_DATA[uiKey];
+            if (!catData) return;
+
+            // 1. Update State
+            currentCategoryFilter = catData.id;
+
+            // 2. Update Header & Collection Title
+            document.getElementById('header-cat-text').innerText = uiKey; // Keep UI Key for button label
+            document.getElementById('header-cat-icon').innerText = catData.icon;
             
-            // REVISI: Smooth Scroll dengan Offset agar tidak tertutup header
+            // Update Section Divider Title & Desc
+            document.getElementById('collection-title').innerText = catData.label;
+            document.getElementById('collection-desc').innerText = catData.desc;
+
+            // 3. Re-Render List based on new filter
+            renderHome();
+
+            // 4. Smooth Scroll with Offset
             const target = document.getElementById('tier-list-container');
             if (target) {
-                // Tinggi sticky header (64px) + extra padding (20px) = ~85px
                 const headerOffset = 85; 
                 const elementPosition = target.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
@@ -786,7 +803,7 @@
                     return {
                         id: doc.id,
                         title: d.title || d['title '] || 'Tanpa Judul',
-                        category: d.category || 'Umum',
+                        category: d.category ? d.category.toLowerCase().trim() : 'umum', // Normalize category
                         price_real: d.price_real || d['price-real'] || 0,
                         price_fake: d.price_fake || d['price-fake'] || 0,
                         description: desc,
@@ -798,13 +815,7 @@
                     };
                 });
 
-                groupedProducts = {};
-                allProducts.forEach(p => {
-                    const tier = p.tier;
-                    if(!groupedProducts[tier]) groupedProducts[tier] = [];
-                    groupedProducts[tier].push(p);
-                });
-
+                // Initial render with default category (Wedding)
                 renderHome();
                 router();
 
@@ -825,14 +836,41 @@
             const container = document.getElementById('tier-list-container');
             container.innerHTML = '';
 
-            const dbTiers = Object.keys(groupedProducts);
-            const extraTiers = dbTiers.filter(t => !TIER_ORDER.includes(t));
-            const finalTierList = [...TIER_ORDER, ...extraTiers];
+            // 1. FILTER PRODUCTS BASED ON CURRENT CATEGORY
+            const filteredProducts = allProducts.filter(p => p.category === currentCategoryFilter);
 
-            finalTierList.forEach(tier => {
-                const products = groupedProducts[tier];
-                if (!products || products.length === 0) return;
+            if (filteredProducts.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-10 opacity-60">
+                        <p class="text-sm text-wa-gray">Belum ada tema di kategori ini</p>
+                    </div>
+                `;
+                return;
+            }
 
+            // 2. GROUP FILTERED PRODUCTS BY TIER
+            const grouped = {};
+            filteredProducts.forEach(p => {
+                if(!grouped[p.tier]) grouped[p.tier] = [];
+                grouped[p.tier].push(p);
+            });
+
+            // 3. DETERMINE ORDER OF TIERS TO DISPLAY
+            // Prefer TIER_ORDER if present, else append others at the end
+            const availableTiers = Object.keys(grouped);
+            // Sort available tiers based on TIER_ORDER index, unknowns go last
+            availableTiers.sort((a, b) => {
+                const idxA = TIER_ORDER.indexOf(a);
+                const idxB = TIER_ORDER.indexOf(b);
+                if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+                if (idxA !== -1) return -1;
+                if (idxB !== -1) return 1;
+                return a.localeCompare(b);
+            });
+
+            // 4. RENDER SECTIONS
+            availableTiers.forEach(tier => {
+                const products = grouped[tier];
                 const prices = products.map(p => p.price_real);
                 const minPrice = Math.min(...prices);
                 const maxPrice = Math.max(...prices);
@@ -840,7 +878,9 @@
                     ? `All price at Rp${Math.floor(minPrice/1000)}k` 
                     : `Rp${Math.floor(minPrice/1000)}k - Rp${Math.floor(maxPrice/1000)}k`;
 
-                const emoji = TIER_CONFIG[tier] || (tier.includes("Adat") ? "🔴" : "🔴"); 
+                const emoji = TIER_CONFIG[tier] || "🔖"; // Default emoji if not found
+                
+                // Show up to 3 or 6 items? Let's show 3 preview items per tier section like before
                 const previewProducts = products.slice(0, 3);
                 
                 let cardsHtml = '';
@@ -897,12 +937,22 @@
                 `;
                 container.appendChild(section);
             });
+            
+            // Also update groupedProducts global variable so View 2 (Category Full) works with the current context if needed
+            // However, View 2 logic currently relies on the global 'groupedProducts' which was previously grouped by Tier for ALL products.
+            // If we want View 2 to show items from a tier, it should probably respect the filter too?
+            // Actually, groupedProducts logic in 'renderCategoryView' takes 'tierName'. 
+            // If tiers are unique across categories (e.g. Wedding-Gold vs Kids-Birthday), it's fine.
+            // If tiers overlap (e.g. both have 'Starter'), we should update 'groupedProducts' to be filtered.
+            groupedProducts = grouped;
         }
 
         function renderCategoryView(tierName) {
+            // Using the groupedProducts which is now filtered by the current category
             const products = groupedProducts[tierName];
             if(!products) return;
-            const emoji = TIER_CONFIG[tierName] || (tierName.includes("Adat") ? "🔴" : "🔴");
+            
+            const emoji = TIER_CONFIG[tierName] || "🔖";
 
             document.getElementById('cat-header-title').innerText = `${emoji} ${tierName}`;
             // REVISI: Update Jumlah Tema
