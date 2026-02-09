@@ -321,8 +321,20 @@
         let groupedProducts = {};
         const IMAGEKIT_BASE = "https://ik.imagekit.io/undangandigital";
         
-        // Ensure New Tiers appear
-        const TIER_ORDER = ["Starter", "Bronze", "Silver", "Gold", "Platinum", "Diamond", "Tema Adat Batak", "Tema Adat Karo"];
+        // REVISI: Urutan Tier disesuaikan dengan request (Adat Jawa, Bugis, Batak, Karo, Nias, dst)
+        const TIER_ORDER = [
+            "Starter", 
+            "Bronze", 
+            "Silver", 
+            "Gold", 
+            "Platinum", 
+            "Diamond", 
+            "Tema Adat Jawa",
+            "Tema Adat Bugis",
+            "Tema Adat Batak", 
+            "Tema Adat Karo",
+            "Tema Adat Nias"
+        ];
         
         const TIER_CONFIG = { 
             "Starter": "🟢", 
@@ -331,8 +343,11 @@
             "Gold": "🟡", 
             "Platinum": "🔵", 
             "Diamond": "💎",
+            "Tema Adat Jawa": "🔴",
+            "Tema Adat Bugis": "🔴",
             "Tema Adat Batak": "🔴",
-            "Tema Adat Karo": "🔴"
+            "Tema Adat Karo": "🔴",
+            "Tema Adat Nias": "🔴"
         };
 
         // DATA FITUR LENGKAP
@@ -482,7 +497,8 @@
                     ? `All price at Rp${Math.floor(minPrice/1000)}k` 
                     : `Rp${Math.floor(minPrice/1000)}k - Rp${Math.floor(maxPrice/1000)}k`;
 
-                const emoji = TIER_CONFIG[tier] || "🔴"; 
+                // REVISI: Logika emoji agar otomatis merah jika mengandung kata "Adat" meski tidak ada di config
+                const emoji = TIER_CONFIG[tier] || (tier.includes("Adat") ? "🔴" : "🔴"); 
                 const previewProducts = products.slice(0, 3);
                 
                 let cardsHtml = '';
@@ -545,7 +561,7 @@
         function renderCategoryView(tierName) {
             const products = groupedProducts[tierName];
             if(!products) return;
-            const emoji = TIER_CONFIG[tierName] || "🔴";
+            const emoji = TIER_CONFIG[tierName] || (tierName.includes("Adat") ? "🔴" : "🔴");
 
             document.getElementById('cat-header-title').innerText = `${emoji} ${tierName}`;
             const container = document.getElementById('cat-grid-container');
