@@ -487,7 +487,10 @@
                 
                 let cardsHtml = '';
                 previewProducts.forEach(item => {
-                    const imgUrl = `${IMAGEKIT_BASE}/${item.folder_id}/01.png?tr=w-400`;
+                    // REVISI: Mengubah default ke .webp dan fallback ke .png
+                    const imgUrl = `${IMAGEKIT_BASE}/${item.folder_id}/01.webp?tr=w-400`;
+                    const imgFallback = `${IMAGEKIT_BASE}/${item.folder_id}/01.png?tr=w-400`;
+                    
                     const price = 'Rp' + Math.floor(item.price_real / 1000) + 'k';
                     const fakePrice = 'Rp' + Math.floor(item.price_fake / 1000) + 'k';
                     
@@ -501,7 +504,7 @@
                         <div onclick="navigateTo('#/detail/${item.id}')" class="group relative bg-[#202c33] rounded-xl overflow-hidden border border-wa-divider hover:border-wa-teal/50 transition-all duration-300 active:scale-[0.98] cursor-pointer shadow-sm">
                             <div class="aspect-square overflow-hidden relative">
                                 ${discountHtml}
-                                <img src="${imgUrl}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+                                <img src="${imgUrl}" onerror="this.onerror=null; this.src='${imgFallback}'" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
                                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
                             </div>
                             <div class="p-3">
@@ -548,7 +551,10 @@
             container.innerHTML = '';
 
             products.forEach(item => {
-                const imgUrl = `${IMAGEKIT_BASE}/${item.folder_id}/01.png?tr=w-400`;
+                // REVISI: Mengubah default ke .webp dan fallback ke .png
+                const imgUrl = `${IMAGEKIT_BASE}/${item.folder_id}/01.webp?tr=w-400`;
+                const imgFallback = `${IMAGEKIT_BASE}/${item.folder_id}/01.png?tr=w-400`;
+                
                 const price = 'Rp' + Math.floor(item.price_real / 1000) + 'k';
                 const fakePrice = 'Rp' + Math.floor(item.price_fake / 1000) + 'k';
                 
@@ -564,7 +570,7 @@
                 card.innerHTML = `
                     <div class="aspect-square overflow-hidden relative">
                         ${discountHtml}
-                        <img src="${imgUrl}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
+                        <img src="${imgUrl}" onerror="this.onerror=null; this.src='${imgFallback}'" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
                         <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
                     </div>
                     <div class="p-3">
@@ -694,14 +700,17 @@
 
             for (let i = 1; i <= 10; i++) {
                 const num = String(i).padStart(2, '0');
-                let imgUrl = (i <= 8) ? `${IMAGEKIT_BASE}/${item.folder_id}/${num}.png` : `${IMAGEKIT_BASE}/feature-service/${num}.png`;
-                imgUrl += "?tr=w-400"; // Low res for thumb
+                // REVISI: Logic prioritas WebP dengan fallback PNG
+                let imgBase = (i <= 8) ? `${IMAGEKIT_BASE}/${item.folder_id}/${num}` : `${IMAGEKIT_BASE}/feature-service/${num}`;
+                let imgUrl = `${imgBase}.webp?tr=w-400`;
+                let imgFallback = `${imgBase}.png?tr=w-400`;
                 
                 const slideItem = document.createElement('div');
                 slideItem.className = "snap-center shrink-0 w-[85%] h-full flex items-center justify-center bg-wa-header rounded-xl overflow-hidden relative border border-wa-divider cursor-pointer shadow-lg active:scale-[0.98] transition-transform";
                 slideItem.onclick = () => openGallery(); 
-                // REVISI 2: Deteksi error gambar -> Hapus elemen jika gambar tidak ada
-                slideItem.innerHTML = `<img src="${imgUrl}" class="w-full h-full object-cover" loading="${i===1?'eager':'lazy'}" onerror="this.parentElement.remove()">`;
+                
+                // REVISI: Menggunakan onerror untuk mencoba fallback ke PNG dulu, baru remove jika gagal
+                slideItem.innerHTML = `<img src="${imgUrl}" class="w-full h-full object-cover" loading="${i===1?'eager':'lazy'}" onerror="if(this.src.indexOf('webp')>0){this.src='${imgFallback}'}else{this.parentElement.remove()}">`;
                 slider.appendChild(slideItem);
             }
 
@@ -775,9 +784,11 @@
 
             for (let i = 1; i <= 10; i++) {
                 const num = String(i).padStart(2, '0');
-                let imgUrl = (i <= 8) ? `${IMAGEKIT_BASE}/${item.folder_id}/${num}.png` : `${IMAGEKIT_BASE}/feature-service/${num}.png`;
-                // REVISION 1: Kembalikan resolusi ke 800px agar tidak lag
-                imgUrl += "?tr=w-800"; 
+                
+                // REVISI: Logic prioritas WebP dengan fallback PNG
+                let imgBase = (i <= 8) ? `${IMAGEKIT_BASE}/${item.folder_id}/${num}` : `${IMAGEKIT_BASE}/feature-service/${num}`;
+                let imgUrl = `${imgBase}.webp?tr=w-800`;
+                let imgFallback = `${imgBase}.png?tr=w-800`;
 
                 // Wrapper div tidak lagi pakai snap, tapi flow biasa (block)
                 // Width full, height auto mengikuti rasio gambar
@@ -790,9 +801,13 @@
                 img.style.minHeight = "200px";
                 img.style.background = "#111";
                 
-                // REVISI 2: Hapus elemen img jika gagal dimuat (file tidak ada)
+                // REVISI 2: Cek error, coba PNG dulu, kalau gagal juga baru remove
                 img.onerror = function() {
-                    this.remove();
+                    if (this.src.includes('webp')) {
+                        this.src = imgFallback;
+                    } else {
+                        this.remove();
+                    }
                 };
                 
                 container.appendChild(img);
