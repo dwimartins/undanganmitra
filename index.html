@@ -211,7 +211,7 @@
                 </div>
 
                 <!-- 5. SCHOOL & GRADUATION (Default: White. Hover: Red) -->
-                <div onclick="selectCategory('Religi')" class="grid-3d hover-shadow-red group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
+                <div onclick="selectCategory('School')" class="grid-3d hover-shadow-red group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
                     <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-red-500 transition-colors">
                         🎓
                     </div>
@@ -273,6 +273,32 @@
 
         <!-- Container List Tier -->
         <div id="tier-list-container" class="max-w-md mx-auto pb-10 space-y-6"></div>
+
+        <!-- CUSTOM DESIGN SECTION (BARU) -->
+        <div class="max-w-md mx-auto px-4 pb-8 mt-8">
+            <div class="relative bg-gradient-to-br from-[#182329] to-[#0b141a] border border-wa-teal/30 rounded-2xl p-6 text-center overflow-hidden group">
+                <!-- Decorative background glow -->
+                <div class="absolute top-0 right-0 w-32 h-32 bg-wa-teal/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl -ml-12 -mb-12 pointer-events-none"></div>
+                
+                <div class="relative z-10">
+                    <div class="w-12 h-12 mx-auto bg-[#202c33] rounded-full flex items-center justify-center mb-3 border border-wa-teal/50 shadow-[0_0_15px_rgba(0,168,132,0.3)]">
+                        <svg class="w-6 h-6 text-wa-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    </div>
+                    
+                    <h3 class="text-lg font-bold text-white mb-2">Ingin Desain Lebih Exclusive?</h3>
+                    <p class="text-xs text-wa-gray mb-4 leading-relaxed">
+                        Mau undangan yang belum pernah dipakai orang lain? Kamu bisa order 
+                        <span class="text-wa-teal font-semibold">Custom Design</span> spesial sesuai keinginanmu.
+                    </p>
+                    
+                    <button onclick="kirimPesanCustom()" class="inline-flex items-center gap-2 bg-wa-teal hover:bg-[#008f6f] text-white text-xs font-bold px-6 py-3 rounded-full transition-all shadow-lg active:scale-95">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                        Konsultasi Custom Design
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -551,7 +577,7 @@
             'Kids': '🎈',
             'Formal': '🏢',
             'Teen': '🎸',
-            'Religi': '🕌',
+            'School': '🎓',
             'Lainnya': '📂'
         };
 
@@ -634,6 +660,12 @@
             window.open(url, '_blank');
         }
 
+        function kirimPesanCustom() {
+            const text = `Halo Admin 👋\nSaya tertarik untuk order Undangan Custom Design yang exclusive. Bisa info detailnya?`;
+            const url = `https://wa.me/6285117173637?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+
         // --- EXISTING LOGIC ---
         // DATA FITUR LENGKAP
         const FEATURES_DB = [
@@ -650,7 +682,10 @@
             { id: 'gcal', title: "Google Calendar", icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z", desc: "Tamu bisa menyimpan jadwal acaramu ke Google Calendar mereka dengan satu klik." },
             { id: 'quotes', title: "Ayat & Quotes", icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253", desc: "Tampilkan ayat suci atau kata-kata mutiara favoritmu sebagai pemanis undangan." },
             { id: 'maps', title: "Peta Navigasi", icon: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z", desc: "Panduan lokasi acara akurat dengan Google Maps agar tamu mudah menemukan tempatnya." },
-            { id: 'tools', title: "Sender Tools", icon: "M12 19l9 2-9-18-9 18 9-2zm0 0v-8", desc: "Fitur eksklusif untuk mengirim undangan ke banyak kontak WhatsApp secara otomatis & personal." }
+            { id: 'tools', title: "Sender Tools", icon: "M12 19l9 2-9-18-9 18 9-2zm0 0v-8", desc: "Fitur eksklusif untuk mengirim undangan ke banyak kontak WhatsApp secara otomatis & personal." },
+            // NEW FEATURES: Dwigital Exclusive
+            { id: 'qrcode', title: "QR Code Check In", icon: "M12 4v1m6 11h2m-6 0h-2v4h2v-4zm-6 12v-2m0 0v-2m0 2H4m8-10V4m6 11v-4m-6 4H4m8 0h2m-6 0h2v4H6v-4zm2-6h2v4h-2V9zm-2 0h-2v4h2V9zm-6 0H4v4h2V9zm6-6h2v4h-2V3zm-2 0h-2v4h2V3zm-6 0H4v4h2V3z", desc: "Dapatkan Buku Tamu digital sekaligus QR Code otomatis yang akan membantumu mengetahui apakah tamu yang kamu undang hadir ke acaramu beserta waktu check in-nya" },
+            { id: 'screen', title: "Layar Sapa", icon: "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z", desc: "Layar Sapa Real Time. Saat tamu berhasil check in ke acaramu, maka nama tamu akan ditampilkan di layar sapa yang telah disediakan, sehingga tamu merasa lebih dihormati dan dihargai." }
         ];
 
         // NEW: EXTRA SERVICES DATA
@@ -987,8 +1022,14 @@
             const featuresContainer = document.getElementById('detail-features');
             featuresContainer.innerHTML = '';
             
+            // Logic to check if domain is dwigital.com
+            const isDwigital = item.link && item.link.includes('dwigital.com');
+
             FEATURES_DB.forEach(f => {
                 if (item.tier === 'Starter' && (f.id === 'gallery' || f.id === 'animasi')) return;
+
+                // Filter for Dwigital exclusive features
+                if ((f.id === 'qrcode' || f.id === 'screen') && !isDwigital) return;
 
                 const chip = document.createElement('button');
                 chip.className = "border border-wa-divider bg-wa-header px-3 py-1.5 rounded-full text-[11px] text-wa-light flex items-center gap-2 hover:border-wa-teal/50 hover:bg-[#2a373f] transition active:scale-95";
@@ -1191,6 +1232,12 @@
             const item = window.currentItem;
             const price = item.price_real.toLocaleString('id-ID');
             const text = `Halo kak 👋\nSaya ingin pesan tema *${item.title}* (Paket ${item.tier}).\nApakah betul harganya Rp. ${price}?`;
+            const url = `https://wa.me/6285117173637?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+
+        function kirimPesanCustom() {
+            const text = `Halo Admin 👋\nSaya tertarik untuk order Undangan Custom Design yang exclusive. Bisa info detailnya?`;
             const url = `https://wa.me/6285117173637?text=${encodeURIComponent(text)}`;
             window.open(url, '_blank');
         }
