@@ -415,6 +415,9 @@
                     let desc = d.description || '';
                     desc = desc.replace(/\n\uFFFD/g, '\n•').replace(/^\uFFFD/, '•');
                     desc = desc.replace(/\uFFFD/g, '-');
+                    
+                    // FIX: Ganti tanda tanya menjadi emoji 👇⤵️
+                    desc = desc.replace(/Cek preview link dibawah ini:\s*\?+/gi, 'Cek preview link dibawah ini: 👇⤵️');
 
                     return {
                         id: doc.id,
