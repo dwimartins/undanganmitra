@@ -56,9 +56,9 @@
         .backdrop-open { opacity: 1; pointer-events: auto; }
         .backdrop-closed { opacity: 0; pointer-events: none; }
         
-        /* FIX GALLERY CLICK: pointer-events none saat tertutup agar slider di belakangnya bisa diklik */
-        .gallery-open { transform: translateY(0); pointer-events: auto; }
-        .gallery-closed { transform: translateY(100%); pointer-events: none; }
+        /* Gallery */
+        .gallery-open { transform: translateY(0); opacity: 1; }
+        .gallery-closed { transform: translateY(20px); opacity: 0; pointer-events: none; }
     </style>
 </head>
 
@@ -103,7 +103,7 @@
                 <button onclick="kirimPesanWA()" class="bg-wa-teal text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-wa-teal/30 text-sm flex items-center gap-2 hover:bg-[#008f6f] active:scale-95 transition-all animate-[fadeIn_1s_ease-out_0.3s_both]">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                     Konsultasi Gratis
-                </a>
+                </button>
             </div>
         </div>
 
@@ -161,20 +161,22 @@
             </div>
         </div>
 
-        <!-- Image Slider -->
+        <!-- Image Slider (Horizontal Thumbnail) -->
         <div class="max-w-md mx-auto relative bg-black group">
             <div class="w-full aspect-square relative overflow-hidden">
                 <div id="detail-slider" class="flex overflow-x-auto snap-x snap-mandatory hide-scroll h-full items-center px-4 gap-3"></div>
+                
+                <!-- Hint Overlay -->
+                <div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div class="bg-black/50 backdrop-blur px-3 py-1 rounded-full border border-white/20">
+                        <span class="text-white text-xs font-medium">Klik untuk memperbesar</span>
+                    </div>
+                </div>
             </div>
+            
             <div class="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
                 <div id="slider-progress" class="h-full bg-wa-teal transition-all duration-300 w-[10%] shadow-[0_0_10px_rgba(0,168,132,0.5)]"></div>
             </div>
-            <button onclick="scrollSlider(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md p-3 rounded-full text-white hover:bg-black/70 transition opacity-0 group-hover:opacity-100 hidden md:block border border-white/10">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-            </button>
-            <button onclick="scrollSlider(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md p-3 rounded-full text-white hover:bg-black/70 transition shadow-lg animate-pulse md:animate-none border border-white/10">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </button>
         </div>
 
         <!-- Content Body -->
@@ -239,14 +241,23 @@
              COMPONENTS: MODALS / SHEETS
         ======================== -->
         
-        <!-- Fullscreen Gallery -->
-        <div id="view-gallery" class="fixed inset-0 z-[60] bg-black gallery-closed flex flex-col">
-            <button onclick="closeGallery()" class="absolute top-4 right-4 z-50 bg-black/50 text-white p-3 rounded-full backdrop-blur-md border border-white/10 active:bg-white/10 transition">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <div id="gallery-container" class="flex-1 overflow-y-auto hide-scroll snap-y snap-mandatory"></div>
-            <div class="absolute bottom-6 left-0 right-0 text-center pointer-events-none">
-                <span class="bg-black/60 text-white text-xs px-4 py-2 rounded-full backdrop-blur border border-white/10 font-medium">Scroll Kebawah Untuk Detail</span>
+        <!-- Fullscreen Gallery (Vertical Scroll) -->
+        <div id="view-gallery" class="fixed inset-0 z-[100] bg-black gallery-closed flex flex-col h-screen w-full">
+            <!-- Close Button Floats -->
+            <div class="absolute top-0 right-0 p-4 z-50">
+                <button onclick="closeGallery()" class="bg-black/50 text-white p-3 rounded-full backdrop-blur-md border border-white/20 hover:bg-white/20 transition shadow-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <!-- Gallery Content: Vertical Scroll -->
+            <div id="gallery-container" class="flex-1 w-full h-full overflow-y-auto bg-black hide-scroll">
+                <!-- Images will be injected here as w-full blocks -->
+            </div>
+            
+            <!-- Indicator Floating Bottom -->
+            <div class="absolute bottom-8 left-0 right-0 text-center pointer-events-none opacity-80">
+                <span class="bg-black/60 text-white text-[10px] px-4 py-2 rounded-full backdrop-blur border border-white/10 font-medium tracking-widest uppercase shadow-lg">Scroll Down</span>
             </div>
         </div>
 
@@ -285,7 +296,6 @@
         // Ensure New Tiers appear
         const TIER_ORDER = ["Starter", "Bronze", "Silver", "Gold", "Platinum", "Diamond", "Tema Adat Batak", "Tema Adat Karo"];
         
-        // FIX: Gunakan Emoji kembali agar muncul bola, bukan kotak
         const TIER_CONFIG = { 
             "Starter": "🟢", 
             "Bronze": "🟤", 
@@ -303,7 +313,6 @@
             { id: 'unlimited', title: "Unlimited Tamu", icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z", desc: "Kamu bisa kirim undanganmu kepada sebanyak mungkin tamu yang mau kamu undang tanpa biaya tambahan." },
             { id: 'music', title: "Autoplay Musik", icon: "M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3", desc: "Lagu favoritmu akan otomatis berputar mengiringi undangan saat dibuka oleh tamu." },
             { id: 'gallery', title: "Galeri Foto/Video", icon: "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z", desc: "Bagikan momen bahagiamu dengan menampilkan galeri foto prewedding dan video cinematic." },
-            // UPDATED ANIMASI ICON
             { id: 'animasi', title: "Animasi Gratis", icon: "M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z", desc: "Kami sediakan ratusan karakter animasi lucu dan menarik yang bisa kamu pakai gratis." },
             { id: 'rsvp', title: "Fitur RSVP", icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4", desc: "Dapatkan kepastian jumlah tamu dengan fitur konfirmasi kehadiran (Hadir/Tidak/Ragu)." },
             { id: 'wishes', title: "Ucapan & Doa", icon: "M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z", desc: "Tamu undangan bisa memberikan ucapan selamat dan doa restu langsung di dalam undangan." },
@@ -423,8 +432,6 @@
             }
         }
 
-        // --- RENDERERS ---
-
         function renderHome() {
             const container = document.getElementById('tier-list-container');
             container.innerHTML = '';
@@ -543,6 +550,7 @@
 
         function renderDetailView(item) {
             window.currentItem = item;
+            window.currentGalleryItem = item; // Penting untuk gallery
 
             document.getElementById('detail-title').innerText = item.title;
             document.getElementById('detail-price-real').innerText = 'Rp ' + item.price_real.toLocaleString('id-ID');
@@ -645,6 +653,7 @@
                 featuresContainer.appendChild(chip);
             });
 
+            // --- RENDER SLIDER THUMBNAILS (HORIZONTAL) ---
             const slider = document.getElementById('detail-slider');
             slider.innerHTML = '';
 
@@ -655,10 +664,10 @@
             for (let i = 1; i <= 10; i++) {
                 const num = String(i).padStart(2, '0');
                 let imgUrl = (i <= 8) ? `${IMAGEKIT_BASE}/${item.folder_id}/${num}.png` : `${IMAGEKIT_BASE}/feature-service/${num}.png`;
-                imgUrl += "?tr=w-800"; 
+                imgUrl += "?tr=w-400"; // Low res for thumb
                 
                 const slideItem = document.createElement('div');
-                slideItem.className = "snap-center shrink-0 w-[85%] h-full flex items-center justify-center bg-wa-header rounded-xl overflow-hidden relative border border-wa-divider cursor-pointer shadow-lg";
+                slideItem.className = "snap-center shrink-0 w-[85%] h-full flex items-center justify-center bg-wa-header rounded-xl overflow-hidden relative border border-wa-divider cursor-pointer shadow-lg active:scale-[0.98] transition-transform";
                 slideItem.onclick = () => openGallery(); 
                 slideItem.innerHTML = `<img src="${imgUrl}" class="w-full h-full object-cover" loading="${i===1?'eager':'lazy'}" onerror="this.src='https://placehold.co/400x500/333?text=Slide+Error'">`;
                 slider.appendChild(slideItem);
@@ -720,6 +729,7 @@
             return { url, label, icon };
         }
 
+        // --- NEW VERTICAL SCROLL GALLERY ---
         function openGallery() {
             const item = window.currentGalleryItem;
             if(!item) return;
@@ -727,16 +737,28 @@
             const galleryView = document.getElementById('view-gallery');
             const container = document.getElementById('gallery-container');
             container.innerHTML = '';
+            
+            // Reset scroll to top
+            container.scrollTop = 0;
 
             for (let i = 1; i <= 10; i++) {
                 const num = String(i).padStart(2, '0');
                 let imgUrl = (i <= 8) ? `${IMAGEKIT_BASE}/${item.folder_id}/${num}.png` : `${IMAGEKIT_BASE}/feature-service/${num}.png`;
-                imgUrl += "?tr=w-1000"; 
+                // Gunakan resolusi tinggi untuk mode fullscreen
+                imgUrl += "?tr=w-1080"; 
 
-                const wrapper = document.createElement('div');
-                wrapper.className = "w-full min-h-[50vh] snap-start mb-1 flex items-center justify-center py-4"; 
-                wrapper.innerHTML = `<img src="${imgUrl}" class="max-w-full h-auto object-contain rounded-lg shadow-2xl" loading="lazy">`;
-                container.appendChild(wrapper);
+                // Wrapper div tidak lagi pakai snap, tapi flow biasa (block)
+                // Width full, height auto mengikuti rasio gambar
+                const img = document.createElement('img');
+                img.src = imgUrl;
+                img.className = "w-full h-auto block mb-0"; 
+                img.loading = "lazy";
+                
+                // Tambahkan placeholder loading
+                img.style.minHeight = "200px";
+                img.style.background = "#111";
+                
+                container.appendChild(img);
             }
 
             galleryView.classList.remove('gallery-closed');
