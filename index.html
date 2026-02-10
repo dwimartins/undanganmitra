@@ -41,108 +41,84 @@
     <style>
         body { background-color: #111b21; color: #e9edef; -webkit-tap-highlight-color: transparent; }
         
-        /* Custom Scrollbar for smoother app-feel */
+        /* Custom Scrollbar */
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Smooth Scrolling Behaviour */
+        /* Smooth Scrolling */
         .smooth-scroll {
             scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch; /* Momentum scrolling on iOS */
-            overscroll-behavior-y: contain; /* Prevent parent scrolling */
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: contain;
         }
 
-        .touch-allow-all {
-            touch-action: pan-x pan-y;
-        }
-
+        .touch-allow-all { touch-action: pan-x pan-y; }
         .snap-x { scroll-snap-type: x mandatory; }
         .snap-center { scroll-snap-align: center; }
         
-        /* Transisi Halaman */
+        /* View Transitions */
         .view-section { display: none; animation: fadeIn 0.2s ease-out; }
         .view-active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Animasi Gallery & Bottom Sheet */
+        /* Sheet & Gallery Animations */
         #view-gallery, #feature-sheet, #order-sheet, #animasi-sheet { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease; }
         .sheet-open { transform: translateY(0); }
         .sheet-closed { transform: translateY(100%); }
         .backdrop-open { opacity: 1; pointer-events: auto; }
         .backdrop-closed { opacity: 0; pointer-events: none; }
         
-        /* Gallery Animation */
         .gallery-open { opacity: 1; pointer-events: auto; transform: scale(1); }
         .gallery-closed { opacity: 0; pointer-events: none; transform: scale(0.95); }
 
-        /* Sticky Header Slide Animation */
+        /* Smart Header */
         #smart-header { transition: transform 0.3s ease-in-out, opacity 0.3s ease; }
         .header-hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
         .header-visible { transform: translateY(0); opacity: 1; pointer-events: auto; }
 
-        /* Grid Item Custom 3D Shadow Logic */
+        /* Grid 3D Effect */
         .grid-3d {
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            /* Default: Outline putih tipis di keliling + Shadow Tebal di bawah (efek 3D) */
             border: 1px solid rgba(255, 255, 255, 0.1); 
             box-shadow: 0 4px 0 0 rgba(255, 255, 255, 0.1);
         }
-        
-        /* Saat Hover: Shadow bawah berubah warna sesuai kategori */
-        .grid-3d:hover {
-            transform: translateY(-2px); /* Naik sedikit saat hover */
-        }
-        
-        .grid-3d:active {
-            transform: translateY(2px); /* Turun saat diklik (efek pencet) */
-            box-shadow: 0 0 0 0 transparent !important; /* Shadow hilang */
-        }
+        .grid-3d:hover { transform: translateY(-2px); }
+        .grid-3d:active { transform: translateY(2px); box-shadow: 0 0 0 0 transparent !important; }
 
-        /* Specific Colors for Hover Shadows */
+        /* Grid Colors */
         .hover-shadow-gold:hover { box-shadow: 0 6px 0 0 #eab308; border-color: #eab308; }
         .hover-shadow-cyan:hover { box-shadow: 0 6px 0 0 #22d3ee; border-color: #22d3ee; }
         .hover-shadow-blue:hover { box-shadow: 0 6px 0 0 #3b82f6; border-color: #3b82f6; }
         .hover-shadow-purple:hover { box-shadow: 0 6px 0 0 #a855f7; border-color: #a855f7; }
         .hover-shadow-red:hover { box-shadow: 0 6px 0 0 #ef4444; border-color: #ef4444; }
         .hover-shadow-yellow:hover { box-shadow: 0 6px 0 0 #facc15; border-color: #facc15; }
-
     </style>
 </head>
 
 <body class="antialiased min-h-screen pb-20 bg-[#0b141a]">
 
-    <!-- =======================
-         VIEW 1: HOME (TIER LIST)
-    ======================== -->
+    <!-- VIEW 1: HOME -->
     <div id="view-home" class="view-section view-active bg-wa-bg min-h-screen">
-        
-        <!-- SMART STICKY HEADER (Hidden initially) -->
+        <!-- Smart Header -->
         <div id="smart-header" class="fixed top-0 left-0 right-0 z-50 bg-wa-header/95 backdrop-blur-md shadow-md border-b border-wa-divider header-hidden">
             <div class="max-w-md mx-auto px-4 h-16 flex items-center gap-3 overflow-x-auto hide-scroll">
-                
-                <!-- 1. Active Category (Scroll to Top) -->
                 <button onclick="scrollToTop()" class="flex items-center gap-2 bg-wa-teal text-white px-4 py-2 rounded-full text-xs font-bold shrink-0 shadow-lg shadow-wa-teal/20 transition active:scale-95">
                     <span id="header-cat-icon">💍</span>
                     <span id="header-cat-text">Wedding</span>
                 </button>
-
-                <!-- 2. Cara Order -->
                 <button onclick="openSheet('order-sheet')" class="flex items-center gap-2 bg-[#2a373f] text-wa-light border border-wa-divider px-4 py-2 rounded-full text-xs font-medium shrink-0 hover:bg-[#374248] transition active:scale-95">
                     <svg class="w-4 h-4 text-wa-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
                     Cara Order
                 </button>
-
-                <!-- 3. Animasi Gratis -->
                 <button onclick="openSheet('animasi-sheet')" class="relative flex items-center gap-2 bg-[#2a373f] text-wa-light border border-wa-divider px-4 py-2 rounded-full text-xs font-medium shrink-0 hover:bg-[#374248] transition active:scale-95">
                     <svg class="w-4 h-4 text-wa-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     Animasi
                     <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
                 </button>
-
             </div>
         </div>
 
-        <!-- HERO SECTION -->
+        <!-- Hero -->
         <div class="relative w-full h-[450px] overflow-hidden border-b border-wa-divider/50 group bg-wa-bg">
             <div class="absolute inset-0 max-w-md mx-auto relative h-full">
                 <img src="https://ik.imagekit.io/undangandigital/general/hero.webp" class="w-full h-full object-cover opacity-50 transition-transform duration-1000 group-hover:scale-105" alt="Hero Banner">
@@ -153,7 +129,7 @@
                     <div class="mb-4 animate-[fadeIn_0.8s_ease-out]">
                         <span class="inline-block py-1 px-3 rounded-full bg-wa-teal/10 border border-wa-teal/30 text-wa-teal text-[10px] font-bold tracking-widest uppercase mb-3 backdrop-blur-sm">Premium Collection</span>
                         <h2 class="text-3xl md:text-4xl font-bold text-white leading-tight mb-2 tracking-tight">Undangan Digital <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-emerald-500">Eksklusif & Modern</span></h2>
-                        <p class="text-wa-gray text-xs md:text-sm max-w-md mx-auto leading-relaxed mt-2">Temukan berbagai undangan premium dengan desain eksklusif. Jadikan hari spesialmu lebih berkesan & modern.</p>
+                        <p class="text-wa-gray text-xs md:text-sm max-w-md mx-auto leading-relaxed mt-2">Temukan berbagai undangan premium dengan desain eksklusif.</p>
                     </div>
                     <button onclick="kirimPesanUmum()" class="bg-wa-teal text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-wa-teal/30 text-sm flex items-center gap-2 hover:bg-[#008f6f] active:scale-95 transition-all animate-[fadeIn_1s_ease-out_0.3s_both]">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
@@ -163,9 +139,7 @@
             </div>
         </div>
 
-        <!-- ==============================================
-             REVISI GRID MENU 
-        =============================================== -->
+        <!-- Grid Menu -->
         <div id="grid-menu" class="max-w-md mx-auto px-4 py-8 relative z-10">
             <div class="mb-6 flex justify-between items-end">
                 <div>
@@ -174,84 +148,49 @@
                 </div>
                 <div class="h-1 w-10 bg-wa-teal rounded-full"></div>
             </div>
-
-            <!-- Grid Items dengan 3D Shadow Effect (Color on Hover) -->
             <div class="grid grid-cols-3 gap-3">
-                
-                <!-- 1. WEDDING (Default: White Text & Icon. Hover: Gold) -->
                 <div onclick="selectCategory('Wedding')" class="grid-3d hover-shadow-gold group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-yellow-500 transition-colors">
-                        💍
-                    </div>
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-yellow-500 transition-colors">💍</div>
                     <span class="text-[9px] md:text-[10px] font-bold text-white uppercase tracking-widest group-hover:text-yellow-500 transition-colors">WEDDING</span>
                 </div>
-
-                <!-- 2. ACARA ANAK (Default: White. Hover: Cyan) -->
                 <div onclick="selectCategory('Kids')" class="grid-3d hover-shadow-cyan group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-cyan-400 transition-colors">
-                        🎈
-                    </div>
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-cyan-400 transition-colors">🎈</div>
                     <span class="text-[9px] md:text-[10px] font-bold text-white uppercase tracking-widest group-hover:text-cyan-400 transition-colors">ACARA ANAK</span>
                 </div>
-
-                <!-- 3. ACARA FORMAL (Default: White. Hover: Blue) -->
                 <div onclick="selectCategory('Formal')" class="grid-3d hover-shadow-blue group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-blue-500 transition-colors">
-                        🏢
-                    </div>
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-blue-500 transition-colors">🏢</div>
                     <span class="text-[9px] md:text-[10px] font-bold text-white uppercase tracking-widest group-hover:text-blue-500 transition-colors">ACARA FORMAL</span>
                 </div>
-
-                <!-- 4. TEEN & CARD (Default: White. Hover: Purple) -->
                 <div onclick="selectCategory('Teen')" class="grid-3d hover-shadow-purple group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-purple-500 transition-colors">
-                        🎸
-                    </div>
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-purple-500 transition-colors">🎸</div>
                     <span class="text-[9px] md:text-[10px] font-bold text-white uppercase tracking-widest group-hover:text-purple-500 transition-colors">TEEN & CARD</span>
                 </div>
-
-                <!-- 5. SCHOOL & GRADUATION (Default: White. Hover: Red) -->
                 <div onclick="selectCategory('School')" class="grid-3d hover-shadow-red group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-red-500 transition-colors">
-                        🎓
-                    </div>
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-red-500 transition-colors">🎓</div>
                     <span class="text-[8px] md:text-[9px] font-bold text-white uppercase tracking-widest group-hover:text-red-500 transition-colors leading-tight">SCHOOL & GRADUATION</span>
                 </div>
-
-                <!-- 6. ACARA LAINNYA (Default: White. Hover: Yellow) -->
                 <div onclick="selectCategory('Lainnya')" class="grid-3d hover-shadow-yellow group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-yellow-400 transition-colors">
-                        📂
-                    </div>
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-yellow-400 transition-colors">📂</div>
                     <span class="text-[9px] md:text-[10px] font-bold text-white uppercase tracking-widest group-hover:text-yellow-400 transition-colors">ACARA LAINNYA</span>
                 </div>
             </div>
         </div>
-        <!-- ==============================================
-             END REVISI GRID MENU
-        =============================================== -->
         
-        <!-- SECTION DIVIDER REVISED (PADU & ELEGAN) -->
+        <!-- Divider -->
         <div class="max-w-md mx-auto px-4 mt-6 mb-8">
             <div class="bg-[#182329] border border-wa-divider rounded-2xl p-6 text-center relative overflow-hidden shadow-lg">
-                <!-- Decorative Elements -->
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-wa-teal/50 to-transparent"></div>
                 <div class="absolute -left-4 -top-4 w-16 h-16 bg-wa-teal/10 rounded-full blur-xl"></div>
                 <div class="absolute -right-4 -bottom-4 w-16 h-16 bg-wa-teal/10 rounded-full blur-xl"></div>
-
                 <div class="relative z-10">
                     <span id="collection-badge" class="inline-block py-1 px-3 rounded-full bg-wa-teal/10 text-wa-teal text-[10px] font-bold tracking-[0.2em] uppercase mb-3 border border-wa-teal/20">Exclusive Series</span>
-                    <h2 id="collection-title" class="text-2xl font-serif italic text-white leading-tight mb-2 drop-shadow-sm">
-                        Wedding Collections
-                    </h2>
-                    <p id="collection-desc" class="text-xs text-wa-gray font-light tracking-wide max-w-[240px] mx-auto leading-relaxed">
-                        Temukan desain undangan pernikahan impian Anda dengan kualitas terbaik di sini.
-                    </p>
+                    <h2 id="collection-title" class="text-2xl font-serif italic text-white leading-tight mb-2 drop-shadow-sm">Wedding Collections</h2>
+                    <p id="collection-desc" class="text-xs text-wa-gray font-light tracking-wide max-w-[240px] mx-auto leading-relaxed">Temukan desain undangan pernikahan impian Anda dengan kualitas terbaik di sini.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Loading Skeleton -->
+        <!-- Loading -->
         <div id="home-loading" class="max-w-md mx-auto p-4 space-y-8">
             <div class="space-y-3">
                 <div class="h-6 w-32 bg-wa-header rounded animate-pulse"></div>
@@ -262,7 +201,7 @@
             </div>
         </div>
         
-        <!-- Error Message (Hidden by default) -->
+        <!-- Error -->
         <div id="error-message" class="hidden max-w-md mx-auto p-6 text-center">
             <div class="bg-red-900/30 border border-red-500/50 text-red-200 p-4 rounded-xl">
                 <p class="font-bold text-sm">Gagal Memuat Data</p>
@@ -271,40 +210,25 @@
             </div>
         </div>
 
-        <!-- Container List Tier -->
+        <!-- TIER LIST CONTAINER -->
         <div id="tier-list-container" class="max-w-md mx-auto pb-10 space-y-6"></div>
 
-        <!-- CUSTOM DESIGN SECTION (BARU) -->
+        <!-- Custom Design Section -->
         <div class="max-w-md mx-auto px-4 pb-8 mt-8">
             <div class="relative bg-gradient-to-br from-[#182329] to-[#0b141a] border border-wa-teal/30 rounded-2xl p-6 text-center overflow-hidden group">
-                <!-- Decorative background glow -->
                 <div class="absolute top-0 right-0 w-32 h-32 bg-wa-teal/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
                 <div class="absolute bottom-0 left-0 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl -ml-12 -mb-12 pointer-events-none"></div>
-                
                 <div class="relative z-10">
-                    <div class="w-12 h-12 mx-auto bg-[#202c33] rounded-full flex items-center justify-center mb-3 border border-wa-teal/50 shadow-[0_0_15px_rgba(0,168,132,0.3)]">
-                        <svg class="w-6 h-6 text-wa-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                    </div>
-                    
+                    <div class="w-12 h-12 mx-auto bg-[#202c33] rounded-full flex items-center justify-center mb-3 border border-wa-teal/50 shadow-[0_0_15px_rgba(0,168,132,0.3)]"><svg class="w-6 h-6 text-wa-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></div>
                     <h3 class="text-lg font-bold text-white mb-2">Ingin Desain Lebih Exclusive?</h3>
-                    <p class="text-xs text-wa-gray mb-4 leading-relaxed">
-                        Mau undangan yang belum pernah dipakai orang lain? Kamu bisa order 
-                        <span class="text-wa-teal font-semibold">Custom Design</span> spesial sesuai keinginanmu.
-                    </p>
-                    
-                    <button onclick="kirimPesanCustom()" class="inline-flex items-center gap-2 bg-wa-teal hover:bg-[#008f6f] text-white text-xs font-bold px-6 py-3 rounded-full transition-all shadow-lg active:scale-95">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                        Konsultasi Gratis
-                    </button>
+                    <p class="text-xs text-wa-gray mb-4 leading-relaxed">Mau undangan yang belum pernah dipakai orang lain? Kamu bisa order <span class="text-wa-teal font-semibold">Custom Design</span> spesial sesuai keinginanmu.</p>
+                    <button onclick="kirimPesanCustom()" class="inline-flex items-center gap-2 bg-wa-teal hover:bg-[#008f6f] text-white text-xs font-bold px-6 py-3 rounded-full transition-all shadow-lg active:scale-95"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>Konsultasi Gratis</button>
                 </div>
             </div>
         </div>
     </div>
 
-
-    <!-- =======================
-         VIEW 2: CATEGORY FULL (RESTORED)
-    ======================== -->
+    <!-- VIEW 2: CATEGORY FULL -->
     <div id="view-category" class="view-section bg-wa-bg min-h-screen">
         <div class="sticky top-0 z-40 bg-gradient-to-r from-wa-header to-[#102924] shadow-md border-b border-wa-divider">
             <div class="px-2 h-14 flex items-center gap-3 max-w-md mx-auto">
@@ -320,12 +244,8 @@
         <div id="cat-grid-container" class="max-w-md mx-auto p-3 grid grid-cols-2 gap-3"></div>
     </div>
 
-
-    <!-- =======================
-         VIEW 3: DETAIL PRODUCT (RESTORED)
-    ======================== -->
+    <!-- VIEW 3: DETAIL PRODUCT -->
     <div id="view-detail" class="view-section bg-wa-bg min-h-screen">
-        <!-- Header Detail -->
         <div class="fixed top-0 w-full z-50 max-w-md mx-auto left-0 right-0 pointer-events-none">
             <div class="flex justify-between items-center p-4 bg-gradient-to-b from-black/70 to-transparent">
                 <button onclick="goBack()" class="bg-black/30 backdrop-blur-md p-2 rounded-full text-white hover:bg-black/50 transition pointer-events-auto border border-white/10">
@@ -333,34 +253,18 @@
                 </button>
             </div>
         </div>
-
-        <!-- Image Slider -->
         <div class="max-w-md mx-auto relative bg-black group">
             <div class="w-full aspect-square relative overflow-hidden">
                 <div id="detail-slider" class="flex overflow-x-auto snap-x snap-mandatory hide-scroll h-full items-center px-4 gap-3 smooth-scroll touch-allow-all"></div>
-                
                 <div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div class="bg-black/50 backdrop-blur px-3 py-1 rounded-full border border-white/20">
-                        <span class="text-white text-xs font-medium">Klik untuk memperbesar</span>
-                    </div>
+                    <div class="bg-black/50 backdrop-blur px-3 py-1 rounded-full border border-white/20"><span class="text-white text-xs font-medium">Klik untuk memperbesar</span></div>
                 </div>
-
-                <button onclick="scrollSlider(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md p-2 rounded-full text-white border border-white/10 hover:bg-black/60 transition z-10">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                </button>
-                <button onclick="scrollSlider(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md p-2 rounded-full text-white border border-white/10 hover:bg-black/60 transition z-10 animate-pulse">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                </button>
+                <button onclick="scrollSlider(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md p-2 rounded-full text-white border border-white/10 hover:bg-black/60 transition z-10"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
+                <button onclick="scrollSlider(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 backdrop-blur-md p-2 rounded-full text-white border border-white/10 hover:bg-black/60 transition z-10 animate-pulse"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
             </div>
-            
-            <div class="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
-                <div id="slider-progress" class="h-full bg-wa-teal transition-all duration-300 w-[10%] shadow-[0_0_10px_rgba(0,168,132,0.5)]"></div>
-            </div>
+            <div class="absolute bottom-0 left-0 right-0 h-1 bg-white/10"><div id="slider-progress" class="h-full bg-wa-teal transition-all duration-300 w-[10%] shadow-[0_0_10px_rgba(0,168,132,0.5)]"></div></div>
         </div>
-
-        <!-- Content Body -->
         <div class="max-w-md mx-auto bg-wa-bg p-5 pb-24">
-            <!-- Title & Price -->
             <div class="border-b border-wa-divider pb-5 mb-5">
                 <div class="flex justify-between items-start">
                     <h1 id="detail-title" class="text-xl font-bold text-wa-light leading-snug tracking-tight"></h1>
@@ -372,329 +276,104 @@
                 </div>
                 <div id="detail-preview-buttons" class="mt-6"></div>
             </div>
-
-            <!-- Description -->
             <div class="space-y-3">
-                <h3 class="text-xs font-bold text-wa-gray uppercase tracking-widest flex items-center gap-2">
-                    <span class="w-1 h-4 bg-wa-teal rounded-full"></span>
-                    Deskripsi Item
-                </h3>
+                <h3 class="text-xs font-bold text-wa-gray uppercase tracking-widest flex items-center gap-2"><span class="w-1 h-4 bg-wa-teal rounded-full"></span>Deskripsi Item</h3>
                 <p id="detail-desc" class="text-sm text-wa-light leading-relaxed whitespace-pre-line"></p>
             </div>
-
-            <!-- PHOTO REQUIRED ALERT -->
             <div id="detail-photo-alert" class="mt-6 hidden"></div>
-
-            <!-- Variants Chips -->
             <div class="mt-8 pt-5 border-t border-wa-divider">
-                <h3 class="text-xs font-bold text-wa-gray uppercase tracking-widest mb-3 flex items-center gap-2">
-                    <span class="w-1 h-4 bg-wa-teal rounded-full"></span>
-                    VARIAN TEMA
-                </h3>
+                <h3 class="text-xs font-bold text-wa-gray uppercase tracking-widest mb-3 flex items-center gap-2"><span class="w-1 h-4 bg-wa-teal rounded-full"></span>VARIAN TEMA</h3>
                 <div id="detail-variants" class="flex flex-wrap gap-2"></div>
             </div>
-
-            <!-- FEATURES CHIPS SECTION -->
             <div class="mt-8 pt-5 border-t border-wa-divider">
-                <h3 class="text-xs font-bold text-wa-gray uppercase tracking-widest mb-4 flex items-center gap-2">
-                    <span class="w-1 h-4 bg-wa-teal rounded-full"></span>
-                    FITUR LENGKAP
-                </h3>
+                <h3 class="text-xs font-bold text-wa-gray uppercase tracking-widest mb-4 flex items-center gap-2"><span class="w-1 h-4 bg-wa-teal rounded-full"></span>FITUR LENGKAP</h3>
                 <div id="detail-features" class="flex flex-wrap gap-2"></div>
             </div>
-
-            <!-- EXTRA SERVICES SECTION (NEW) -->
             <div class="mt-8 pt-5 border-t border-wa-divider">
-                <h3 class="text-xs font-bold text-wa-gray uppercase tracking-widest mb-1 flex items-center gap-2">
-                    <span class="w-1 h-4 bg-wa-teal rounded-full"></span>
-                    EXTRA SERVICES
-                </h3>
+                <h3 class="text-xs font-bold text-wa-gray uppercase tracking-widest mb-1 flex items-center gap-2"><span class="w-1 h-4 bg-wa-teal rounded-full"></span>EXTRA SERVICES</h3>
                 <p class="text-[10px] text-wa-gray/80 italic mb-4 ml-3">Janji Kami Buat Kamu!</p>
                 <div id="detail-extra-services" class="flex flex-wrap gap-2"></div>
             </div>
         </div>
-
-        <!-- Sticky Footer -->
         <div class="fixed bottom-0 w-full bg-wa-header/95 backdrop-blur-md border-t border-wa-divider p-3 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.2)]">
             <div class="max-w-md mx-auto flex gap-3">
-                <button onclick="kirimPesanWA()" class="flex-1 bg-wa-teal text-white font-bold py-3.5 rounded-full shadow-lg shadow-wa-teal/20 text-sm flex justify-center items-center gap-2 hover:bg-[#008f6f] active:scale-[0.98] transition group">
-                    <svg class="w-5 h-5 group-hover:animate-bounce" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                        Konsultasi Gratis
-                    </button>
-                </div>
+                <button onclick="kirimPesanWA()" class="flex-1 bg-wa-teal text-white font-bold py-3.5 rounded-full shadow-lg shadow-wa-teal/20 text-sm flex justify-center items-center gap-2 hover:bg-[#008f6f] active:scale-[0.98] transition group"><svg class="w-5 h-5 group-hover:animate-bounce" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>Konsultasi Gratis</button>
             </div>
         </div>
+    </div>
 
-        <!-- =======================
-             COMPONENTS: MODALS / SHEETS
-        ======================== -->
-        
-        <!-- Fullscreen Gallery -->
-        <div id="view-gallery" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm gallery-closed flex justify-center">
-            <div class="relative w-full max-w-md h-full bg-black shadow-2xl flex flex-col border-x border-wa-divider/30">
-                <div class="absolute top-0 left-0 right-0 z-50 bg-[#111b21]/80 backdrop-blur-md border-b border-white/10 p-4 flex justify-between items-center shadow-lg transition-all duration-300">
-                    <div class="flex flex-col">
-                        <h3 id="gallery-title" class="text-wa-light font-bold text-base leading-tight drop-shadow-md">Nama Tema</h3>
-                        <p id="gallery-price" class="text-wa-teal font-medium text-xs mt-0.5 tracking-wide">Rp 0</p>
-                    </div>
-                    <button onclick="closeGallery()" class="bg-black/30 text-white p-2 rounded-full backdrop-blur-md border border-white/10 hover:bg-white/10 transition shadow-lg active:scale-90 flex items-center justify-center">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
-                </div>
-                <div id="gallery-container" class="flex-1 w-full h-full overflow-y-auto bg-black hide-scroll smooth-scroll pt-24"></div>
-                <div class="absolute bottom-8 left-0 right-0 text-center pointer-events-none opacity-80">
-                    <span class="bg-black/60 text-white text-[10px] px-4 py-2 rounded-full backdrop-blur border border-white/10 font-medium tracking-widest uppercase shadow-lg">Scroll Down</span>
-                </div>
+    <!-- SHEETS & MODALS -->
+    <div id="view-gallery" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm gallery-closed flex justify-center">
+        <div class="relative w-full max-w-md h-full bg-black shadow-2xl flex flex-col border-x border-wa-divider/30">
+            <div class="absolute top-0 left-0 right-0 z-50 bg-[#111b21]/80 backdrop-blur-md border-b border-white/10 p-4 flex justify-between items-center shadow-lg transition-all duration-300">
+                <div class="flex flex-col"><h3 id="gallery-title" class="text-wa-light font-bold text-base leading-tight drop-shadow-md">Nama Tema</h3><p id="gallery-price" class="text-wa-teal font-medium text-xs mt-0.5 tracking-wide">Rp 0</p></div>
+                <button onclick="closeGallery()" class="bg-black/30 text-white p-2 rounded-full backdrop-blur-md border border-white/10 hover:bg-white/10 transition shadow-lg active:scale-90 flex items-center justify-center"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            </div>
+            <div id="gallery-container" class="flex-1 w-full h-full overflow-y-auto bg-black hide-scroll smooth-scroll pt-24"></div>
+            <div class="absolute bottom-8 left-0 right-0 text-center pointer-events-none opacity-80"><span class="bg-black/60 text-white text-[10px] px-4 py-2 rounded-full backdrop-blur border border-white/10 font-medium tracking-widest uppercase shadow-lg">Scroll Down</span></div>
+        </div>
+    </div>
+
+    <div id="backdrop-order-sheet" onclick="closeSheet('order-sheet')" class="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm backdrop-closed transition-opacity duration-300 hidden"></div>
+    <div id="order-sheet" class="fixed bottom-0 left-0 right-0 z-[61] bg-[#202c33] rounded-t-[2rem] p-6 sheet-closed border-t border-wa-divider shadow-2xl max-w-md mx-auto">
+        <div class="w-12 h-1.5 bg-wa-divider rounded-full mx-auto mb-6"></div>
+        <h3 class="text-xl font-bold text-white mb-6 text-center">📜 Cara Pemesanan</h3>
+        <div class="space-y-4">
+            <div class="flex items-start gap-4"><div class="w-8 h-8 rounded-full bg-wa-teal text-white flex items-center justify-center font-bold text-sm shrink-0">1</div><div><h4 class="text-sm font-bold text-white">Pilih Desain</h4><p class="text-xs text-wa-gray leading-relaxed">Pilih tema undangan yang kamu suka dari katalog kami.</p></div></div>
+            <div class="flex items-start gap-4"><div class="w-8 h-8 rounded-full bg-wa-teal text-white flex items-center justify-center font-bold text-sm shrink-0">2</div><div><h4 class="text-sm font-bold text-white">Klik Tombol Pesan</h4><p class="text-xs text-wa-gray leading-relaxed">Klik tombol "Pesan via WhatsApp" di bagian bawah layar.</p></div></div>
+            <div class="flex items-start gap-4"><div class="w-8 h-8 rounded-full bg-wa-teal text-white flex items-center justify-center font-bold text-sm shrink-0">3</div><div><h4 class="text-sm font-bold text-white">Isi Data</h4><p class="text-xs text-wa-gray leading-relaxed">Admin akan mengirimkan formulir data mempelai untuk diisi.</p></div></div>
+            <div class="flex items-start gap-4"><div class="w-8 h-8 rounded-full bg-wa-teal text-white flex items-center justify-center font-bold text-sm shrink-0">4</div><div><h4 class="text-sm font-bold text-white">Proses Pengerjaan</h4><p class="text-xs text-wa-gray leading-relaxed">Undangan akan diproses 1-2 hari kerja setelah data lengkap.</p></div></div>
+        </div>
+        <button onclick="kirimPesanUmum()" class="mt-8 w-full bg-wa-teal py-3.5 rounded-xl text-sm font-bold text-white hover:bg-[#008f6f] transition shadow-lg">Chat Admin Sekarang</button>
+    </div>
+
+    <div id="backdrop-animasi-sheet" onclick="closeSheet('animasi-sheet')" class="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm backdrop-closed transition-opacity duration-300 hidden"></div>
+    <div id="animasi-sheet" class="fixed bottom-0 left-0 right-0 z-[61] bg-[#202c33] rounded-t-[2rem] p-6 sheet-closed border-t border-wa-divider shadow-2xl max-w-md mx-auto max-h-[85vh] overflow-y-auto hide-scroll">
+        <div class="w-12 h-1.5 bg-wa-divider rounded-full mx-auto mb-6"></div>
+        <div class="text-center mb-6">
+            <span class="inline-block px-3 py-1 bg-red-500/10 text-red-400 text-[10px] font-bold rounded-full mb-2 border border-red-500/20">GRATIS UNTUK SEMUA PAKET</span>
+            <h3 class="text-xl font-bold text-white">🎬 Pilih Animasi Digital</h3>
+            <p class="text-xs text-wa-gray mt-1">Percantik undanganmu dengan karakter bergerak.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-3 mb-6">
+            <div class="bg-[#111b21] p-2 rounded-xl border border-wa-divider text-center group cursor-pointer hover:border-wa-teal transition">
+                <div class="aspect-square bg-[#202c33] rounded-lg mb-2 overflow-hidden"><img src="https://ik.imagekit.io/undangandigital/assets/anim-1.gif?tr=w-200" onerror="this.src='https://placehold.co/200x200/202c33/00a884?text=Bunga+Mekar'" class="w-full h-full object-cover"></div><span class="text-[10px] font-medium text-wa-light">Bunga Mekar</span>
+            </div>
+            <div class="bg-[#111b21] p-2 rounded-xl border border-wa-divider text-center group cursor-pointer hover:border-wa-teal transition">
+                <div class="aspect-square bg-[#202c33] rounded-lg mb-2 overflow-hidden"><img src="https://ik.imagekit.io/undangandigital/assets/anim-2.gif?tr=w-200" onerror="this.src='https://placehold.co/200x200/202c33/00a884?text=Merpati'" class="w-full h-full object-cover"></div><span class="text-[10px] font-medium text-wa-light">Merpati Terbang</span>
+            </div>
+            <div class="bg-[#111b21] p-2 rounded-xl border border-wa-divider text-center group cursor-pointer hover:border-wa-teal transition">
+                <div class="aspect-square bg-[#202c33] rounded-lg mb-2 overflow-hidden"><img src="https://ik.imagekit.io/undangandigital/assets/anim-3.gif?tr=w-200" onerror="this.src='https://placehold.co/200x200/202c33/00a884?text=Sparkle'" class="w-full h-full object-cover"></div><span class="text-[10px] font-medium text-wa-light">Sparkle Gold</span>
+            </div>
+            <div class="bg-[#111b21] p-2 rounded-xl border border-wa-divider text-center group cursor-pointer hover:border-wa-teal transition">
+                <div class="aspect-square bg-[#202c33] rounded-lg mb-2 overflow-hidden"><img src="https://ik.imagekit.io/undangandigital/assets/anim-4.gif?tr=w-200" onerror="this.src='https://placehold.co/200x200/202c33/00a884?text=Kupu-kupu'" class="w-full h-full object-cover"></div><span class="text-[10px] font-medium text-wa-light">Kupu-kupu</span>
             </div>
         </div>
+        <button onclick="alert('Mengarahkan ke halaman koleksi animasi...')" class="w-full bg-[#2a373f] py-3.5 rounded-xl text-sm font-bold text-wa-teal border border-wa-divider hover:bg-wa-divider transition">Lihat 50+ Koleksi Lainnya</button>
+    </div>
 
-        <!-- NEW: CARA ORDER SHEET -->
-        <div id="backdrop-order-sheet" onclick="closeSheet('order-sheet')" class="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm backdrop-closed transition-opacity duration-300 hidden"></div>
-        <div id="order-sheet" class="fixed bottom-0 left-0 right-0 z-[61] bg-[#202c33] rounded-t-[2rem] p-6 sheet-closed border-t border-wa-divider shadow-2xl max-w-md mx-auto">
-            <div class="w-12 h-1.5 bg-wa-divider rounded-full mx-auto mb-6"></div>
-            <h3 class="text-xl font-bold text-white mb-6 text-center">📜 Cara Pemesanan</h3>
-            
-            <div class="space-y-4">
-                <div class="flex items-start gap-4">
-                    <div class="w-8 h-8 rounded-full bg-wa-teal text-white flex items-center justify-center font-bold text-sm shrink-0">1</div>
-                    <div>
-                        <h4 class="text-sm font-bold text-white">Pilih Desain</h4>
-                        <p class="text-xs text-wa-gray leading-relaxed">Pilih tema undangan yang kamu suka dari katalog kami.</p>
-                    </div>
-                </div>
-                <div class="flex items-start gap-4">
-                    <div class="w-8 h-8 rounded-full bg-wa-teal text-white flex items-center justify-center font-bold text-sm shrink-0">2</div>
-                    <div>
-                        <h4 class="text-sm font-bold text-white">Klik Tombol Pesan</h4>
-                        <p class="text-xs text-wa-gray leading-relaxed">Klik tombol "Pesan via WhatsApp" di bagian bawah layar.</p>
-                    </div>
-                </div>
-                <div class="flex items-start gap-4">
-                    <div class="w-8 h-8 rounded-full bg-wa-teal text-white flex items-center justify-center font-bold text-sm shrink-0">3</div>
-                    <div>
-                        <h4 class="text-sm font-bold text-white">Isi Data</h4>
-                        <p class="text-xs text-wa-gray leading-relaxed">Admin akan mengirimkan formulir data mempelai untuk diisi.</p>
-                    </div>
-                </div>
-                <div class="flex items-start gap-4">
-                    <div class="w-8 h-8 rounded-full bg-wa-teal text-white flex items-center justify-center font-bold text-sm shrink-0">4</div>
-                    <div>
-                        <h4 class="text-sm font-bold text-white">Proses Pengerjaan</h4>
-                        <p class="text-xs text-wa-gray leading-relaxed">Undangan akan diproses 1-2 hari kerja setelah data lengkap.</p>
-                    </div>
-                </div>
-            </div>
-
-            <button onclick="kirimPesanUmum()" class="mt-8 w-full bg-wa-teal py-3.5 rounded-xl text-sm font-bold text-white hover:bg-[#008f6f] transition shadow-lg">
-                Chat Admin Sekarang
-            </button>
+    <div id="feature-backdrop" onclick="closeFeatureSheet()" class="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm backdrop-closed transition-opacity duration-300"></div>
+    <div id="feature-sheet" class="fixed bottom-0 left-0 right-0 z-[61] bg-[#202c33] rounded-t-[2rem] p-6 sheet-closed border-t border-wa-divider shadow-2xl max-w-md mx-auto">
+        <div class="w-12 h-1.5 bg-wa-divider rounded-full mx-auto mb-6"></div>
+        <div class="flex items-start gap-4">
+            <div id="sheet-icon" class="bg-wa-teal/10 p-3 rounded-xl text-wa-teal shrink-0"></div>
+            <div><h3 id="sheet-title" class="text-lg font-bold text-white mb-2"></h3><p id="sheet-desc" class="text-sm text-wa-gray leading-relaxed"></p></div>
         </div>
-
-        <!-- NEW: ANIMASI GRATIS SHEET -->
-        <div id="backdrop-animasi-sheet" onclick="closeSheet('animasi-sheet')" class="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm backdrop-closed transition-opacity duration-300 hidden"></div>
-        <div id="animasi-sheet" class="fixed bottom-0 left-0 right-0 z-[61] bg-[#202c33] rounded-t-[2rem] p-6 sheet-closed border-t border-wa-divider shadow-2xl max-w-md mx-auto max-h-[85vh] overflow-y-auto hide-scroll">
-            <div class="w-12 h-1.5 bg-wa-divider rounded-full mx-auto mb-6"></div>
-            <div class="text-center mb-6">
-                <span class="inline-block px-3 py-1 bg-red-500/10 text-red-400 text-[10px] font-bold rounded-full mb-2 border border-red-500/20">GRATIS UNTUK SEMUA PAKET</span>
-                <h3 class="text-xl font-bold text-white">🎬 Pilih Animasi Digital</h3>
-                <p class="text-xs text-wa-gray mt-1">Percantik undanganmu dengan karakter bergerak.</p>
-            </div>
-            
-            <div class="grid grid-cols-2 gap-3 mb-6">
-                <!-- Mockup Animasi Items (Using Placeholders) -->
-                <div class="bg-[#111b21] p-2 rounded-xl border border-wa-divider text-center group cursor-pointer hover:border-wa-teal transition">
-                    <div class="aspect-square bg-[#202c33] rounded-lg mb-2 overflow-hidden">
-                        <img src="https://ik.imagekit.io/undangandigital/assets/anim-1.gif?tr=w-200" onerror="this.src='https://placehold.co/200x200/202c33/00a884?text=Bunga+Mekar'" class="w-full h-full object-cover">
-                    </div>
-                    <span class="text-[10px] font-medium text-wa-light">Bunga Mekar</span>
-                </div>
-                <div class="bg-[#111b21] p-2 rounded-xl border border-wa-divider text-center group cursor-pointer hover:border-wa-teal transition">
-                    <div class="aspect-square bg-[#202c33] rounded-lg mb-2 overflow-hidden">
-                        <img src="https://ik.imagekit.io/undangandigital/assets/anim-2.gif?tr=w-200" onerror="this.src='https://placehold.co/200x200/202c33/00a884?text=Merpati'" class="w-full h-full object-cover">
-                    </div>
-                    <span class="text-[10px] font-medium text-wa-light">Merpati Terbang</span>
-                </div>
-                <div class="bg-[#111b21] p-2 rounded-xl border border-wa-divider text-center group cursor-pointer hover:border-wa-teal transition">
-                    <div class="aspect-square bg-[#202c33] rounded-lg mb-2 overflow-hidden">
-                        <img src="https://ik.imagekit.io/undangandigital/assets/anim-3.gif?tr=w-200" onerror="this.src='https://placehold.co/200x200/202c33/00a884?text=Sparkle'" class="w-full h-full object-cover">
-                    </div>
-                    <span class="text-[10px] font-medium text-wa-light">Sparkle Gold</span>
-                </div>
-                 <div class="bg-[#111b21] p-2 rounded-xl border border-wa-divider text-center group cursor-pointer hover:border-wa-teal transition">
-                    <div class="aspect-square bg-[#202c33] rounded-lg mb-2 overflow-hidden">
-                        <img src="https://ik.imagekit.io/undangandigital/assets/anim-4.gif?tr=w-200" onerror="this.src='https://placehold.co/200x200/202c33/00a884?text=Kupu-kupu'" class="w-full h-full object-cover">
-                    </div>
-                    <span class="text-[10px] font-medium text-wa-light">Kupu-kupu</span>
-                </div>
-            </div>
-
-            <button onclick="alert('Mengarahkan ke halaman koleksi animasi...')" class="w-full bg-[#2a373f] py-3.5 rounded-xl text-sm font-bold text-wa-teal border border-wa-divider hover:bg-wa-divider transition">
-                Lihat 50+ Koleksi Lainnya
-            </button>
-        </div>
-
-        <!-- Feature Detail Bottom Sheet (Existing) -->
-        <div id="feature-backdrop" onclick="closeFeatureSheet()" class="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm backdrop-closed transition-opacity duration-300"></div>
-        <div id="feature-sheet" class="fixed bottom-0 left-0 right-0 z-[61] bg-[#202c33] rounded-t-[2rem] p-6 sheet-closed border-t border-wa-divider shadow-2xl max-w-md mx-auto">
-            <div class="w-12 h-1.5 bg-wa-divider rounded-full mx-auto mb-6"></div>
-            <div class="flex items-start gap-4">
-                <div id="sheet-icon" class="bg-wa-teal/10 p-3 rounded-xl text-wa-teal shrink-0"></div>
-                <div>
-                    <h3 id="sheet-title" class="text-lg font-bold text-white mb-2"></h3>
-                    <p id="sheet-desc" class="text-sm text-wa-gray leading-relaxed"></p>
-                </div>
-            </div>
-            <button onclick="closeFeatureSheet()" class="mt-8 w-full bg-wa-button py-3 rounded-xl text-sm font-medium text-wa-teal hover:bg-wa-divider transition">Tutup</button>
-        </div>
-
+        <button onclick="closeFeatureSheet()" class="mt-8 w-full bg-wa-button py-3 rounded-xl text-sm font-medium text-wa-teal hover:bg-wa-divider transition">Tutup</button>
+    </div>
 
     <!-- SCRIPT LOGIC -->
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyDq6LjlUFRDm5CqGSqVLiJ9gItIyw71bAU",
-            authDomain: "db-katalog.firebaseapp.com",
-            projectId: "db-katalog",
-            storageBucket: "db-katalog.firebasestorage.app",
-            messagingSenderId: "597535674259",
-            appId: "1:597535674259:web:0577885c617f623bb82266"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        let allProducts = [];
-        let groupedProducts = {};
-        // DEFAULT CATEGORY FILTER
-        let currentCategoryFilter = 'tema-wedding'; 
-
-        const IMAGEKIT_BASE = "https://ik.imagekit.io/undangandigital";
+        // --- 1. DEFINISI DATA CONSTANT DI ATAS (AGAR AMAN) ---
         
-        // BASE ORDER FOR WEDDING (DEFAULT)
-        const TIER_ORDER = [
-            "Starter", "Bronze", "Silver", "Gold", "Platinum", "Diamond", 
-            "Birthday", "Khitan", "Aqiqah",
-            "Tema Adat Jawa", "Tema Adat Bugis", "Tema Adat Batak", "Tema Adat Karo", "Tema Adat Nias"
+        // ADD-ON FEATURES FOR FORMAL EVENTS
+        const FORMAL_FEATURES_ADDONS = [
+            { id: 'rundown', title: "Rundown Acara", icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z", desc: "Daftar susunan acara dari pembukaan hingga penutupan agar tamu mengetahui jadwal kegiatan." },
+            { id: 'speakers', title: "Profil Pembicara", icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z", desc: "Menampilkan foto dan bio singkat pembicara/narasumber untuk meningkatkan nilai jual acara." },
+            { id: 'materials', title: "Download Materi", icon: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4", desc: "Link khusus jika acara tersebut menyediakan file materi atau e-sertifikat yang bisa diunduh tamu." },
+            { id: 'sponsors', title: "Logo Partner", icon: "M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z", desc: "Section khusus untuk menampilkan logo-logo perusahaan partner atau sponsor yang bekerja sama." }
         ];
-        
-        // --- DINAMIS EMOJI CONFIG ---
-        // Awalnya kosong, akan diisi dari Database 'config/tiers'
-        let TIER_CONFIG = {};
 
-        // MAPPING UI KEYS TO DB VALUES AND DISPLAY INFO
-        const CATEGORY_DATA = {
-            'Wedding': { id: 'tema-wedding', label: 'Wedding Collections', icon: '💍', desc: 'Temukan desain undangan pernikahan impian Anda.' },
-            'Kids': { id: 'acara-anak', label: 'Kids Collections', icon: '🎈', desc: 'Tema ceria untuk Aqiqah, Ulang Tahun, dan Khitan.' },
-            'Formal': { id: 'acara-formal', label: 'Formal Events', icon: '🏢', desc: 'Undangan resmi untuk Seminar, Rapat, dan Gathering.' },
-            'Teen': { id: 'teen-and-card', label: 'Teen & Cards', icon: '🎸', desc: 'Desain kekinian untuk Sweet 17 dan Ucapan Digital.' },
-            'School': { id: 'school-and-graduation', label: 'School & Grad', icon: '🎓', desc: 'Rayakan kelulusan dan perpisahan sekolah.' },
-            'Lainnya': { id: 'acara-lainnya', label: 'Other Events', icon: '📂', desc: 'Berbagai tema unik untuk kebutuhan acaramu.' }
-        };
-
-        // --- NEW: SCROLL LOGIC FOR STICKY HEADER ---
-        let lastScrollTop = 0;
-        const smartHeader = document.getElementById('smart-header');
-        
-        window.addEventListener('scroll', function() {
-            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            // Show header after scrolling past 300px
-            if (scrollTop > 300) {
-                smartHeader.classList.remove('header-hidden');
-                smartHeader.classList.add('header-visible');
-            } else {
-                smartHeader.classList.remove('header-visible');
-                smartHeader.classList.add('header-hidden');
-            }
-            lastScrollTop = scrollTop;
-        });
-
-        function scrollToTop() {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        // --- UPDATED: CATEGORY SELECTION LOGIC ---
-        function selectCategory(uiKey) {
-            const catData = CATEGORY_DATA[uiKey];
-            if (!catData) return;
-
-            // 1. Update State
-            currentCategoryFilter = catData.id;
-
-            // 2. Update Header & Collection Title
-            document.getElementById('header-cat-text').innerText = uiKey; // Keep UI Key for button label
-            document.getElementById('header-cat-icon').innerText = catData.icon;
-            
-            // Update Section Divider Title & Desc
-            document.getElementById('collection-title').innerText = catData.label;
-            document.getElementById('collection-desc').innerText = catData.desc;
-
-            // 3. Re-Render List based on new filter
-            renderHome();
-
-            // 4. Smooth Scroll with Offset
-            const target = document.getElementById('tier-list-container');
-            if (target) {
-                const headerOffset = 85; 
-                const elementPosition = target.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-            
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth"
-                });
-            }
-        }
-
-        // --- NEW: GENERIC SHEET LOGIC ---
-        function openSheet(id) {
-            const sheet = document.getElementById(id);
-            const backdrop = document.getElementById('backdrop-' + id);
-            
-            if(backdrop) {
-                backdrop.classList.remove('hidden');
-                // Small delay to allow display:block to apply before opacity transition
-                setTimeout(() => {
-                    backdrop.classList.remove('backdrop-closed');
-                    backdrop.classList.add('backdrop-open');
-                }, 10);
-            }
-            
-            if(sheet) {
-                sheet.classList.remove('sheet-closed');
-                sheet.classList.add('sheet-open');
-            }
-        }
-
-        function closeSheet(id) {
-            const sheet = document.getElementById(id);
-            const backdrop = document.getElementById('backdrop-' + id);
-            
-            if(sheet) {
-                sheet.classList.remove('sheet-open');
-                sheet.classList.add('sheet-closed');
-            }
-            
-            if(backdrop) {
-                backdrop.classList.remove('backdrop-open');
-                backdrop.classList.add('backdrop-closed');
-                setTimeout(() => {
-                    backdrop.classList.add('hidden');
-                }, 300); // Wait for transition
-            }
-        }
-
-        function kirimPesanUmum() {
-            const text = `Halo Admin 👋\nSaya ingin konsultasi mengenai pemesanan undangan digital.`;
-            const url = `https://wa.me/6285117173637?text=${encodeURIComponent(text)}`;
-            window.open(url, '_blank');
-        }
-
-        function kirimPesanCustom() {
-            const text = `Halo Admin 👋\nSaya tertarik untuk order Undangan Custom Design yang exclusive. Bisa info detailnya?`;
-            const url = `https://wa.me/6285117173637?text=${encodeURIComponent(text)}`;
-            window.open(url, '_blank');
-        }
-
-        // --- EXISTING LOGIC ---
         // DATA FITUR LENGKAP
         const FEATURES_DB = [
             { id: 'guest', title: "Custom Nama Tamu", icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z", desc: "Sebarkan undanganmu lebih personal dengan menulis nama mereka secara otomatis pada cover undangan." },
@@ -711,20 +390,142 @@
             { id: 'quotes', title: "Ayat & Quotes", icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253", desc: "Tampilkan ayat suci atau kata-kata mutiara favoritmu sebagai pemanis undangan." },
             { id: 'maps', title: "Peta Navigasi", icon: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z", desc: "Panduan lokasi acara akurat dengan Google Maps agar tamu mudah menemukan tempatnya." },
             { id: 'tools', title: "Sender Tools", icon: "M12 19l9 2-9-18-9 18 9-2zm0 0v-8", desc: "Fitur eksklusif untuk mengirim undangan ke banyak kontak WhatsApp secara otomatis & personal." },
-            // NEW FEATURES: Dwigital Exclusive
             { id: 'qrcode', title: "QR Code Check In", icon: "M12 4v1m6 11h2m-6 0h-2v4h2v-4zm-6 12v-2m0 0v-2m0 2H4m8-10V4m6 11v-4m-6 4H4m8 0h2m-6 0h2v4H6v-4zm2-6h2v4h-2V9zm-2 0h-2v4h2V9zm-6 0H4v4h2V9zm6-6h2v4h-2V3zm-2 0h-2v4h2V3zm-6 0H4v4h2V3z", desc: "Dapatkan Buku Tamu digital sekaligus QR Code otomatis yang akan membantumu mengetahui apakah tamu yang kamu undang hadir ke acaramu beserta waktu check in-nya" },
             { id: 'screen', title: "Layar Sapa", icon: "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z", desc: "Layar Sapa Real Time. Saat tamu berhasil check in ke acaramu, maka nama tamu akan ditampilkan di layar sapa yang telah disediakan, sehingga tamu merasa lebih dihormati dan dihargai." }
         ];
 
-        // NEW: EXTRA SERVICES DATA
         const EXTRA_SERVICES_DB = [
             { id: 'revisi', title: "Free Revisi", icon: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15", desc: "Kami memastikan undangan yang kamu pesan tanpa ada kendala, untuk itu kami beri jaminan Revisi Gratis hingga hari H." },
             { id: 'fee', title: "Fixed Fee", icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z", desc: "Kami memastikan harga yang tertera di katalog adalah harga final yang perlu kamu bayar. Tanpa biaya ini itu!" },
             { id: 'response', title: "Fast Response", icon: "M13 10V3L4 14h7v7l9-11h-7z", desc: "Kami akan selalu berupaya untuk membalas pesanmu secepat yang kami bisa. Dan juga seramah yang kami bisa tentunya ^^" },
-            { id: 'pro', title: "Profesional", icon: "M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z", desc: "Kami memastikan bahwa undangan yang kamu pesan dikerjakan dengan hati, profesional, baik, dan sungguh-sungguh." },
+            { id: 'pro', title: "Profesional", icon: "M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z", desc: "Kami memastikan bahwa undangan yang kamu pesan dikerjakan dengan hati, profesional, baik, dan sungguh-sungguh." },
             { id: 'privacy', title: "Privasi Data", icon: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z", desc: "Kami memastikan semua data yang kamu kirim, termasuk nama, foto, alamat, nomor WA, aman dan tidak disalahgunakan." },
             { id: 'pay', title: "Bayar Setelah Jadi", icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z", desc: "Yup! Ini adalah bukti keseriusan kami dalam menjalankan usaha. Kami percaya orang baik pasti bertemu dengan orang baik." }
         ];
+
+        // --- 2. CONFIGURATION & STATE ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyDq6LjlUFRDm5CqGSqVLiJ9gItIyw71bAU",
+            authDomain: "db-katalog.firebaseapp.com",
+            projectId: "db-katalog",
+            storageBucket: "db-katalog.firebasestorage.app",
+            messagingSenderId: "597535674259",
+            appId: "1:597535674259:web:0577885c617f623bb82266"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        let allProducts = [];
+        let groupedProducts = {};
+        let currentCategoryFilter = 'tema-wedding'; 
+        let TIER_CONFIG = {};
+
+        const IMAGEKIT_BASE = "https://ik.imagekit.io/undangandigital";
+        
+        const TIER_ORDER = [
+            "Starter", "Bronze", "Silver", "Gold", "Platinum", "Diamond", 
+            "Birthday", "Khitan", "Aqiqah",
+            "Tema Adat Jawa", "Tema Adat Bugis", "Tema Adat Batak", "Tema Adat Karo", "Tema Adat Nias"
+        ];
+
+        const CATEGORY_DATA = {
+            'Wedding': { id: 'tema-wedding', label: 'Wedding Collections', icon: '💍', desc: 'Temukan desain undangan pernikahan impian Anda.' },
+            'Kids': { id: 'acara-anak', label: 'Kids Collections', icon: '🎈', desc: 'Tema ceria untuk Aqiqah, Ulang Tahun, dan Khitan.' },
+            'Formal': { id: 'acara-formal', label: 'Formal Events', icon: '🏢', desc: 'Undangan resmi untuk Seminar, Rapat, dan Gathering.' },
+            'Teen': { id: 'teen-and-card', label: 'Teen & Cards', icon: '🎸', desc: 'Desain kekinian untuk Sweet 17 dan Ucapan Digital.' },
+            'School': { id: 'school-and-graduation', label: 'School & Grad', icon: '🎓', desc: 'Rayakan kelulusan dan perpisahan sekolah.' },
+            'Lainnya': { id: 'acara-lainnya', label: 'Other Events', icon: '📂', desc: 'Berbagai tema unik untuk kebutuhan acaramu.' }
+        };
+
+        // --- 3. UI LOGIC ---
+        
+        let lastScrollTop = 0;
+        const smartHeader = document.getElementById('smart-header');
+        
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > 300) {
+                smartHeader.classList.remove('header-hidden');
+                smartHeader.classList.add('header-visible');
+            } else {
+                smartHeader.classList.remove('header-visible');
+                smartHeader.classList.add('header-hidden');
+            }
+            lastScrollTop = scrollTop;
+        });
+
+        function scrollToTop() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function selectCategory(uiKey) {
+            const catData = CATEGORY_DATA[uiKey];
+            if (!catData) return;
+
+            currentCategoryFilter = catData.id;
+
+            document.getElementById('header-cat-text').innerText = uiKey; 
+            document.getElementById('header-cat-icon').innerText = catData.icon;
+            
+            document.getElementById('collection-title').innerText = catData.label;
+            document.getElementById('collection-desc').innerText = catData.desc;
+
+            renderHome();
+
+            const target = document.getElementById('tier-list-container');
+            if (target) {
+                const headerOffset = 85; 
+                const elementPosition = target.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+            }
+        }
+
+        function openSheet(id) {
+            const sheet = document.getElementById(id);
+            const backdrop = document.getElementById('backdrop-' + id);
+            
+            if(backdrop) {
+                backdrop.classList.remove('hidden');
+                setTimeout(() => {
+                    backdrop.classList.remove('backdrop-closed');
+                    backdrop.classList.add('backdrop-open');
+                }, 10);
+            }
+            if(sheet) {
+                sheet.classList.remove('sheet-closed');
+                sheet.classList.add('sheet-open');
+            }
+        }
+
+        function closeSheet(id) {
+            const sheet = document.getElementById(id);
+            const backdrop = document.getElementById('backdrop-' + id);
+            
+            if(sheet) {
+                sheet.classList.remove('sheet-open');
+                sheet.classList.add('sheet-closed');
+            }
+            if(backdrop) {
+                backdrop.classList.remove('backdrop-open');
+                backdrop.classList.add('backdrop-closed');
+                setTimeout(() => {
+                    backdrop.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        function kirimPesanUmum() {
+            const text = `Halo Admin 👋\nSaya ingin konsultasi mengenai pemesanan undangan digital.`;
+            const url = `https://wa.me/6285117173637?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+
+        function kirimPesanCustom() {
+            const text = `Halo Admin 👋\nSaya tertarik untuk order Undangan Custom Design yang exclusive. Bisa info detailnya?`;
+            const url = `https://wa.me/6285117173637?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
 
         window.addEventListener('hashchange', router);
 
@@ -732,7 +533,6 @@
             const hash = window.location.hash;
             closeGallery(); 
             closeFeatureSheet(); 
-            // Close other sheets on navigation
             closeSheet('order-sheet');
             closeSheet('animasi-sheet');
 
@@ -751,8 +551,14 @@
                 if (allProducts.length > 0) {
                     const item = allProducts.find(p => p.id === id);
                     if (item) {
-                        renderDetailView(item);
-                        switchView('view-detail');
+                        try {
+                            renderDetailView(item);
+                            switchView('view-detail');
+                        } catch (e) {
+                            console.error("Critical Error Render Detail:", e);
+                            alert("Maaf, terjadi kesalahan saat memuat detail tema ini.");
+                            window.location.hash = '#/';
+                        }
                     } else {
                         window.location.hash = '#/';
                     }
@@ -762,13 +568,11 @@
         }
 
         function switchView(viewId) {
-            // Safety Check: Pastikan elemen tujuan ada
             const targetElement = document.getElementById(viewId);
             if(!targetElement) {
                 console.error(`[Navigation Error] View dengan ID '${viewId}' tidak ditemukan.`);
                 return;
             }
-
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('view-active'));
             targetElement.classList.add('view-active');
             window.scrollTo(0,0);
@@ -784,23 +588,18 @@
 
         async function loadData() {
             try {
-                // 1. LOAD CONFIG EMOJI TERLEBIH DAHULU (Synchronous-like)
+                // 1. Load Config
                 try {
                     const configSnap = await db.collection('config').doc('tiers').get();
                     if (configSnap.exists) {
                         TIER_CONFIG = configSnap.data();
-                        console.log("Emoji Config Loaded:", TIER_CONFIG);
-                    } else {
-                        console.warn("Config tiers not found. Using defaults/fallback.");
                     }
                 } catch (errConfig) {
-                    console.error("Gagal load config emoji:", errConfig);
-                    // Lanjut tanpa emoji (fallback ke default)
+                    console.error("Config Error:", errConfig);
                 }
 
-                // 2. LOAD PRODUCTS
+                // 2. Load Products
                 const snapshot = await db.collection('themes').get();
-                
                 const loadingEl = document.getElementById('home-loading');
                 if (loadingEl) loadingEl.style.display = 'none';
 
@@ -819,13 +618,12 @@
                     let desc = d.description || '';
                     desc = desc.replace(/\n\uFFFD/g, '\n•').replace(/^\uFFFD/, '•');
                     desc = desc.replace(/\uFFFD/g, '-');
-                    
                     desc = desc.replace(/Cek preview link dibawah ini:\s*\?+/gi, 'Cek preview link dibawah ini: 👇⤵️');
 
                     return {
                         id: doc.id,
                         title: d.title || d['title '] || 'Tanpa Judul',
-                        category: d.category ? d.category.toLowerCase().trim() : 'umum', // Normalize category
+                        category: d.category ? d.category.toLowerCase().trim() : 'umum',
                         price_real: d.price_real || d['price-real'] || 0,
                         price_fake: d.price_fake || d['price-fake'] || 0,
                         description: desc,
@@ -837,7 +635,6 @@
                     };
                 });
 
-                // Initial render with default category (Wedding)
                 renderHome();
                 router();
 
@@ -845,7 +642,6 @@
                 console.error("Error:", error);
                 const loadingEl = document.getElementById('home-loading');
                 if (loadingEl) loadingEl.style.display = 'none';
-                
                 const errorEl = document.getElementById('error-message');
                 if (errorEl) {
                     errorEl.classList.remove('hidden');
@@ -856,38 +652,23 @@
 
         function renderHome() {
             const container = document.getElementById('tier-list-container');
-
-            // --- SAFETY CHECK (Added) ---
-            if (!container) {
-                console.error("Error: Element 'tier-list-container' not found in DOM.");
-                return;
-            }
-
+            if (!container) return;
             container.innerHTML = '';
 
-            // 1. FILTER PRODUCTS BASED ON CURRENT CATEGORY
             const filteredProducts = allProducts.filter(p => p.category === currentCategoryFilter);
 
             if (filteredProducts.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-10 opacity-60">
-                        <p class="text-sm text-wa-gray">Belum ada tema di kategori ini</p>
-                    </div>
-                `;
+                container.innerHTML = `<div class="text-center py-10 opacity-60"><p class="text-sm text-wa-gray">Belum ada tema di kategori ini</p></div>`;
                 return;
             }
 
-            // 2. GROUP FILTERED PRODUCTS BY TIER
             const grouped = {};
             filteredProducts.forEach(p => {
                 if(!grouped[p.tier]) grouped[p.tier] = [];
                 grouped[p.tier].push(p);
             });
 
-            // 3. DETERMINE ORDER OF TIERS TO DISPLAY
-            // Prefer TIER_ORDER if present, else append others at the end
             const availableTiers = Object.keys(grouped);
-            // Sort available tiers based on TIER_ORDER index, unknowns go last
             availableTiers.sort((a, b) => {
                 const idxA = TIER_ORDER.indexOf(a);
                 const idxB = TIER_ORDER.indexOf(b);
@@ -897,20 +678,13 @@
                 return a.localeCompare(b);
             });
 
-            // 4. RENDER SECTIONS
             availableTiers.forEach(tier => {
                 const products = grouped[tier];
                 const prices = products.map(p => p.price_real);
                 const minPrice = Math.min(...prices);
                 const maxPrice = Math.max(...prices);
-                const priceRange = minPrice === maxPrice 
-                    ? `All price at Rp${Math.floor(minPrice/1000)}k` 
-                    : `Rp${Math.floor(minPrice/1000)}k - Rp${Math.floor(maxPrice/1000)}k`;
-
-                // [1] AMBIL EMOJI DARI DATABASE (TIER_CONFIG)
+                const priceRange = minPrice === maxPrice ? `All price at Rp${Math.floor(minPrice/1000)}k` : `Rp${Math.floor(minPrice/1000)}k - Rp${Math.floor(maxPrice/1000)}k`;
                 const emoji = TIER_CONFIG[tier] || "🔖"; 
-                
-                // Show up to 3 or 6 items? Let's show 3 preview items per tier section like before
                 const previewProducts = products.slice(0, 3);
                 
                 let cardsHtml = '';
@@ -918,10 +692,8 @@
                     const imgPng = `${IMAGEKIT_BASE}/${item.folder_id}/01.png?tr=w-400`;
                     const imgWebp = `${IMAGEKIT_BASE}/${item.folder_id}/01.webp?tr=w-400`;
                     const imgJpg = `${IMAGEKIT_BASE}/${item.folder_id}/01.jpg?tr=w-400`;
-                    
                     const price = 'Rp' + Math.floor(item.price_real / 1000) + 'k';
                     const fakePrice = 'Rp' + Math.floor(item.price_fake / 1000) + 'k';
-                    
                     let discountHtml = '';
                     if (item.price_fake > item.price_real) {
                         const discount = Math.round(((item.price_fake - item.price_real) / item.price_fake) * 100);
@@ -946,64 +718,44 @@
                     `;
                 });
 
+                const encodedTier = encodeURIComponent(tier).replace(/'/g, '%27');
                 const section = document.createElement('div');
                 section.className = "mb-4"; 
-                
-                // Escape special chars for URL usage in onclick
-                // Replace single quotes with encoded version to prevent breaking onclick attribute
-                const encodedTier = encodeURIComponent(tier).replace(/'/g, '%27');
-
                 section.innerHTML = `
                     <div class="px-4 flex justify-between items-center mb-3">
                         <div class="border-l-4 border-wa-teal pl-3">
-                            <div class="flex items-center gap-2">
-                                <span class="text-lg filter drop-shadow-sm">${emoji}</span>
-                                <h2 class="text-wa-light font-bold text-base tracking-wide">${tier}</h2>
-                            </div>
+                            <div class="flex items-center gap-2"><span class="text-lg filter drop-shadow-sm">${emoji}</span><h2 class="text-wa-light font-bold text-base tracking-wide">${tier}</h2></div>
                             <p class="text-[11px] text-wa-gray mt-0.5 font-medium tracking-wide uppercase">${priceRange}</p>
                         </div>
-                        <button onclick="navigateTo('#/category/${encodedTier}')" class="bg-[#2a373f] border border-wa-divider text-wa-teal text-[11px] font-bold px-3.5 py-1.5 rounded-full hover:bg-wa-teal hover:text-white hover:border-transparent transition active:scale-95 shadow-sm uppercase tracking-wider">
-                            Lihat Semua
-                        </button>
+                        <button onclick="navigateTo('#/category/${encodedTier}')" class="bg-[#2a373f] border border-wa-divider text-wa-teal text-[11px] font-bold px-3.5 py-1.5 rounded-full hover:bg-wa-teal hover:text-white hover:border-transparent transition active:scale-95 shadow-sm uppercase tracking-wider">Lihat Semua</button>
                     </div>
-                    <div class="px-4 grid grid-cols-3 gap-3">
-                        ${cardsHtml}
-                    </div>
+                    <div class="px-4 grid grid-cols-3 gap-3">${cardsHtml}</div>
                 `;
                 container.appendChild(section);
             });
-            
-            // Also update groupedProducts global variable so View 2 (Category Full) works with the current context if needed
             groupedProducts = grouped;
         }
 
         function renderCategoryView(tierName) {
-            // Using the groupedProducts which is now filtered by the current category
             const products = groupedProducts[tierName];
             if(!products) return;
             
-            // [2] AMBIL EMOJI DINAMIS UNTUK HEADER KATEGORI
             const emoji = TIER_CONFIG[tierName] || "🔖";
-
             const titleEl = document.getElementById('cat-header-title');
             if(titleEl) titleEl.innerText = `${emoji} ${tierName}`;
-
             const countEl = document.getElementById('cat-header-count');
             if(countEl) countEl.innerText = `${products.length} Tema Tersedia`;
 
             const container = document.getElementById('cat-grid-container');
-            if(!container) return; // Safety check
-            
+            if(!container) return; 
             container.innerHTML = '';
 
             products.forEach(item => {
                 const imgPng = `${IMAGEKIT_BASE}/${item.folder_id}/01.png?tr=w-400`;
                 const imgWebp = `${IMAGEKIT_BASE}/${item.folder_id}/01.webp?tr=w-400`;
                 const imgJpg = `${IMAGEKIT_BASE}/${item.folder_id}/01.jpg?tr=w-400`;
-                
                 const price = 'Rp' + Math.floor(item.price_real / 1000) + 'k';
                 const fakePrice = 'Rp' + Math.floor(item.price_fake / 1000) + 'k';
-                
                 let discountHtml = '';
                 if (item.price_fake > item.price_real) {
                     const discount = Math.round(((item.price_fake - item.price_real) / item.price_fake) * 100);
@@ -1021,10 +773,7 @@
                     </div>
                     <div class="p-3">
                         <h4 class="text-sm text-wa-light font-medium truncate group-hover:text-white transition-colors tracking-tight">${item.title}</h4>
-                        <div class="flex items-center gap-1.5 mt-1.5">
-                            <span class="text-sm text-wa-teal font-bold">${price}</span>
-                            ${item.price_fake > item.price_real ? `<span class="text-[10px] text-wa-gray line-through decoration-red-500/50">${fakePrice}</span>` : ''}
-                        </div>
+                        <div class="flex items-center gap-1.5 mt-1.5"><span class="text-sm text-wa-teal font-bold">${price}</span>${item.price_fake > item.price_real ? `<span class="text-[10px] text-wa-gray line-through decoration-red-500/50">${fakePrice}</span>` : ''}</div>
                     </div>
                 `;
                 container.appendChild(card);
@@ -1037,17 +786,13 @@
 
             const titleEl = document.getElementById('detail-title');
             if(titleEl) titleEl.innerText = item.title;
-            
             const priceRealEl = document.getElementById('detail-price-real');
             if(priceRealEl) priceRealEl.innerText = 'Rp ' + item.price_real.toLocaleString('id-ID');
-            
             const priceFakeEl = document.getElementById('detail-price-fake');
             if(priceFakeEl) priceFakeEl.innerText = 'Rp ' + item.price_fake.toLocaleString('id-ID');
-            
             const descEl = document.getElementById('detail-desc');
             if(descEl) descEl.innerText = item.description;
 
-            // --- REVISI LOGIC LABEL (V2 - CLEANER) ---
             let categoryLabel = "Event";
             if(item.category === 'tema-wedding') categoryLabel = "Wedding";
             else if(item.category === 'acara-anak') categoryLabel = "Kids";
@@ -1056,29 +801,15 @@
             else if(item.category === 'school-and-graduation') categoryLabel = "School";
             else categoryLabel = "General";
 
-            // Bersihkan Nama Tier
-            let cleanTier = item.tier.replace(/Tema|Wedding|Kids|Acara/gi, '').trim();
-
-            // [3] AMBIL EMOJI DINAMIS UNTUK LABEL DETAIL
-            // Prioritas: Exact Match (item.tier) -> Fallback Clean Tier -> Default
+            let cleanTier = (item.tier || "").replace(/Tema|Wedding|Kids|Acara/gi, '').trim();
             let detailEmoji = TIER_CONFIG[item.tier] || TIER_CONFIG[cleanTier] || "✨"; 
-
-            // Format Final: [Emoji] [Kategori] [CleanTier]
             const catEl = document.getElementById('detail-category');
             if(catEl) catEl.innerText = `${detailEmoji} ${categoryLabel} ${cleanTier}`;
 
             const alertContainer = document.getElementById('detail-photo-alert');
             if(alertContainer) {
                 if (item.photoRequired === 'yes') {
-                    alertContainer.innerHTML = `
-                        <div class="bg-yellow-900/20 border border-yellow-600/30 rounded-xl p-4 flex items-start gap-3">
-                            <svg class="w-5 h-5 text-yellow-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                            <div>
-                                <h4 class="text-sm font-bold text-yellow-500 mb-1">Penting!</h4>
-                                <p class="text-xs text-wa-light/80 leading-relaxed">Tema ini memerlukan banyak foto prewedding (minimal 5 foto) untuk hasil maksimal.</p>
-                            </div>
-                        </div>
-                    `;
+                    alertContainer.innerHTML = `<div class="bg-yellow-900/20 border border-yellow-600/30 rounded-xl p-4 flex items-start gap-3"><svg class="w-5 h-5 text-yellow-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg><div><h4 class="text-sm font-bold text-yellow-500 mb-1">Penting!</h4><p class="text-xs text-wa-light/80 leading-relaxed">Tema ini memerlukan banyak foto prewedding (minimal 5 foto) untuk hasil maksimal.</p></div></div>`;
                     alertContainer.classList.remove('hidden');
                 } else {
                     alertContainer.classList.add('hidden');
@@ -1089,7 +820,6 @@
             const previewContainer = document.getElementById('detail-preview-buttons');
             if(previewContainer) {
                 previewContainer.innerHTML = '';
-                
                 const titleLabel = document.createElement('h3');
                 titleLabel.className = "text-xs font-bold text-wa-gray uppercase tracking-wider mb-3 col-span-full flex items-center gap-2";
                 titleLabel.innerHTML = "<span class='w-1 h-3 bg-wa-teal rounded-full'></span> Lihat <span class='text-wa-teal'>Live Pre</span>view";
@@ -1101,7 +831,6 @@
                 
                 const baseUrl = item.link.replace(/\/$/, ""); 
                 const sortOrder = ['foto', 'animasi', 'no-foto'];
-                
                 const sortedVariants = (item.variants || [])
                     .filter(v => ['foto', 'animasi', 'no-foto'].includes(v))
                     .sort((a,b) => sortOrder.indexOf(a) - sortOrder.indexOf(b));
@@ -1112,23 +841,13 @@
                     const variant = sortedVariants[0];
                     const d = getVariantDetails(variant, item, sortedVariants);
                     createPreviewButton(buttonsWrapper, d.url, "Preview " + d.label, d.icon, true);
-                } else if (sortedVariants.length === 2) {
-                    const grid = document.createElement('div');
-                    grid.className = "grid grid-cols-2 gap-2";
-                    buttonsWrapper.appendChild(grid);
-                    sortedVariants.forEach(v => {
-                        const d = getVariantDetails(v, item, sortedVariants);
-                        createPreviewButton(grid, d.url, d.label, d.icon, false);
-                    });
                 } else {
                     const v1 = sortedVariants[0];
                     const d1 = getVariantDetails(v1, item, sortedVariants);
                     createPreviewButton(buttonsWrapper, d1.url, "Preview " + d1.label, d1.icon, true);
-
                     const grid = document.createElement('div');
                     grid.className = "grid grid-cols-2 gap-2";
                     buttonsWrapper.appendChild(grid);
-
                     for(let i=1; i<sortedVariants.length; i++) {
                         const v = sortedVariants[i];
                         const d = getVariantDetails(v, item, sortedVariants);
@@ -1142,9 +861,7 @@
                 variantContainer.innerHTML = '';
                 if(item.variants && item.variants.length > 0) {
                     item.variants.forEach(v => {
-                        variantContainer.innerHTML += `<a href="${getVariantDetails(v, item, item.variants).url}" target="_blank" class="text-[11px] bg-wa-header border border-wa-divider text-wa-teal hover:text-white hover:bg-wa-teal hover:border-wa-teal px-3 py-1.5 rounded-lg capitalize tracking-wide shadow-sm transition-all duration-200 flex items-center gap-1">
-                            ${v.replace('-', ' ')} <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                        </a>`;
+                        variantContainer.innerHTML += `<a href="${getVariantDetails(v, item, item.variants).url}" target="_blank" class="text-[11px] bg-wa-header border border-wa-divider text-wa-teal hover:text-white hover:bg-wa-teal hover:border-wa-teal px-3 py-1.5 rounded-lg capitalize tracking-wide shadow-sm transition-all duration-200 flex items-center gap-1">${v.replace('-', ' ')} <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a>`;
                     });
                 } else {
                     variantContainer.innerHTML = '<span class="text-xs text-wa-gray italic">Tidak ada info fitur khusus</span>';
@@ -1154,34 +871,37 @@
             const featuresContainer = document.getElementById('detail-features');
             if(featuresContainer) {
                 featuresContainer.innerHTML = '';
-                
-                // Logic to check if domain is dwigital.com
                 const isDwigital = item.link && item.link.includes('dwigital.com');
-
-                // REVISI: LOGIKA FITUR ACARA ANAK
                 const isKidsEvent = item.category === 'acara-anak';
+                const isFormalEvent = item.category === 'acara-formal';
 
-                FEATURES_DB.forEach(f => {
-                    // Skip basic exclusions
-                    if (item.tier === 'Starter' && (f.id === 'gallery' || f.id === 'animasi')) return;
-                    if ((f.id === 'qrcode' || f.id === 'screen') && !isDwigital) return;
+                let featuresToShow = FEATURES_DB.filter(f => {
+                    if (item.tier === 'Starter' && (f.id === 'gallery' || f.id === 'animasi')) return false;
+                    if ((f.id === 'qrcode' || f.id === 'screen') && !isDwigital && !isFormalEvent) return false;
+                    if (isKidsEvent && (f.id === 'love' || f.id === 'qrcode' || f.id === 'screen')) return false;
+                    if (isFormalEvent && (f.id === 'love' || f.id === 'gift' || f.id === 'quotes')) return false;
+                    return true;
+                });
 
-                    // 1. SEMBUNYIKAN FITUR KHUSUS DI ACARA ANAK
-                    if (isKidsEvent && (f.id === 'love' || f.id === 'qrcode' || f.id === 'screen')) return;
+                if (isFormalEvent) {
+                    featuresToShow = [...featuresToShow, ...FORMAL_FEATURES_ADDONS];
+                }
 
-                    // 2. GANTI NAMA GIFT -> DOMPET DIGITAL
+                featuresToShow.forEach(f => {
                     let displayTitle = f.title;
-                    if (isKidsEvent && f.id === 'gift') {
-                        displayTitle = "Dompet Digital";
+                    let displayDesc = f.desc;
+                    if (isKidsEvent && f.id === 'gift') displayTitle = "Dompet Digital";
+                    if (isFormalEvent) {
+                        if (f.id === 'wishes') displayTitle = "Message Wall";
+                        if (f.id === 'gallery') displayTitle = "Dokumentasi";
+                        if (f.id === 'music') displayDesc = "Lagu instrumen corporate atau grand yang elegan.";
+                        if (f.id === 'animasi') displayDesc = "Animasi transisi yang formal dan profesional.";
                     }
-
+                    const featureObj = { ...f, title: displayTitle, desc: displayDesc };
                     const chip = document.createElement('button');
                     chip.className = "border border-wa-divider bg-wa-header px-3 py-1.5 rounded-full text-[11px] text-wa-light flex items-center gap-2 hover:border-wa-teal/50 hover:bg-[#2a373f] transition active:scale-95";
-                    chip.onclick = () => openFeatureSheet(f);
-                    chip.innerHTML = `
-                        <svg class="w-3.5 h-3.5 text-wa-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${f.icon}"></path></svg>
-                        ${displayTitle}
-                    `;
+                    chip.onclick = () => openFeatureSheet(featureObj);
+                    chip.innerHTML = `<svg class="w-3.5 h-3.5 text-wa-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${f.icon}"></path></svg>${displayTitle}`;
                     featuresContainer.appendChild(chip);
                 });
             }
@@ -1189,15 +909,11 @@
             const extraContainer = document.getElementById('detail-extra-services');
             if(extraContainer) {
                 extraContainer.innerHTML = '';
-                
                 EXTRA_SERVICES_DB.forEach(s => {
                     const chip = document.createElement('button');
                     chip.className = "border border-wa-divider bg-wa-header px-3 py-1.5 rounded-full text-[11px] text-wa-light flex items-center gap-2 hover:border-wa-teal/50 hover:bg-[#2a373f] transition active:scale-95";
                     chip.onclick = () => openFeatureSheet(s);
-                    chip.innerHTML = `
-                        <svg class="w-3.5 h-3.5 text-wa-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${s.icon}"></path></svg>
-                        ${s.title}
-                    `;
+                    chip.innerHTML = `<svg class="w-3.5 h-3.5 text-wa-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${s.icon}"></path></svg>${s.title}`;
                     extraContainer.appendChild(chip);
                 });
             }
@@ -1205,14 +921,9 @@
             const slider = document.getElementById('detail-slider');
             if(slider) {
                 slider.innerHTML = '';
-
-                requestAnimationFrame(() => {
-                    slider.scrollLeft = 0;
-                });
-
+                requestAnimationFrame(() => { slider.scrollLeft = 0; });
                 for (let i = 1; i <= 10; i++) {
                     const num = String(i).padStart(2, '0');
-                    
                     let imgBase = (i <= 8) ? `${IMAGEKIT_BASE}/${item.folder_id}/${num}` : `${IMAGEKIT_BASE}/feature-service/${num}`;
                     let imgPng = `${imgBase}.png?tr=w-400`;
                     let imgWebp = `${imgBase}.webp?tr=w-400`;
@@ -1221,11 +932,9 @@
                     const slideItem = document.createElement('div');
                     slideItem.className = "snap-center shrink-0 w-[85%] h-full flex items-center justify-center bg-wa-header rounded-xl overflow-hidden relative border border-wa-divider cursor-pointer shadow-lg active:scale-[0.98] transition-transform";
                     slideItem.onclick = () => openGallery(); 
-                    
                     slideItem.innerHTML = `<img src="${imgPng}" class="w-full h-full object-cover" loading="${i===1?'eager':'lazy'}" onerror="if(this.src.includes('.png')){this.src='${imgWebp}'}else if(this.src.includes('.webp')){this.src='${imgJpg}'}else{this.parentElement.remove()}" class="w-full h-full object-cover">`;
                     slider.appendChild(slideItem);
                 }
-
                 const progressBar = document.getElementById('slider-progress');
                 if(progressBar) {
                     slider.onscroll = () => {
@@ -1295,39 +1004,27 @@
             const container = document.getElementById('gallery-container');
             if(container) {
                 container.innerHTML = '';
-                
                 container.scrollTop = 0;
-
                 for (let i = 1; i <= 10; i++) {
                     const num = String(i).padStart(2, '0');
-                    
                     let imgBase = (i <= 8) ? `${IMAGEKIT_BASE}/${item.folder_id}/${num}` : `${IMAGEKIT_BASE}/feature-service/${num}`;
                     let imgPng = `${imgBase}.png?tr=w-800`;
                     let imgWebp = `${imgBase}.webp?tr=w-800`;
                     let imgJpg = `${imgBase}.jpg?tr=w-800`;
-
                     const img = document.createElement('img');
                     img.src = imgPng; 
                     img.className = "w-full h-auto block mb-0"; 
                     img.loading = "lazy";
-                    
                     img.style.minHeight = "200px";
                     img.style.background = "#111";
-                    
                     img.onerror = function() {
-                        if (this.src.includes('.png')) {
-                            this.src = imgWebp; 
-                        } else if (this.src.includes('.webp')) {
-                            this.src = imgJpg; 
-                        } else {
-                            this.remove(); 
-                        }
+                        if (this.src.includes('.png')) { this.src = imgWebp; } 
+                        else if (this.src.includes('.webp')) { this.src = imgJpg; } 
+                        else { this.remove(); }
                     };
-                    
                     container.appendChild(img);
                 }
             }
-
             galleryView.classList.remove('gallery-closed');
             galleryView.classList.add('gallery-open');
         }
@@ -1350,7 +1047,6 @@
         function createPreviewButton(container, url, text, iconType, isPrimary = false) {
             let iconSvg = '';
             if (iconType === 'camera') iconSvg = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>';
-            // Couple Icon for Animation
             else if (iconType === 'play') iconSvg = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>';
             else if (iconType === 'doc') iconSvg = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
             else iconSvg = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>';
@@ -1360,22 +1056,13 @@
             btn.target = "_blank";
             
             let classes = "relative overflow-hidden group border border-wa-divider rounded-xl hover:border-wa-teal transition-all active:scale-[0.98] ";
-            
             if (isPrimary) {
                 classes += "bg-[#202c33] p-4 flex items-center justify-center gap-3 w-full shadow-md";
-                btn.innerHTML = `
-                    <div class="text-wa-teal group-hover:text-white transition-colors">${iconSvg}</div>
-                    <span class="text-sm font-bold text-wa-light tracking-wide uppercase group-hover:text-white">${text}</span>
-                    <div class="absolute inset-0 bg-wa-teal/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                `;
+                btn.innerHTML = `<div class="text-wa-teal group-hover:text-white transition-colors">${iconSvg}</div><span class="text-sm font-bold text-wa-light tracking-wide uppercase group-hover:text-white">${text}</span><div class="absolute inset-0 bg-wa-teal/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>`;
             } else {
                 classes += "bg-[#2a373f] p-4 flex flex-row items-center justify-center gap-3 w-full shadow-sm";
-                btn.innerHTML = `
-                    <div class="text-wa-teal/80 group-hover:text-white transition-colors scale-90">${iconSvg}</div>
-                    <span class="text-xs font-medium text-wa-gray group-hover:text-wa-light text-center leading-tight">${text}</span>
-                `;
+                btn.innerHTML = `<div class="text-wa-teal/80 group-hover:text-white transition-colors scale-90">${iconSvg}</div><span class="text-xs font-medium text-wa-gray group-hover:text-wa-light text-center leading-tight">${text}</span>`;
             }
-            
             btn.className = classes;
             container.appendChild(btn);
         }
@@ -1396,7 +1083,6 @@
         }
 
         window.onload = loadData;
-
     </script>
 </body>
 </html>
