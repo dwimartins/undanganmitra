@@ -571,12 +571,15 @@
         // BASE ORDER FOR WEDDING (DEFAULT)
         const TIER_ORDER = [
             "Starter", "Bronze", "Silver", "Gold", "Platinum", "Diamond", 
+            "Birthday", "Khitan", "Aqiqah",
             "Tema Adat Jawa", "Tema Adat Bugis", "Tema Adat Batak", "Tema Adat Karo", "Tema Adat Nias"
         ];
         
+        // REVISI: SESUAIKAN EMOJI UNTUK ACARA ANAK
         const TIER_CONFIG = { 
             "Starter": "🟢", "Bronze": "🟤", "Silver": "⚪", "Gold": "🟡", "Platinum": "🔵", "Diamond": "💎",
-            "Tema Adat Jawa": "🔴", "Tema Adat Bugis": "🔴", "Tema Adat Batak": "🔴", "Tema Adat Karo": "🔴", "Tema Adat Nias": "🔴"
+            "Tema Adat Jawa": "🔴", "Tema Adat Bugis": "🔴", "Tema Adat Batak": "🔴", "Tema Adat Karo": "🔴", "Tema Adat Nias": "🔴",
+            "Birthday": "🎂", "Khitan": "✂️", "Aqiqah": "👶"
         };
 
         // MAPPING UI KEYS TO DB VALUES AND DISPLAY INFO
@@ -1005,6 +1008,21 @@
             document.getElementById('detail-price-fake').innerText = 'Rp ' + item.price_fake.toLocaleString('id-ID');
             document.getElementById('detail-desc').innerText = item.description;
 
+            // REVISI: LABEL DETAIL (Emoji + Kategori + Tier)
+            const detailEmoji = TIER_CONFIG[item.tier] || "✨";
+            let categoryLabel = "Event";
+            
+            // Logic mapping sederhana berdasarkan ID kategori
+            if(item.category === 'tema-wedding') categoryLabel = "Wedding";
+            else if(item.category === 'acara-anak') categoryLabel = "Kids";
+            else if(item.category === 'acara-formal') categoryLabel = "Formal";
+            else if(item.category === 'teen-and-card') categoryLabel = "Teen";
+            else if(item.category === 'school-and-graduation') categoryLabel = "School";
+            else categoryLabel = "General";
+
+            // Format: 💎 Wedding Diamond
+            document.getElementById('detail-category').innerText = `${detailEmoji} ${categoryLabel} ${item.tier}`;
+
             const alertContainer = document.getElementById('detail-photo-alert');
             if (item.photoRequired === 'yes') {
                 alertContainer.innerHTML = `
@@ -1089,18 +1107,29 @@
             // Logic to check if domain is dwigital.com
             const isDwigital = item.link && item.link.includes('dwigital.com');
 
-            FEATURES_DB.forEach(f => {
-                if (item.tier === 'Starter' && (f.id === 'gallery' || f.id === 'animasi')) return;
+            // REVISI: LOGIKA FITUR ACARA ANAK
+            const isKidsEvent = item.category === 'acara-anak';
 
-                // Filter for Dwigital exclusive features
+            FEATURES_DB.forEach(f => {
+                // Skip basic exclusions
+                if (item.tier === 'Starter' && (f.id === 'gallery' || f.id === 'animasi')) return;
                 if ((f.id === 'qrcode' || f.id === 'screen') && !isDwigital) return;
+
+                // 1. SEMBUNYIKAN FITUR KHUSUS DI ACARA ANAK
+                if (isKidsEvent && (f.id === 'love' || f.id === 'qrcode' || f.id === 'screen')) return;
+
+                // 2. GANTI NAMA GIFT -> DOMPET DIGITAL
+                let displayTitle = f.title;
+                if (isKidsEvent && f.id === 'gift') {
+                    displayTitle = "Dompet Digital";
+                }
 
                 const chip = document.createElement('button');
                 chip.className = "border border-wa-divider bg-wa-header px-3 py-1.5 rounded-full text-[11px] text-wa-light flex items-center gap-2 hover:border-wa-teal/50 hover:bg-[#2a373f] transition active:scale-95";
                 chip.onclick = () => openFeatureSheet(f);
                 chip.innerHTML = `
                     <svg class="w-3.5 h-3.5 text-wa-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${f.icon}"></path></svg>
-                    ${f.title}
+                    ${displayTitle}
                 `;
                 featuresContainer.appendChild(chip);
             });
