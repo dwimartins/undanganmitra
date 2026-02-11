@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Katalog Animasi Digital</title>
+    <title>Katalog Animasi & Aset Digital</title>
+    
+    <!-- TAILWIND & FIREBASE -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -14,7 +19,7 @@
                     colors: {
                         wa: { bg: '#111b21', header: '#202c33', teal: '#00a884', light: '#e9edef', gray: '#8696a0', divider: '#222d36' }
                     },
-                    fontFamily: { sans: ['Inter', 'sans-serif'], serif: ['Playfair Display', 'serif'] }
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
                 }
             }
         }
@@ -23,185 +28,239 @@
         body { background-color: #111b21; color: #e9edef; -webkit-tap-highlight-color: transparent; }
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-        .tab-active { border-bottom: 2px solid #00a884; color: #00a884; }
-        .tab-inactive { border-bottom: 2px solid transparent; color: #8696a0; }
-        .grid-anim { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
-        .fade-in { animation: fadeIn 0.5s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .sheet-open { transform: translateY(0); }
+        .sheet-closed { transform: translateY(100%); }
+        .active-tab { background-color: #00a884; color: white; border-color: transparent; }
+        .inactive-tab { background-color: transparent; color: #8696a0; border-color: #222d36; }
     </style>
 </head>
-<body class="antialiased min-h-screen pb-20 bg-[#0b141a]">
+<body class="antialiased min-h-screen bg-[#0b141a]">
 
-    <!-- Header Fixed -->
-    <div class="fixed top-0 left-0 right-0 z-50 bg-wa-header/95 backdrop-blur-md border-b border-wa-divider shadow-md">
-        <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between">
+    <!-- Header -->
+    <div class="fixed top-0 left-0 right-0 z-50 bg-wa-header/95 backdrop-blur-md shadow-md border-b border-wa-divider">
+        <div class="max-w-md mx-auto px-4 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <a href="../" class="p-2 -ml-2 rounded-full hover:bg-white/5 text-wa-light"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg></a>
-                <h1 class="font-bold text-lg text-wa-light">Animasi Digital</h1>
+                <button onclick="window.location.href='../index.html'" class="p-2 -ml-2 rounded-full hover:bg-white/5 transition text-wa-light">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                </button>
+                <div>
+                    <h1 class="font-bold text-base text-wa-light leading-tight">Katalog Aset</h1>
+                    <p class="text-[10px] text-wa-teal font-medium tracking-wide">Animasi & Karakter Digital</p>
+                </div>
             </div>
-            <!-- Tab Kategori Utama -->
-            <div class="flex overflow-x-auto hide-scroll gap-4 text-xs font-bold uppercase tracking-wider" id="main-tabs">
-                <!-- Tabs will be injected here -->
+        </div>
+        <!-- Scrollable Tabs -->
+        <div class="max-w-md mx-auto px-4 pb-0 overflow-x-auto hide-scroll">
+            <div id="category-tabs" class="flex gap-2 pb-3 min-w-max">
+                <!-- Tabs injected by JS -->
             </div>
         </div>
     </div>
 
     <!-- Main Content -->
-    <div class="pt-20 pb-10 max-w-md mx-auto min-h-screen px-3">
-        
-        <!-- Info Banner -->
-        <div class="bg-wa-header border border-wa-divider rounded-xl p-4 mb-6 text-center">
-            <span class="inline-block px-2 py-0.5 bg-wa-teal/10 text-wa-teal text-[10px] rounded font-bold mb-2 border border-wa-teal/20">GRATIS</span>
-            <p class="text-xs text-wa-gray leading-relaxed">Pilih karakter favoritmu. Screenshot atau sebutkan nama karakternya saat mengisi data undangan.</p>
+    <div class="pt-28 pb-10 px-3 max-w-md mx-auto min-h-screen">
+        <div id="loading-spinner" class="flex flex-col items-center justify-center py-20 space-y-4">
+            <div class="w-8 h-8 border-4 border-wa-teal border-t-transparent rounded-full animate-spin"></div>
+            <p class="text-xs text-wa-gray animate-pulse">Memuat koleksi...</p>
         </div>
-
-        <!-- Container Tier (Sub Kategori) -->
-        <div id="content-container" class="space-y-8"></div>
         
+        <!-- Grid Container -->
+        <div id="grid-container" class="grid grid-cols-2 gap-3"></div>
     </div>
 
-    <!-- SCRIPT DATA & LOGIC -->
+    <!-- Gallery Sheet (Full Screen Modal) -->
+    <div id="view-gallery" class="fixed inset-0 z-[100] bg-black sheet-closed transition-transform duration-300 flex flex-col">
+        <!-- Gallery Header -->
+        <div class="bg-[#202c33] px-4 py-3 flex justify-between items-center shadow-md z-10 border-b border-wa-divider">
+            <div>
+                <h3 id="gallery-title" class="text-white font-bold text-sm">Nama Koleksi</h3>
+                <p id="gallery-count" class="text-xs text-wa-teal">0 Gambar</p>
+            </div>
+            <button onclick="closeGallery()" class="bg-[#37404a] p-2 rounded-full text-gray-300 hover:text-white transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <!-- Gallery Content -->
+        <div id="gallery-content" class="flex-1 overflow-y-auto p-1 space-y-1 bg-black hide-scroll">
+            <!-- Images injected here -->
+        </div>
+    </div>
+
     <script>
-        const IMAGEKIT_BASE = "https://ik.imagekit.io/undangandigital";
-
-        /* === AREA PASTE DATA JSON === 
-           Paste kode dari admin-animasi.html di bawah ini menggantikan variable ANIMASI_DB
-        */
-        
-        const ANIMASI_DB = {
-            "Nuansa Warna": [
-                { "name": "Putih Bersih (White)", "folder": "nuansa-warna/01-putih-bersih", "files": [] }, 
-                { "name": "Putih Gading (Ivory)", "folder": "nuansa-warna/02-putih-gading", "files": [] }
-                // Tambahkan data lainnya disini via Admin Tool
-            ],
-            "Adat Daerah": [
-                { "name": "Aceh", "folder": "adat-daerah/Aceh", "files": ["img1.png", "img2.png"] },
-                { "name": "Batak", "folder": "adat-daerah/Batak", "files": [] }
-            ],
-            "Faceless Islami": [
-                { "name": "Faceless", "folder": "faceless-islami/faceless", "files": [] }
-            ]
+        // --- 1. CONFIG ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyDq6LjlUFRDm5CqGSqVLiJ9gItIyw71bAU",
+            authDomain: "db-katalog.firebaseapp.com",
+            projectId: "db-katalog",
+            storageBucket: "db-katalog.firebasestorage.app",
+            messagingSenderId: "597535674259",
+            appId: "1:597535674259:web:0577885c617f623bb82266"
         };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-        /* === LOGIC APLIKASI === */
+        let allData = [];
+        let categories = new Set();
+        let currentCategory = '';
 
-        let currentCategory = Object.keys(ANIMASI_DB)[0];
+        // --- 2. LOAD DATA ---
+        async function loadData() {
+            try {
+                // Mengambil data dari koleksi 'animasi_catalog'
+                const snapshot = await db.collection('animasi_catalog').get();
+                if (snapshot.empty) {
+                    document.getElementById('grid-container').innerHTML = '<p class="col-span-2 text-center text-wa-gray text-xs py-10">Belum ada data katalog.</p>';
+                    document.getElementById('loading-spinner').style.display = 'none';
+                    return;
+                }
 
-        function init() {
-            renderTabs();
-            renderContent();
+                allData = snapshot.docs.map(doc => doc.data());
+                
+                // Ambil daftar kategori unik
+                allData.forEach(item => categories.add(item.category));
+                const sortedCategories = Array.from(categories).sort();
+                
+                // Render Tab Kategori
+                renderTabs(sortedCategories);
+
+                // Pilih kategori pertama sebagai default
+                if(sortedCategories.length > 0) {
+                    selectCategory(sortedCategories[0]);
+                }
+
+                document.getElementById('loading-spinner').style.display = 'none';
+
+            } catch (error) {
+                console.error("Error loading data:", error);
+                document.getElementById('loading-spinner').innerHTML = `<p class="text-red-400 text-xs">Gagal memuat data.<br>${error.message}</p>`;
+            }
         }
 
-        function renderTabs() {
-            const tabContainer = document.getElementById('main-tabs');
-            tabContainer.innerHTML = '';
-            
-            Object.keys(ANIMASI_DB).forEach(cat => {
+        // --- 3. RENDER TABS ---
+        function renderTabs(cats) {
+            const container = document.getElementById('category-tabs');
+            container.innerHTML = '';
+            cats.forEach(cat => {
                 const btn = document.createElement('button');
-                btn.className = `whitespace-nowrap pb-1 transition-colors ${cat === currentCategory ? 'tab-active' : 'tab-inactive'}`;
+                btn.className = `px-4 py-2 rounded-full text-xs font-bold border transition whitespace-nowrap inactive-tab`;
                 btn.innerText = cat;
-                btn.onclick = () => {
-                    currentCategory = cat;
-                    renderTabs();
-                    renderContent();
-                    window.scrollTo({top: 0, behavior: 'smooth'});
-                };
-                tabContainer.appendChild(btn);
+                btn.onclick = () => selectCategory(cat);
+                btn.dataset.cat = cat;
+                container.appendChild(btn);
             });
         }
 
-        function renderContent() {
-            const container = document.getElementById('content-container');
-            container.innerHTML = '';
+        // --- 4. RENDER GRID ---
+        function selectCategory(catName) {
+            currentCategory = catName;
             
-            const tiers = ANIMASI_DB[currentCategory] || [];
+            // Update Tampilan Tab
+            document.querySelectorAll('#category-tabs button').forEach(btn => {
+                if(btn.dataset.cat === catName) {
+                    btn.className = "px-4 py-2 rounded-full text-xs font-bold border transition whitespace-nowrap active-tab shadow-lg shadow-wa-teal/20";
+                } else {
+                    btn.className = "px-4 py-2 rounded-full text-xs font-bold border transition whitespace-nowrap inactive-tab hover:bg-wa-header";
+                }
+            });
 
-            if (tiers.length === 0) {
-                container.innerHTML = '<div class="text-center text-wa-gray py-10 text-sm">Belum ada data di kategori ini.</div>';
-                return;
+            // Filter Data sesuai kategori
+            const filtered = allData.filter(item => item.category === catName);
+            const grid = document.getElementById('grid-container');
+            grid.innerHTML = '';
+
+            filtered.forEach(item => {
+                // Logic Thumbnail: Ambil gambar ke-1 (1.png)
+                // folder_link di database tidak boleh ada slash di akhir, script ini mengantisipasi
+                const cleanFolder = item.folder_link.replace(/\/$/, "");
+                const thumbUrl = `${cleanFolder}/1.png?tr=w-300`; // ImageKit resize
+
+                const card = document.createElement('div');
+                card.className = "bg-[#202c33] rounded-xl overflow-hidden border border-wa-divider hover:border-wa-teal/50 transition cursor-pointer group";
+                card.onclick = () => openGallery(item);
+                
+                // Logic jumlah: jika total 0 atau undefined, tampilkan 0
+                const count = item.total || 0;
+
+                card.innerHTML = `
+                    <div class="aspect-[3/4] overflow-hidden relative bg-[#111b21]">
+                        <img src="${thumbUrl}" 
+                             class="w-full h-full object-cover transition duration-700 group-hover:scale-110"
+                             loading="lazy"
+                             onerror="this.src='${cleanFolder}/1.jpg?tr=w-300'; this.onerror=null;">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#202c33] to-transparent opacity-60"></div>
+                        <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-md border border-white/10 flex items-center gap-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            ${count}
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <h4 class="text-sm font-medium text-wa-light truncate group-hover:text-white transition">${item.title}</h4>
+                        <p class="text-[10px] text-wa-gray mt-0.5">Klik untuk lihat detail</p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // --- 5. GALLERY LOGIC ---
+        function openGallery(item) {
+            document.getElementById('gallery-title').innerText = item.title;
+            const total = item.total || 0;
+            document.getElementById('gallery-count').innerText = `${total} Gambar`;
+            
+            const container = document.getElementById('gallery-content');
+            container.innerHTML = '';
+            container.scrollTop = 0;
+
+            const cleanFolder = item.folder_link.replace(/\/$/, "");
+
+            if (total === 0) {
+                container.innerHTML = `<div class="h-full flex flex-col items-center justify-center text-wa-gray"><p class="text-sm">Belum ada gambar di galeri ini.</p></div>`;
             }
 
-            tiers.forEach(tier => {
-                const section = document.createElement('div');
-                section.className = "fade-in";
+            // LOOPING 1 s/d TOTAL
+            for (let i = 1; i <= total; i++) {
+                const imgContainer = document.createElement('div');
+                imgContainer.className = "w-full bg-[#111b21] min-h-[200px] flex items-center justify-center relative rounded-lg overflow-hidden";
                 
-                // Header Tier
-                const header = document.createElement('div');
-                header.className = "flex items-center gap-2 mb-3 pl-1";
-                header.innerHTML = `<div class="w-1 h-4 bg-wa-teal rounded-full"></div><h3 class="font-bold text-wa-light text-sm">${tier.name}</h3>`;
-                section.appendChild(header);
+                const img = document.createElement('img');
+                img.className = "w-full h-auto block";
+                img.loading = "lazy";
+                
+                // URL Constructions
+                // Asumsi nama file: 1.png, 2.png, dst.
+                const basePng = `${cleanFolder}/${i}.png`;
+                const baseJpg = `${cleanFolder}/${i}.jpg`;
+                const baseWebp = `${cleanFolder}/${i}.webp`;
 
-                // Grid Images
-                const grid = document.createElement('div');
-                grid.className = "grid-anim";
-                
-                // Logic Load Image
-                if (tier.files && tier.files.length > 0) {
-                    // MODE MANUAL (Sesuai list di CSV)
-                    tier.files.forEach(filename => {
-                        const url = `${IMAGEKIT_BASE}/${tier.folder}/${filename}`;
-                        grid.appendChild(createImageCard(url, filename));
-                    });
-                } else {
-                    // MODE AUTO-DETECT (Coba load 1.png s/d 20.png)
-                    // Kita buat elemen img dummy, kalau error (404) kita remove
-                    for (let i = 1; i <= 20; i++) {
-                        const formats = ['png', 'jpg', 'webp']; // Prioritas format
-                        // Untuk efisiensi, kita hanya coba PNG dulu secara default, 
-                        // atau bisa buat loop format. Di sini saya buat simpel coba 1-20.png
-                        // Jika kamu punya JPG, ubah ekstensinya atau rename filenya.
-                        
-                        // Cara Hacky untuk static site: Coba load, kalau gagal hide.
-                        const url = `${IMAGEKIT_BASE}/${tier.folder}/${i}.png`; 
-                        grid.appendChild(createImageCard(url, `#${i}`, true));
+                // Logic load: Default PNG -> Error? JPG -> Error? WEBP -> Error? Hide
+                img.src = basePng;
+                img.onerror = function() {
+                    if (this.src === basePng) {
+                        this.src = baseJpg;
+                    } else if (this.src === baseJpg) {
+                        this.src = baseWebp;
+                    } else {
+                        this.parentElement.style.display = 'none'; // Sembunyikan container jika semua gagal
                     }
-                }
+                };
 
-                section.appendChild(grid);
-                container.appendChild(section);
-            });
+                imgContainer.appendChild(img);
+                container.appendChild(imgContainer);
+            }
+
+            document.getElementById('view-gallery').classList.remove('sheet-closed');
+            document.getElementById('view-gallery').classList.add('sheet-open');
         }
 
-        function createImageCard(url, label, isAuto = false) {
-            const wrapper = document.createElement('div');
-            wrapper.className = "bg-wa-header rounded-lg border border-wa-divider overflow-hidden relative group aspect-[3/4]";
-            
-            // Placeholder/Loader
-            wrapper.innerHTML = `<div class="absolute inset-0 bg-wa-divider/30 animate-pulse"></div>`;
-
-            const img = document.createElement('img');
-            img.className = "w-full h-full object-contain p-1 opacity-0 transition-opacity duration-300";
-            img.loading = "lazy";
-            img.src = url;
-            
-            img.onload = function() {
-                this.classList.remove('opacity-0');
-                wrapper.querySelector('.animate-pulse').remove();
-            };
-
-            img.onerror = function() {
-                if(isAuto) {
-                    // Jika mode auto detect dan gambar tidak ada, hapus elemen wrapper
-                    wrapper.remove();
-                } else {
-                    // Jika mode manual dan error, tampilkan placeholder rusak
-                    wrapper.innerHTML = '<div class="flex items-center justify-center h-full text-xs text-red-500">Img Error</div>';
-                }
-            };
-            
-            // Overlay Zoom Icon
-            const overlay = document.createElement('div');
-            overlay.className = "absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer";
-            overlay.innerHTML = `<svg class="w-6 h-6 text-white drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>`;
-            overlay.onclick = () => window.open(url, '_blank');
-
-            wrapper.appendChild(img);
-            wrapper.appendChild(overlay);
-            return wrapper;
+        function closeGallery() {
+            document.getElementById('view-gallery').classList.remove('sheet-open');
+            document.getElementById('view-gallery').classList.add('sheet-closed');
         }
 
-        // Jalankan
-        init();
+        // Start
+        window.onload = loadData;
     </script>
 </body>
 </html>
