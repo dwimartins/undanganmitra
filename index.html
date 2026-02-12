@@ -32,6 +32,20 @@
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                         serif: ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'shimmer': 'shimmer 2s linear infinite',
+                        'fade-up': 'fadeUp 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        shimmer: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(100%)' }
+                        },
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
                     }
                 }
             }
@@ -41,6 +55,21 @@
     <style>
         body { background-color: #111b21; color: #e9edef; -webkit-tap-highlight-color: transparent; }
         
+        /* NOISE TEXTURE & GLOW BACKGROUND */
+        .bg-noise {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(0, 168, 132, 0.08), transparent 70%);
+        }
+
         /* Custom Scrollbar */
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
@@ -57,7 +86,7 @@
         .snap-center { scroll-snap-align: center; }
         
         /* View Transitions */
-        .view-section { display: none; animation: fadeIn 0.2s ease-out; }
+        .view-section { display: none; animation: fadeIn 0.2s ease-out; position: relative; z-index: 1; }
         .view-active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -76,29 +105,49 @@
         .header-hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
         .header-visible { transform: translateY(0); opacity: 1; pointer-events: auto; }
 
-        /* Grid 3D Effect */
+        /* Grid 3D Effect Enhanced */
         .grid-3d {
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            box-shadow: 0 4px 0 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
-        .grid-3d:hover { transform: translateY(-2px); }
-        .grid-3d:active { transform: translateY(2px); box-shadow: 0 0 0 0 transparent !important; }
+        .grid-3d:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); }
+        .grid-3d:active { transform: translateY(1px); box-shadow: none; }
 
-        /* Grid Colors */
-        .hover-shadow-gold:hover { box-shadow: 0 6px 0 0 #eab308; border-color: #eab308; }
-        .hover-shadow-cyan:hover { box-shadow: 0 6px 0 0 #22d3ee; border-color: #22d3ee; }
-        .hover-shadow-blue:hover { box-shadow: 0 6px 0 0 #3b82f6; border-color: #3b82f6; }
-        .hover-shadow-purple:hover { box-shadow: 0 6px 0 0 #a855f7; border-color: #a855f7; }
-        .hover-shadow-red:hover { box-shadow: 0 6px 0 0 #ef4444; border-color: #ef4444; }
-        .hover-shadow-yellow:hover { box-shadow: 0 6px 0 0 #facc15; border-color: #facc15; }
+        /* Grid Colors with Gradients (NEW) */
+        .bg-gradient-gold { background: linear-gradient(145deg, rgba(32, 44, 51, 1) 0%, rgba(234, 179, 8, 0.15) 100%); }
+        .bg-gradient-cyan { background: linear-gradient(145deg, rgba(32, 44, 51, 1) 0%, rgba(34, 211, 238, 0.15) 100%); }
+        .bg-gradient-blue { background: linear-gradient(145deg, rgba(32, 44, 51, 1) 0%, rgba(59, 130, 246, 0.15) 100%); }
+        .bg-gradient-purple { background: linear-gradient(145deg, rgba(32, 44, 51, 1) 0%, rgba(168, 85, 247, 0.15) 100%); }
+        .bg-gradient-red { background: linear-gradient(145deg, rgba(32, 44, 51, 1) 0%, rgba(239, 68, 68, 0.15) 100%); }
+        .bg-gradient-yellow { background: linear-gradient(145deg, rgba(32, 44, 51, 1) 0%, rgba(250, 204, 21, 0.15) 100%); }
+
+        .hover-shadow-gold:hover { border-color: rgba(234, 179, 8, 0.5); }
+        .hover-shadow-cyan:hover { border-color: rgba(34, 211, 238, 0.5); }
+        .hover-shadow-blue:hover { border-color: rgba(59, 130, 246, 0.5); }
+        .hover-shadow-purple:hover { border-color: rgba(168, 85, 247, 0.5); }
+        .hover-shadow-red:hover { border-color: rgba(239, 68, 68, 0.5); }
+        .hover-shadow-yellow:hover { border-color: rgba(250, 204, 21, 0.5); }
+
+        /* Badge Shimmer Effect */
+        .badge-shine { position: relative; overflow: hidden; }
+        .badge-shine::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+            transform: skewX(-20deg) translateX(-150%);
+            animation: shimmer 3s infinite;
+        }
     </style>
 </head>
 
 <body class="antialiased min-h-screen pb-20 bg-[#0b141a]">
+    
+    <!-- BACKGROUND EFFECTS (NEW) -->
+    <div class="bg-noise"></div>
+    <div class="bg-glow"></div>
 
     <!-- VIEW 1: HOME -->
-    <div id="view-home" class="view-section view-active bg-wa-bg min-h-screen">
+    <div id="view-home" class="view-section view-active bg-transparent min-h-screen">
         <!-- Smart Header -->
         <div id="smart-header" class="fixed top-0 left-0 right-0 z-50 bg-wa-header/95 backdrop-blur-md shadow-md border-b border-wa-divider header-hidden">
             <div class="max-w-md mx-auto px-4 h-16 flex items-center gap-3 overflow-x-auto hide-scroll">
@@ -132,14 +181,14 @@
                         <p class="text-wa-gray text-xs md:text-sm max-w-md mx-auto leading-relaxed mt-2">Temukan berbagai undangan premium dengan desain eksklusif.</p>
                     </div>
                     <button onclick="kirimPesanUmum()" class="bg-wa-teal text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-wa-teal/30 text-sm flex items-center gap-2 hover:bg-[#008f6f] active:scale-95 transition-all animate-[fadeIn_1s_ease-out_0.3s_both]">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                         Konsultasi Custom Design
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Grid Menu -->
+        <!-- Grid Menu (REVISI: Added Gradients) -->
         <div id="grid-menu" class="max-w-md mx-auto px-4 py-8 relative z-10">
             <div class="mb-6 flex justify-between items-end">
                 <div>
@@ -149,28 +198,28 @@
                 <div class="h-1 w-10 bg-wa-teal rounded-full"></div>
             </div>
             <div class="grid grid-cols-3 gap-3">
-                <div onclick="selectCategory('Wedding')" class="grid-3d hover-shadow-gold group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-yellow-500 transition-colors">💍</div>
+                <div onclick="selectCategory('Wedding')" class="grid-3d hover-shadow-gold bg-gradient-gold group cursor-pointer rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-yellow-500 transition-colors shadow-lg">💍</div>
                     <span class="text-[9px] md:text-[10px] font-bold text-white uppercase tracking-widest group-hover:text-yellow-500 transition-colors">WEDDING</span>
                 </div>
-                <div onclick="selectCategory('Kids')" class="grid-3d hover-shadow-cyan group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-cyan-400 transition-colors">🎈</div>
+                <div onclick="selectCategory('Kids')" class="grid-3d hover-shadow-cyan bg-gradient-cyan group cursor-pointer rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-cyan-400 transition-colors shadow-lg">🎈</div>
                     <span class="text-[9px] md:text-[10px] font-bold text-white uppercase tracking-widest group-hover:text-cyan-400 transition-colors">ACARA ANAK</span>
                 </div>
-                <div onclick="selectCategory('Formal')" class="grid-3d hover-shadow-blue group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-blue-500 transition-colors">🏢</div>
+                <div onclick="selectCategory('Formal')" class="grid-3d hover-shadow-blue bg-gradient-blue group cursor-pointer rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-blue-500 transition-colors shadow-lg">🏢</div>
                     <span class="text-[9px] md:text-[10px] font-bold text-white uppercase tracking-widest group-hover:text-blue-500 transition-colors">ACARA FORMAL</span>
                 </div>
-                <div onclick="selectCategory('Teen')" class="grid-3d hover-shadow-purple group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-purple-500 transition-colors">🎸</div>
+                <div onclick="selectCategory('Teen')" class="grid-3d hover-shadow-purple bg-gradient-purple group cursor-pointer rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-purple-500 transition-colors shadow-lg">🎸</div>
                     <span class="text-[9px] md:text-[10px] font-bold text-white uppercase tracking-widest group-hover:text-purple-500 transition-colors">TEEN & CARD</span>
                 </div>
-                <div onclick="selectCategory('School')" class="grid-3d hover-shadow-red group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-red-500 transition-colors">🎓</div>
+                <div onclick="selectCategory('School')" class="grid-3d hover-shadow-red bg-gradient-red group cursor-pointer rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-red-500 transition-colors shadow-lg">🎓</div>
                     <span class="text-[8px] md:text-[9px] font-bold text-white uppercase tracking-widest group-hover:text-red-500 transition-colors leading-tight">SCHOOL & GRADUATION</span>
                 </div>
-                <div onclick="selectCategory('Lainnya')" class="grid-3d hover-shadow-yellow group cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
-                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-yellow-400 transition-colors">📂</div>
+                <div onclick="selectCategory('Lainnya')" class="grid-3d hover-shadow-yellow bg-gradient-yellow group cursor-pointer rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
+                    <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-yellow-400 transition-colors shadow-lg">📂</div>
                     <span class="text-[9px] md:text-[10px] font-bold text-white uppercase tracking-widest group-hover:text-yellow-400 transition-colors">ACARA LAINNYA</span>
                 </div>
             </div>
@@ -178,7 +227,7 @@
         
         <!-- Divider -->
         <div class="max-w-md mx-auto px-4 mt-6 mb-8">
-            <div class="bg-[#182329] border border-wa-divider rounded-2xl p-6 text-center relative overflow-hidden shadow-lg">
+            <div class="bg-[#182329]/80 backdrop-blur-md border border-wa-divider rounded-2xl p-6 text-center relative overflow-hidden shadow-lg">
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-wa-teal/50 to-transparent"></div>
                 <div class="absolute -left-4 -top-4 w-16 h-16 bg-wa-teal/10 rounded-full blur-xl"></div>
                 <div class="absolute -right-4 -bottom-4 w-16 h-16 bg-wa-teal/10 rounded-full blur-xl"></div>
@@ -512,7 +561,7 @@
             { id: 'revisi', title: "Free Revisi", icon: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15", desc: "Kami memastikan undangan yang kamu pesan tanpa ada kendala, untuk itu kami beri jaminan Revisi Gratis hingga hari H." },
             { id: 'fee', title: "Fixed Fee", icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z", desc: "Kami memastikan harga yang tertera di katalog adalah harga final yang perlu kamu bayar. Tanpa biaya ini itu!" },
             { id: 'response', title: "Fast Response", icon: "M13 10V3L4 14h7v7l9-11h-7z", desc: "Kami akan selalu berupaya untuk membalas pesanmu secepat yang kami bisa. Dan juga seramah yang kami bisa tentunya ^^" },
-            { id: 'pro', title: "Profesional", icon: "M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z", desc: "Kami memastikan bahwa undangan yang kamu pesan dikerjakan dengan hati, profesional, baik, dan sungguh-sungguh." },
+            { id: 'pro', title: "Profesional", icon: "M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z", desc: "Kami memastikan bahwa undangan yang kamu pesan dikerjakan dengan hati, profesional, baik, dan sungguh-sungguh." },
             { id: 'privacy', title: "Privasi Data", icon: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z", desc: "Kami memastikan semua data yang kamu kirim, termasuk nama, foto, alamat, nomor WA, aman dan tidak disalahgunakan." },
             { id: 'pay', title: "Bayar Setelah Jadi", icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z", desc: "Yup! Ini adalah bukti keseriusan kami dalam menjalankan usaha. Kami percaya orang baik pasti bertemu dengan orang baik." }
         ];
@@ -761,7 +810,8 @@
                         tier: (d.tier || 'Starter').trim(),
                         variants: variants,
                         link: d.link || '#',
-                        photoRequired: d['photo-required'] || d.photo_required || 'no'
+                        photoRequired: d['photo-required'] || d.photo_required || 'no',
+                        label: d.label || '' // Logic Label Baru
                     };
                 });
 
@@ -840,15 +890,32 @@
                                      </div>`;
                     }
 
+                    // Logic Tampilan Badge (Pengganti Harga untuk Reseller)
+                    let badgeHtml = '';
+                    if (item.label) {
+                        let badgeColor = 'bg-gray-600';
+                        if(item.label === 'Best Seller') badgeColor = 'bg-gradient-to-r from-yellow-600 to-yellow-400';
+                        else if(item.label === 'New Arrival') badgeColor = 'bg-gradient-to-r from-teal-500 to-emerald-400';
+                        else if(item.label === 'Premium') badgeColor = 'bg-gradient-to-r from-purple-600 to-purple-400';
+                        else if(item.label === 'Recommended') badgeColor = 'bg-gradient-to-r from-blue-600 to-blue-400';
+                        
+                        badgeHtml = `<div class="absolute top-0 right-0 z-20">
+                                        <div class="${badgeColor} text-white text-[9px] font-bold px-3 py-1 rounded-bl-xl shadow-lg badge-shine tracking-wide uppercase">
+                                            ${item.label}
+                                        </div>
+                                     </div>`;
+                    }
+
                     cardsHtml += `
-                        <div onclick="navigateTo('#/detail/${item.id}')" class="group relative bg-[#202c33] rounded-xl overflow-hidden border border-wa-divider hover:border-wa-teal/50 transition-all duration-300 active:scale-[0.98] cursor-pointer shadow-sm">
+                        <div onclick="navigateTo('#/detail/${item.id}')" class="grid-3d group relative bg-[#202c33] rounded-xl overflow-hidden cursor-pointer animate-fade-up" style="animation-delay: 0.1s">
                             <div class="aspect-square overflow-hidden relative">
                                 ${discountHtml}
+                                ${badgeHtml}
                                 <img src="${imgPng}" onerror="if(this.src.includes('.png')){this.src='${imgWebp}'}else if(this.src.includes('.webp')){this.src='${imgJpg}'}else{this.parentElement.remove()}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
-                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
                             </div>
                             <div class="p-3">
-                                <h4 class="text-sm text-wa-light font-medium truncate group-hover:text-white transition-colors tracking-tight">${item.title}</h4>
+                                <h4 class="text-xs text-wa-light font-bold truncate group-hover:text-wa-teal transition-colors tracking-wide">${item.title}</h4>
                                 ${priceHtml}
                             </div>
                         </div>
@@ -890,7 +957,7 @@
             if(!container) return; 
             container.innerHTML = '';
 
-            products.forEach(item => {
+            products.forEach((item, index) => {
                 const imgPng = `${IMAGEKIT_BASE}/${item.folder_id}/01.png?tr=w-400`;
                 const imgWebp = `${IMAGEKIT_BASE}/${item.folder_id}/01.webp?tr=w-400`;
                 const imgJpg = `${IMAGEKIT_BASE}/${item.folder_id}/01.jpg?tr=w-400`;
@@ -909,17 +976,35 @@
                     priceHtml = `<div class="flex items-center gap-1.5 mt-1.5"><span class="text-sm text-wa-teal font-bold">${price}</span>${item.price_fake > item.price_real ? `<span class="text-[10px] text-wa-gray line-through decoration-red-500/50">${fakePrice}</span>` : ''}</div>`;
                 }
 
+                // Logic Badge di Kategori View
+                let badgeHtml = '';
+                if (item.label) {
+                    let badgeColor = 'bg-gray-600';
+                    if(item.label === 'Best Seller') badgeColor = 'bg-gradient-to-r from-yellow-600 to-yellow-400';
+                    else if(item.label === 'New Arrival') badgeColor = 'bg-gradient-to-r from-teal-500 to-emerald-400';
+                    else if(item.label === 'Premium') badgeColor = 'bg-gradient-to-r from-purple-600 to-purple-400';
+                    else if(item.label === 'Recommended') badgeColor = 'bg-gradient-to-r from-blue-600 to-blue-400';
+                    
+                    badgeHtml = `<div class="absolute top-0 right-0 z-20">
+                                    <div class="${badgeColor} text-white text-[9px] font-bold px-3 py-1 rounded-bl-xl shadow-lg badge-shine tracking-wide uppercase">
+                                        ${item.label}
+                                    </div>
+                                 </div>`;
+                }
+
                 const card = document.createElement('div');
-                card.className = "group relative bg-[#202c33] rounded-xl overflow-hidden border border-wa-divider hover:border-wa-teal/50 transition-all duration-300 active:scale-[0.98] cursor-pointer shadow-sm";
+                card.className = "grid-3d group relative bg-[#202c33] rounded-xl overflow-hidden cursor-pointer animate-fade-up";
+                card.style.animationDelay = `${index * 0.05}s`;
                 card.onclick = () => navigateTo(`#/detail/${item.id}`);
                 card.innerHTML = `
                     <div class="aspect-square overflow-hidden relative">
                         ${discountHtml}
+                        ${badgeHtml}
                         <img src="${imgPng}" onerror="if(this.src.includes('.png')){this.src='${imgWebp}'}else if(this.src.includes('.webp')){this.src='${imgJpg}'}else{this.parentElement.remove()}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
-                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
                     </div>
                     <div class="p-3">
-                        <h4 class="text-sm text-wa-light font-medium truncate group-hover:text-white transition-colors tracking-tight">${item.title}</h4>
+                        <h4 class="text-xs text-wa-light font-bold truncate group-hover:text-wa-teal transition-colors tracking-wide">${item.title}</h4>
                         ${priceHtml}
                     </div>
                 `;
