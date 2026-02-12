@@ -60,14 +60,14 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 0;
-            opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
         .bg-glow {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 0;
-            background: radial-gradient(circle at 50% 0%, rgba(0, 168, 132, 0.08), transparent 70%);
+            background: radial-gradient(circle at 50% 0%, rgba(0, 168, 132, 0.06), transparent 80%);
         }
 
         /* Custom Scrollbar */
@@ -114,7 +114,7 @@
         .grid-3d:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); }
         .grid-3d:active { transform: translateY(1px); box-shadow: none; }
 
-        /* Grid Colors with Gradients (NEW) */
+        /* Grid Colors with Gradients */
         .bg-gradient-gold { background: linear-gradient(145deg, rgba(32, 44, 51, 1) 0%, rgba(234, 179, 8, 0.15) 100%); }
         .bg-gradient-cyan { background: linear-gradient(145deg, rgba(32, 44, 51, 1) 0%, rgba(34, 211, 238, 0.15) 100%); }
         .bg-gradient-blue { background: linear-gradient(145deg, rgba(32, 44, 51, 1) 0%, rgba(59, 130, 246, 0.15) 100%); }
@@ -142,7 +142,7 @@
 
 <body class="antialiased min-h-screen pb-20 bg-[#0b141a]">
     
-    <!-- BACKGROUND EFFECTS (NEW) -->
+    <!-- BACKGROUND EFFECTS -->
     <div class="bg-noise"></div>
     <div class="bg-glow"></div>
 
@@ -181,14 +181,14 @@
                         <p class="text-wa-gray text-xs md:text-sm max-w-md mx-auto leading-relaxed mt-2">Temukan berbagai undangan premium dengan desain eksklusif.</p>
                     </div>
                     <button onclick="kirimPesanUmum()" class="bg-wa-teal text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-wa-teal/30 text-sm flex items-center gap-2 hover:bg-[#008f6f] active:scale-95 transition-all animate-[fadeIn_1s_ease-out_0.3s_both]">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                         Konsultasi Custom Design
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Grid Menu (REVISI: Added Gradients) -->
+        <!-- Grid Menu (Gradients) -->
         <div id="grid-menu" class="max-w-md mx-auto px-4 py-8 relative z-10">
             <div class="mb-6 flex justify-between items-end">
                 <div>
@@ -888,12 +888,35 @@
                                         <span class="text-sm text-wa-teal font-bold">${price}</span>
                                         ${item.price_fake > item.price_real ? `<span class="text-[10px] text-wa-gray line-through decoration-red-500/50">${fakePrice}</span>` : ''}
                                      </div>`;
+                    } else {
+                        // LOGIC BARU: TAMPILKAN TIER BADGE + BUTTON JIKA NO PRICE
+                        // Clean "Tema " from tier name to save space
+                        let shortTier = item.tier.replace(/Tema /gi, '').trim();
+                        // Truncate logic handled by CSS 'truncate'
+                        
+                        priceHtml = `
+                        <div class="mt-2 flex items-center justify-between gap-2">
+                            <!-- Tier Capsule -->
+                            <div class="flex-1 min-w-0">
+                                <div class="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg bg-[#2a373f] border border-white/5 w-full max-w-full">
+                                    <span class="text-[10px] shrink-0 filter drop-shadow-sm">${emoji}</span>
+                                    <span class="text-[10px] text-wa-light/80 font-medium truncate tracking-wide">${shortTier}</span>
+                                </div>
+                            </div>
+                            <!-- Action Button -->
+                            <div class="shrink-0">
+                                <div class="w-7 h-7 flex items-center justify-center rounded-full bg-wa-teal/10 text-wa-teal border border-wa-teal/20 group-hover:bg-wa-teal group-hover:text-white transition-all duration-300">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </div>
+                            </div>
+                        </div>`;
                     }
 
-                    // Logic Tampilan Badge (Pengganti Harga untuk Reseller)
+                    // Logic Tampilan Badge Label (Best Seller dll)
                     let badgeHtml = '';
                     if (item.label) {
                         let badgeColor = 'bg-gray-600';
+                        let badgeText = item.label;
                         if(item.label === 'Best Seller') badgeColor = 'bg-gradient-to-r from-yellow-600 to-yellow-400';
                         else if(item.label === 'New Arrival') badgeColor = 'bg-gradient-to-r from-teal-500 to-emerald-400';
                         else if(item.label === 'Premium') badgeColor = 'bg-gradient-to-r from-purple-600 to-purple-400';
@@ -901,7 +924,7 @@
                         
                         badgeHtml = `<div class="absolute top-0 right-0 z-20">
                                         <div class="${badgeColor} text-white text-[9px] font-bold px-3 py-1 rounded-bl-xl shadow-lg badge-shine tracking-wide uppercase">
-                                            ${item.label}
+                                            ${badgeText}
                                         </div>
                                      </div>`;
                     }
@@ -974,6 +997,26 @@
                         discountHtml = `<div class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm z-10 border border-white/10">-${discount}%</div>`;
                     }
                     priceHtml = `<div class="flex items-center gap-1.5 mt-1.5"><span class="text-sm text-wa-teal font-bold">${price}</span>${item.price_fake > item.price_real ? `<span class="text-[10px] text-wa-gray line-through decoration-red-500/50">${fakePrice}</span>` : ''}</div>`;
+                } else {
+                    // LOGIC BARU: TAMPILKAN TIER BADGE + BUTTON JIKA NO PRICE
+                    let shortTier = item.tier.replace(/Tema /gi, '').trim();
+                    
+                    priceHtml = `
+                    <div class="mt-2 flex items-center justify-between gap-2">
+                        <!-- Tier Capsule -->
+                        <div class="flex-1 min-w-0">
+                            <div class="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg bg-[#2a373f] border border-white/5 w-full max-w-full">
+                                <span class="text-[10px] shrink-0 filter drop-shadow-sm">${emoji}</span>
+                                <span class="text-[10px] text-wa-light/80 font-medium truncate tracking-wide">${shortTier}</span>
+                            </div>
+                        </div>
+                        <!-- Action Button -->
+                        <div class="shrink-0">
+                            <div class="w-7 h-7 flex items-center justify-center rounded-full bg-wa-teal/10 text-wa-teal border border-wa-teal/20 group-hover:bg-wa-teal group-hover:text-white transition-all duration-300">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </div>
+                        </div>
+                    </div>`;
                 }
 
                 // Logic Badge di Kategori View
