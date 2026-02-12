@@ -3,124 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard & Tier Manager</title>
+    <title>Admin Dashboard & Label Manager</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Library untuk baca CSV -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <!-- Font Awesome untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #1e293b; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.3s ease-out; }
+    </style>
 </head>
 <body class="bg-slate-900 text-slate-200 font-sans min-h-screen p-8">
 
-    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="max-w-6xl mx-auto space-y-8">
         
-        <!-- KOLOM KIRI: UPLOAD CSV -->
-        <div>
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <h1 class="text-2xl font-bold text-blue-500">⚡ Admin Upload</h1>
-                    <p class="text-slate-400 text-xs">V2.2 - Auto Detect Tiers</p>
-                </div>
-                <div class="bg-slate-800 px-3 py-1 rounded-lg border border-slate-700">
-                    <span id="db-status" class="text-[10px] font-bold text-yellow-500">Connecting...</span>
-                </div>
-            </div>
-
-            <!-- Area Upload -->
-            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg relative overflow-hidden mb-6">
-                <!-- Loading Overlay -->
-                <div id="loading-overlay" class="absolute inset-0 bg-slate-900/90 z-20 flex flex-col items-center justify-center hidden">
-                    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500 mb-3"></div>
-                    <p class="text-blue-400 text-sm font-mono animate-pulse">Sedang memproses...</p>
-                </div>
-
-                <div class="mb-6 bg-blue-500/10 border border-blue-500/20 p-3 rounded-lg">
-                    <p class="text-xs text-blue-300">
-                        <i class="fas fa-lightbulb mr-1"></i> 
-                        <b>Tips:</b> Saat kamu memilih file CSV di bawah ini, sistem akan otomatis membaca nama-nama Tier (Gold, Platinum, dll) dan memunculkannya di panel kanan agar bisa kamu beri Emoji.
-                    </p>
-                </div>
-
-                <label class="block mb-2 text-sm font-medium text-slate-300">1. Pilih File CSV Terbaru</label>
-                <!-- Tambahkan onchange untuk auto-scan tier -->
-                <input type="file" id="csvFile" accept=".csv" onchange="previewTiersFromCSV()" class="block w-full text-xs text-slate-300
-                  file:mr-4 file:py-2 file:px-4
-                  file:rounded-full file:border-0
-                  file:text-xs file:font-semibold
-                  file:bg-blue-600 file:text-white
-                  hover:file:bg-blue-700 cursor-pointer mb-6 bg-slate-900/50 rounded-lg border border-slate-600
-                "/>
-                
-                <label class="block mb-2 text-sm font-medium text-slate-300">2. Aksi Upload</label>
-                <button onclick="processUpload()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition flex justify-center items-center gap-2 shadow-lg shadow-green-900/20">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    UPLOAD DATA TEMA KE DATABASE
-                </button>
-            </div>
-
-            <!-- Terminal Log -->
+        <!-- BAGIAN ATAS: UPLOAD & CONFIG -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- KOLOM KIRI: UPLOAD CSV -->
             <div>
-                <div class="flex justify-between items-end mb-2">
-                    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">System Log</h3>
-                    <button onclick="document.getElementById('logArea').innerHTML = ''" class="text-[10px] text-slate-600 hover:text-slate-400">Clear</button>
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h1 class="text-2xl font-bold text-blue-500">⚡ Admin Upload</h1>
+                        <p class="text-slate-400 text-xs">V2.3 - CSV & Label Manager</p>
+                    </div>
+                    <div class="bg-slate-800 px-3 py-1 rounded-lg border border-slate-700">
+                        <span id="db-status" class="text-[10px] font-bold text-yellow-500">Connecting...</span>
+                    </div>
                 </div>
-                <div id="logArea" class="bg-black text-green-400 p-4 rounded-lg font-mono text-[11px] h-48 overflow-y-auto border border-slate-800 shadow-inner leading-relaxed">
-                    <p class="opacity-50">> Menunggu file CSV...</p>
-                </div>
-            </div>
-        </div>
 
-        <!-- KOLOM KANAN: MANAJEMEN EMOJI TIER -->
-        <div class="lg:border-l lg:border-slate-800 lg:pl-8">
-            <div class="flex items-center justify-between mb-6">
+                <!-- Area Upload -->
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg relative overflow-hidden mb-6">
+                    <div id="loading-overlay" class="absolute inset-0 bg-slate-900/90 z-20 flex flex-col items-center justify-center hidden">
+                        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500 mb-3"></div>
+                        <p class="text-blue-400 text-sm font-mono animate-pulse">Sedang memproses...</p>
+                    </div>
+
+                    <div class="mb-6 bg-blue-500/10 border border-blue-500/20 p-3 rounded-lg">
+                        <p class="text-xs text-blue-300">
+                            <i class="fas fa-lightbulb mr-1"></i> 
+                            <b>Tips:</b> Upload CSV akan memperbarui/menambah data tema. Fitur Label ada di bagian bawah halaman.
+                        </p>
+                    </div>
+
+                    <label class="block mb-2 text-sm font-medium text-slate-300">1. Pilih File CSV Terbaru</label>
+                    <input type="file" id="csvFile" accept=".csv" onchange="previewTiersFromCSV()" class="block w-full text-xs text-slate-300
+                      file:mr-4 file:py-2 file:px-4
+                      file:rounded-full file:border-0
+                      file:text-xs file:font-semibold
+                      file:bg-blue-600 file:text-white
+                      hover:file:bg-blue-700 cursor-pointer mb-6 bg-slate-900/50 rounded-lg border border-slate-600
+                    "/>
+                    
+                    <button onclick="processUpload()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition flex justify-center items-center gap-2 shadow-lg shadow-green-900/20">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        UPLOAD DATA KE DATABASE
+                    </button>
+                </div>
+
+                <!-- Terminal Log -->
                 <div>
-                    <h2 class="text-xl font-bold text-purple-400">🎨 Manajemen Emoji</h2>
-                    <p class="text-slate-400 text-xs">Mapping Nama Tier -> Ikon</p>
+                    <div class="flex justify-between items-end mb-2">
+                        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">System Log</h3>
+                        <button onclick="document.getElementById('logArea').innerHTML = ''" class="text-[10px] text-slate-600 hover:text-slate-400">Clear</button>
+                    </div>
+                    <div id="logArea" class="bg-black text-green-400 p-4 rounded-lg font-mono text-[11px] h-48 overflow-y-auto border border-slate-800 shadow-inner leading-relaxed custom-scrollbar">
+                        <p class="opacity-50">> Menunggu file CSV...</p>
+                    </div>
                 </div>
-                <button onclick="loadTierConfig()" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded border border-slate-700 transition">
-                    <i class="fas fa-sync-alt mr-1"></i> Refresh
-                </button>
             </div>
 
-            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 shadow-lg relative">
-                <div class="flex justify-between text-xs text-slate-400 mb-2 uppercase font-bold tracking-wider px-1">
-                    <span>Nama Tier (Sesuai Excel)</span>
-                    <span>Emoji</span>
-                </div>
-                
-                <!-- Container Input Tier -->
-                <div id="tier-container" class="space-y-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar min-h-[100px]">
-                    <!-- Loading State -->
-                    <div class="text-center py-8 text-slate-500 text-sm">
-                        Memuat data...
+            <!-- KOLOM KANAN: MANAJEMEN EMOJI TIER -->
+            <div class="lg:border-l lg:border-slate-800 lg:pl-8">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-xl font-bold text-purple-400">🎨 Manajemen Emoji</h2>
+                        <p class="text-slate-400 text-xs">Mapping Nama Tier -> Ikon</p>
                     </div>
+                    <button onclick="loadTierConfig()" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded border border-slate-700 transition">
+                        <i class="fas fa-sync-alt mr-1"></i> Refresh
+                    </button>
                 </div>
 
-                <!-- Tombol Tambah Manual & Simpan -->
-                <div class="mt-6 pt-4 border-t border-slate-700">
-                    <div class="flex gap-3">
-                        <button onclick="addTierRow('', '')" class="w-1/3 bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs py-2 rounded-lg border border-slate-600 border-dashed transition">
-                            + Tambah Manual
-                        </button>
-                        <button onclick="saveTierConfig()" class="w-2/3 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs py-2 rounded-lg shadow-lg shadow-purple-900/20 transition transform active:scale-95">
-                            <i class="fas fa-save mr-1"></i> SIMPAN EMOJI
-                        </button>
+                <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 shadow-lg relative">
+                    <div class="flex justify-between text-xs text-slate-400 mb-2 uppercase font-bold tracking-wider px-1">
+                        <span>Nama Tier</span>
+                        <span>Emoji</span>
                     </div>
-                    <p class="text-[10px] text-slate-500 mt-2 text-center">
-                        *Klik Simpan setelah Scan CSV atau edit emoji.
-                    </p>
+                    
+                    <div id="tier-container" class="space-y-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar min-h-[100px]">
+                        <div class="text-center py-8 text-slate-500 text-sm">Memuat data...</div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-slate-700">
+                        <div class="flex gap-3">
+                            <button onclick="addTierRow('', '')" class="w-1/3 bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs py-2 rounded-lg border border-slate-600 border-dashed transition">
+                                + Manual
+                            </button>
+                            <button onclick="saveTierConfig()" class="w-2/3 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs py-2 rounded-lg shadow-lg shadow-purple-900/20 transition transform active:scale-95">
+                                <i class="fas fa-save mr-1"></i> SIMPAN EMOJI
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- BAGIAN BAWAH: LABEL MANAGER (BARU) -->
+        <div class="pt-8 border-t border-slate-800">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-emerald-400">🏷️ Manajemen Label Produk</h2>
+                    <p class="text-slate-400 text-xs">Atur label Best Seller, New Arrival, dll secara real-time.</p>
+                </div>
+                <div class="flex gap-3">
+                    <div class="relative">
+                        <input type="text" id="searchProduct" onkeyup="filterProducts()" placeholder="Cari nama tema..." class="bg-slate-800 border border-slate-700 text-slate-300 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block pl-10 p-2.5 w-64">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <i class="fas fa-search text-slate-500"></i>
+                        </div>
+                    </div>
+                    <button onclick="loadAllProducts()" class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg border border-slate-700 transition text-sm">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                <!-- Products will be loaded here -->
+                <div class="col-span-full text-center py-10 text-slate-500 bg-slate-800/50 rounded-xl border border-slate-800 border-dashed">
+                    <i class="fas fa-spinner fa-spin mr-2"></i> Memuat Data Produk...
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- Script Utama -->
     <script type="module">
-        // Import Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getFirestore, doc, writeBatch, collection, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+        import { getFirestore, doc, writeBatch, collection, getDoc, getDocs, setDoc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
-        // CONFIG USER
+        // CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyDq6LjlUFRDm5CqGSqVLiJ9gItIyw71bAU",
             authDomain: "db-katalog.firebaseapp.com",
@@ -132,17 +166,17 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const IMAGEKIT_BASE = "https://ik.imagekit.io/undangandigital";
 
-        // --- GLOBAL VARIABLES ---
-        let existingTiers = {}; // Menyimpan data tier yang ada di DB
+        let existingTiers = {}; 
+        let allProductsCache = []; // Cache lokal untuk fitur search
 
-        // --- INIT ---
         window.addEventListener('load', async () => {
             checkConnection();
             await loadTierConfig();
+            await loadAllProducts(); // Load produk saat start
         });
 
-        // Cek Koneksi
         function checkConnection() {
             try {
                 const test = collection(db, 'themes');
@@ -155,187 +189,235 @@
         }
 
         // ==========================================
-        // BAGIAN 1: MANAJEMEN TIER & EMOJI
+        // FITUR BARU: PRODUCT LABEL MANAGER
         // ==========================================
 
-        // Load data dari Firestore (Collection: config, Doc: tiers)
+        window.loadAllProducts = async function() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-500"><i class="fas fa-spinner fa-spin mr-2"></i> Mengambil data dari server...</div>';
+
+            try {
+                // Ambil semua data tema
+                const q = query(collection(db, "themes"));
+                const querySnapshot = await getDocs(q);
+                
+                allProductsCache = [];
+                querySnapshot.forEach((doc) => {
+                    allProductsCache.push({ id: doc.id, ...doc.data() });
+                });
+
+                // Sort by Label (yang punya label di atas), lalu Title
+                allProductsCache.sort((a, b) => {
+                    if (a.label && !b.label) return -1;
+                    if (!a.label && b.label) return 1;
+                    return a.title.localeCompare(b.title);
+                });
+
+                renderProductList(allProductsCache);
+                log(`> Berhasil memuat ${allProductsCache.length} produk untuk manajemen label.`, "text-emerald-400");
+
+            } catch (error) {
+                console.error("Error load products:", error);
+                grid.innerHTML = `<div class="col-span-full text-center py-10 text-red-500">Gagal memuat produk: ${error.message}</div>`;
+            }
+        }
+
+        window.renderProductList = function(products) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+
+            if (products.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-500">Tidak ada produk ditemukan.</div>';
+                return;
+            }
+
+            products.forEach(p => {
+                // Gambar fallback logic
+                const imgBase = `${IMAGEKIT_BASE}/${p.folder_id}/01`;
+                const currentLabel = p.label || "";
+
+                // Card HTML
+                const card = document.createElement('div');
+                card.className = "bg-slate-800 rounded-xl border border-slate-700 overflow-hidden group hover:border-slate-500 transition-colors";
+                card.innerHTML = `
+                    <div class="flex p-3 gap-3">
+                        <div class="w-16 h-16 shrink-0 rounded-lg bg-slate-900 overflow-hidden relative">
+                            <img src="${imgBase}.png?tr=w-100" 
+                                 onerror="this.src='${imgBase}.webp?tr=w-100'; this.onerror=null;" 
+                                 class="w-full h-full object-cover" loading="lazy">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold text-white truncate mb-1" title="${p.title}">${p.title}</h4>
+                            <p class="text-[10px] text-slate-400 mb-2">${p.tier} • ${p.category || '-'}</p>
+                            
+                            <!-- DROPDOWN LABEL -->
+                            <select onchange="updateProductLabel('${p.id}', this.value)" 
+                                    class="w-full bg-slate-900 border border-slate-600 text-xs text-slate-300 rounded px-2 py-1.5 focus:border-emerald-500 focus:outline-none cursor-pointer">
+                                <option value="" ${currentLabel === "" ? "selected" : ""}>⚪ Tanpa Label</option>
+                                <option value="Best Seller" ${currentLabel === "Best Seller" ? "selected" : ""}>🥇 Best Seller</option>
+                                <option value="New Arrival" ${currentLabel === "New Arrival" ? "selected" : ""}>🔥 New Arrival</option>
+                                <option value="Premium" ${currentLabel === "Premium" ? "selected" : ""}>💎 Premium</option>
+                                <option value="Recommended" ${currentLabel === "Recommended" ? "selected" : ""}>⭐ Recommended</option>
+                            </select>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        window.filterProducts = function() {
+            const query = document.getElementById('searchProduct').value.toLowerCase();
+            const filtered = allProductsCache.filter(p => 
+                p.title.toLowerCase().includes(query) || 
+                (p.tier && p.tier.toLowerCase().includes(query)) ||
+                (p.category && p.category.toLowerCase().includes(query))
+            );
+            renderProductList(filtered);
+        }
+
+        window.updateProductLabel = async function(docId, newLabel) {
+            try {
+                // Update Firestore
+                const docRef = doc(db, "themes", docId);
+                await updateDoc(docRef, { 
+                    label: newLabel,
+                    updated_at: new Date()
+                });
+
+                // Update Cache Lokal
+                const productIndex = allProductsCache.findIndex(p => p.id === docId);
+                if(productIndex > -1) {
+                    allProductsCache[productIndex].label = newLabel;
+                }
+
+                // Feedback UI (Toast sederhana di log)
+                const labelText = newLabel ? `[${newLabel}]` : "[Hapus Label]";
+                log(`✅ Update sukses: ${docId} -> ${labelText}`, "text-emerald-400");
+                
+                // Opsional: Efek visual di row (flash green border)
+                // ... (simpel saja biar cepat)
+
+            } catch (e) {
+                console.error("Gagal update label:", e);
+                log(`❌ Gagal update: ${e.message}`, "text-red-500");
+                alert("Gagal update label: " + e.message);
+            }
+        }
+
+        // ==========================================
+        // EXISTING: TIER CONFIG & UPLOAD
+        // ==========================================
+
         window.loadTierConfig = async function() {
             const container = document.getElementById('tier-container');
-            container.innerHTML = '<div class="text-center py-4 text-slate-500"><i class="fas fa-spinner fa-spin"></i> Loading Konfigurasi...</div>';
+            container.innerHTML = '<div class="text-center py-4 text-slate-500"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
 
             try {
                 const docRef = doc(db, "config", "tiers");
                 const docSnap = await getDoc(docRef);
-
-                container.innerHTML = ''; // Clear loading
+                container.innerHTML = ''; 
 
                 if (docSnap.exists()) {
                     existingTiers = docSnap.data();
                     const sortedKeys = Object.keys(existingTiers).sort();
-                    
-                    if(sortedKeys.length === 0) {
-                         container.innerHTML = '<div class="text-center py-4 text-slate-500 text-xs italic">Belum ada data emoji.<br>Silakan Upload CSV di kiri untuk auto-detect.</div>';
-                    }
-
-                    sortedKeys.forEach(key => {
-                        addTierRow(key, existingTiers[key]);
-                    });
+                    if(sortedKeys.length === 0) container.innerHTML = '<div class="text-center py-4 text-slate-500 text-xs italic">Data kosong.</div>';
+                    sortedKeys.forEach(key => addTierRow(key, existingTiers[key]));
                 } else {
-                    container.innerHTML = '<div class="text-center py-4 text-slate-500 text-xs italic">Database Emoji Kosong.<br>Silakan Upload CSV di kiri untuk auto-detect.</div>';
+                    container.innerHTML = '<div class="text-center py-4 text-slate-500 text-xs italic">Data kosong.</div>';
                     existingTiers = {};
                 }
-                log("> Konfigurasi Emoji berhasil dimuat.", "text-purple-400");
             } catch (error) {
-                console.error("Error loading tiers:", error);
+                console.error("Error tiers:", error);
                 container.innerHTML = '<p class="text-red-500 text-xs">Gagal memuat data.</p>';
-                log(`❌ Gagal load emoji: ${error.message}`, "text-red-500");
             }
         }
 
-        // Helper: Tambah Row HTML untuk Input Tier
         window.addTierRow = function(tierName = '', emoji = '') {
             const container = document.getElementById('tier-container');
-            
-            // Hapus pesan "kosong" jika ada
-            if(container.innerText.includes('Belum ada data') || container.innerText.includes('Database Emoji Kosong') || container.innerText.includes('Loading')) {
-                container.innerHTML = '';
-            }
+            if(container.innerText.includes('Data kosong') || container.innerText.includes('Loading')) container.innerHTML = '';
 
-            // Cek duplikat visual agar tidak render double saat scan csv
             const existingInputs = document.querySelectorAll('.tier-name-input');
-            for(let input of existingInputs) {
-                if(input.value === tierName && tierName !== '') return; 
-            }
+            for(let input of existingInputs) { if(input.value === tierName && tierName !== '') return; }
 
             const div = document.createElement('div');
             div.className = "flex gap-2 items-center animate-fade-in tier-row group";
             div.innerHTML = `
-                <input type="text" placeholder="Nama Tier" value="${tierName}" readonly
-                    class="tier-name-input w-2/3 bg-slate-900 border border-slate-600 rounded px-3 py-2 text-xs text-slate-400 cursor-not-allowed focus:outline-none font-mono" 
-                    title="Diambil otomatis dari CSV">
-                <input type="text" placeholder="Ikon" value="${emoji}" 
-                    class="tier-emoji-input w-1/3 bg-slate-900 border border-slate-600 rounded px-3 py-2 text-center text-lg focus:border-purple-500 focus:outline-none focus:bg-slate-800 transition">
-                <button onclick="this.parentElement.remove()" class="text-slate-600 hover:text-red-400 px-2 opacity-0 group-hover:opacity-100 transition">
-                    <i class="fas fa-trash-alt text-xs"></i>
-                </button>
+                <input type="text" placeholder="Tier" value="${tierName}" readonly class="tier-name-input w-2/3 bg-slate-900 border border-slate-600 rounded px-3 py-2 text-xs text-slate-400 cursor-not-allowed focus:outline-none font-mono">
+                <input type="text" placeholder="Ikon" value="${emoji}" class="tier-emoji-input w-1/3 bg-slate-900 border border-slate-600 rounded px-3 py-2 text-center text-lg focus:border-purple-500 focus:outline-none focus:bg-slate-800 transition">
+                <button onclick="this.parentElement.remove()" class="text-slate-600 hover:text-red-400 px-2 opacity-0 group-hover:opacity-100 transition"><i class="fas fa-trash-alt text-xs"></i></button>
             `;
             container.appendChild(div);
         }
 
-        // Simpan Konfigurasi ke Firestore
         window.saveTierConfig = async function() {
             const names = document.querySelectorAll('.tier-name-input');
             const emojis = document.querySelectorAll('.tier-emoji-input');
-            
             let dataToSave = {};
             let count = 0;
 
             names.forEach((input, index) => {
                 const key = input.value.trim();
                 const val = emojis[index].value.trim();
-                if (key) {
-                    dataToSave[key] = val;
-                    count++;
-                }
+                if (key) { dataToSave[key] = val; count++; }
             });
 
             try {
                 await setDoc(doc(db, "config", "tiers"), dataToSave);
-                log(`✅ BERHASIL: ${count} Emoji disimpan ke database!`, "text-purple-400");
-                alert("Sukses! Emoji sudah disimpan. Web utama akan otomatis menggunakannya.");
-                // Update local var
+                log(`✅ Emoji Tersimpan (${count} item).`, "text-purple-400");
+                alert("Sukses simpan emoji!");
                 existingTiers = dataToSave; 
             } catch (e) {
-                log(`❌ Gagal simpan emoji: ${e.message}`, "text-red-500");
-                alert("Gagal menyimpan: " + e.message);
+                log(`❌ Gagal simpan: ${e.message}`, "text-red-500");
+                alert("Gagal: " + e.message);
             }
         }
 
-        // Fungsi Pintar: Scan CSV saat dipilih untuk mencari Tier baru
         window.previewTiersFromCSV = function() {
             const fileInput = document.getElementById('csvFile');
             const file = fileInput.files[0];
             if (!file) return;
 
-            log(`> Menganalisa file CSV untuk mencari Tier...`, "text-yellow-400");
-
+            log(`> Menganalisa CSV...`, "text-yellow-400");
             Papa.parse(file, {
-                header: true,
-                skipEmptyLines: true,
+                header: true, skipEmptyLines: true,
                 complete: function(results) {
                     const data = results.data;
                     const foundTiers = new Set();
-                    
-                    // Kumpulkan semua tier unik dari CSV
-                    data.forEach(row => {
-                        // Pastikan kita baca kolom 'tier'
-                        if (row.tier && row.tier.trim() !== "") {
-                            foundTiers.add(row.tier.trim());
-                        }
-                    });
+                    data.forEach(row => { if (row.tier) foundTiers.add(row.tier.trim()); });
 
                     let newFoundCount = 0;
-                    // Cek mana yang belum ada di existingTiers
                     foundTiers.forEach(tier => {
-                        // Cek apakah tier ini sudah ada di database/tampilan
                         let alreadyExists = existingTiers.hasOwnProperty(tier);
-                        
-                        // Cek juga apakah sudah ada di tampilan input saat ini (kalau user scan 2x)
-                        const currentInputs = document.querySelectorAll('.tier-name-input');
-                        currentInputs.forEach(input => {
-                            if(input.value === tier) alreadyExists = true;
-                        });
-
-                        if (!alreadyExists) {
-                            addTierRow(tier, "❓"); // Default emoji tanya
-                            newFoundCount++;
-                        }
+                        document.querySelectorAll('.tier-name-input').forEach(i => { if(i.value === tier) alreadyExists = true; });
+                        if (!alreadyExists) { addTierRow(tier, "❓"); newFoundCount++; }
                     });
 
-                    if (newFoundCount > 0) {
-                        log(`> DITEMUKAN ${newFoundCount} TIER BARU! Cek panel kanan.`, "text-yellow-400");
-                        log(`> Silakan ganti tanda ❓ dengan emoji, lalu klik SIMPAN.`, "text-yellow-400");
-                    } else {
-                        log(`> Analisa selesai. Tidak ada tier baru yang ditemukan.`, "text-slate-500");
-                    }
+                    if (newFoundCount > 0) log(`> Ditemukan ${newFoundCount} tier baru.`, "text-yellow-400");
+                    else log(`> Analisa selesai. Tidak ada tier baru.`, "text-slate-500");
                 }
             });
         }
 
-        // ==========================================
-        // BAGIAN 2: UPLOAD CSV 
-        // ==========================================
-
         window.processUpload = function() {
             const fileInput = document.getElementById('csvFile');
             const file = fileInput.files[0];
-            
-            if (!file) {
-                log("❌ ERROR: Pilih file CSV dulu bos!", "text-red-500");
-                return;
-            }
+            if (!file) { log("❌ Pilih file CSV dulu!", "text-red-500"); return; }
 
             document.getElementById('loading-overlay').classList.remove('hidden');
-            log(`> Membaca file: ${file.name}...`);
+            log(`> Membaca ${file.name}...`);
 
             Papa.parse(file, {
-                header: true,
-                skipEmptyLines: true,
+                header: true, skipEmptyLines: true,
                 complete: async function(results) {
-                    const dataMentah = results.data;
-                    log(`> Ditemukan ${dataMentah.length} baris data.`);
-                    
-                    // Validasi kolom 'tier'
-                    if (dataMentah.length > 0 && !dataMentah[0].tier) {
-                        log("⚠️ WARNING: Kolom 'tier' tidak ditemukan di CSV! Pastikan header ditulis kecil semua.", "text-red-500");
-                    }
-
-                    log(`> Memulai proses upload ke Firebase...`);
-                    await uploadToFirebase(dataMentah);
+                    log(`> Memulai upload...`);
+                    await uploadToFirebase(results.data);
                     document.getElementById('loading-overlay').classList.add('hidden');
+                    // Refresh product list after upload
+                    loadAllProducts();
                 },
                 error: function(error) {
-                    log(`❌ Error parsing CSV: ${error.message}`, "text-red-500");
+                    log(`❌ Error CSV: ${error.message}`, "text-red-500");
                     document.getElementById('loading-overlay').classList.add('hidden');
                 }
             });
@@ -355,19 +437,11 @@
 
                     const cleanPriceReal = parseInt(String(row['price-real']).replace(/[^0-9]/g, '')) || 0;
                     const cleanPriceFake = parseInt(String(row['price-fake']).replace(/[^0-9]/g, '')) || 0;
-                    
-                    let variantsArray = [];
-                    if (row.variants) {
-                        variantsArray = row.variants.split(',').map(item => item.trim());
-                    }
-
-                    let cleanDesc = row.description || "";
-                    cleanDesc = cleanDesc.replace(/\uFFFD/g, '-'); 
-
+                    let variantsArray = row.variants ? row.variants.split(',').map(item => item.trim()) : [];
+                    let cleanDesc = (row.description || "").replace(/\uFFFD/g, '-'); 
                     const cleanTier = row.tier ? row.tier.trim() : "Basic";
 
                     const docRef = doc(db, "themes", row.id);
-                    
                     const cleanData = {
                         id: row.id,
                         title: row.title || row['title '] || "Tanpa Judul",
@@ -382,24 +456,30 @@
                         "photo-required": row['photo-required'] || row['photo_required'] || 'no',
                         updated_at: new Date()
                     };
-
-                    batch.set(docRef, cleanData);
+                    
+                    // Jaga label yang sudah ada agar tidak tertimpa null jika CSV tidak punya kolom label
+                    // Note: set() dengan merge:true lebih aman, tapi struktur CSV master biasanya full replace.
+                    // Disini kita gunakan set tanpa merge untuk data inti, TAPI kita harus hati-hati dengan field 'label'.
+                    // Namun karena 'label' diatur via UI admin (bukan CSV), idealnya kita pakai {merge: true} 
+                    // ATAU kita baca dulu datanya.
+                    // DEMI PERFORMA: Kita anggap CSV adalah master data konten. 
+                    // Solusi Cepat: Gunakan update() jika doc exists, set() jika baru? 
+                    // Atau paling aman: set(data, {merge: true}) agar field 'label' yang ada di DB tidak hilang.
+                    
+                    batch.set(docRef, cleanData, { merge: true });
                 });
 
                 try {
                     await batch.commit();
                     successCount += chunk.length;
-                    log(`✅ Batch ${Math.floor(i/batchSize) + 1} sukses! (${successCount}/${dataList.length})`);
+                    log(`✅ Batch ${Math.floor(i/batchSize) + 1} sukses.`);
                 } catch (e) {
                     errorCount += chunk.length;
-                    log(`❌ Gagal upload batch: ${e.message}`, "text-red-500");
+                    log(`❌ Gagal batch: ${e.message}`, "text-red-500");
                 }
             }
-
-            log(`🎉 SELESAI! Sukses: ${successCount}, Gagal: ${errorCount}`);
-            if(successCount > 0) {
-                alert(`Sukses update ${successCount} tema!`);
-            }
+            log(`🎉 Selesai! Sukses: ${successCount}, Gagal: ${errorCount}`);
+            if(successCount > 0) alert(`Sukses update ${successCount} tema!`);
         }
 
         function log(message, color = "text-green-400") {
@@ -411,17 +491,5 @@
             logArea.scrollTop = logArea.scrollHeight;
         }
     </script>
-    <style>
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #1e293b; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #64748b; }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in { animation: fadeIn 0.3s ease-out; }
-    </style>
 </body>
 </html>
