@@ -34,7 +34,7 @@
                 <div class="flex items-center justify-between mb-6">
                     <div>
                         <h1 class="text-2xl font-bold text-blue-500">⚡ Admin Upload</h1>
-                        <p class="text-slate-400 text-xs">V2.3 - CSV & Label Manager</p>
+                        <p class="text-slate-400 text-xs">V2.4 - Grouped View</p>
                     </div>
                     <div class="bg-slate-800 px-3 py-1 rounded-lg border border-slate-700">
                         <span id="db-status" class="text-[10px] font-bold text-yellow-500">Connecting...</span>
@@ -118,30 +118,30 @@
             </div>
         </div>
 
-        <!-- BAGIAN BAWAH: LABEL MANAGER (BARU) -->
+        <!-- BAGIAN BAWAH: LABEL MANAGER (REVISI: GROUPED VIEW) -->
         <div class="pt-8 border-t border-slate-800">
             <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
                 <div>
                     <h2 class="text-2xl font-bold text-emerald-400">🏷️ Manajemen Label Produk</h2>
-                    <p class="text-slate-400 text-xs">Atur label Best Seller, New Arrival, dll secara real-time.</p>
+                    <p class="text-slate-400 text-xs">Produk dikelompokkan berdasarkan Kategori & Tier.</p>
                 </div>
                 <div class="flex gap-3">
                     <div class="relative">
-                        <input type="text" id="searchProduct" onkeyup="filterProducts()" placeholder="Cari nama tema..." class="bg-slate-800 border border-slate-700 text-slate-300 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block pl-10 p-2.5 w-64">
+                        <input type="text" id="searchProduct" onkeyup="filterProducts()" placeholder="Cari nama tema/kategori..." class="bg-slate-800 border border-slate-700 text-slate-300 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block pl-10 p-2.5 w-64">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <i class="fas fa-search text-slate-500"></i>
                         </div>
                     </div>
-                    <button onclick="loadAllProducts()" class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg border border-slate-700 transition text-sm">
+                    <button onclick="loadAllProducts()" class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg border border-slate-700 transition text-sm" title="Reload Data">
                         <i class="fas fa-sync-alt"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Product Grid -->
-            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                <!-- Products will be loaded here -->
-                <div class="col-span-full text-center py-10 text-slate-500 bg-slate-800/50 rounded-xl border border-slate-800 border-dashed">
+            <!-- CONTAINER LIST (Bukan lagi Grid Flat) -->
+            <div id="product-list-container" class="space-y-8">
+                <!-- Data akan dimuat disini dengan struktur Category -> Tier -> Grid -->
+                <div class="text-center py-10 text-slate-500 bg-slate-800/50 rounded-xl border border-slate-800 border-dashed">
                     <i class="fas fa-spinner fa-spin mr-2"></i> Memuat Data Produk...
                 </div>
             </div>
@@ -189,12 +189,12 @@
         }
 
         // ==========================================
-        // FITUR BARU: PRODUCT LABEL MANAGER
+        // FITUR BARU: PRODUCT LABEL MANAGER (GROUPED)
         // ==========================================
 
         window.loadAllProducts = async function() {
-            const grid = document.getElementById('product-grid');
-            grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-500"><i class="fas fa-spinner fa-spin mr-2"></i> Mengambil data dari server...</div>';
+            const container = document.getElementById('product-list-container');
+            container.innerHTML = '<div class="text-center py-10 text-slate-500"><i class="fas fa-spinner fa-spin mr-2"></i> Mengambil data dari server...</div>';
 
             try {
                 // Ambil semua data tema
@@ -206,63 +206,126 @@
                     allProductsCache.push({ id: doc.id, ...doc.data() });
                 });
 
-                // Sort by Label (yang punya label di atas), lalu Title
-                allProductsCache.sort((a, b) => {
-                    if (a.label && !b.label) return -1;
-                    if (!a.label && b.label) return 1;
-                    return a.title.localeCompare(b.title);
-                });
-
                 renderProductList(allProductsCache);
                 log(`> Berhasil memuat ${allProductsCache.length} produk untuk manajemen label.`, "text-emerald-400");
 
             } catch (error) {
                 console.error("Error load products:", error);
-                grid.innerHTML = `<div class="col-span-full text-center py-10 text-red-500">Gagal memuat produk: ${error.message}</div>`;
+                container.innerHTML = `<div class="text-center py-10 text-red-500">Gagal memuat produk: ${error.message}</div>`;
             }
         }
 
+        // REVISI: Render Group by Category & Tier
         window.renderProductList = function(products) {
-            const grid = document.getElementById('product-grid');
-            grid.innerHTML = '';
+            const container = document.getElementById('product-list-container');
+            container.innerHTML = '';
 
             if (products.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-10 text-slate-500">Tidak ada produk ditemukan.</div>';
+                container.innerHTML = '<div class="text-center py-10 text-slate-500 bg-slate-800/50 rounded-xl">Tidak ada produk ditemukan.</div>';
                 return;
             }
 
+            // 1. Grouping Logic
+            const grouped = {};
             products.forEach(p => {
-                // Gambar fallback logic
-                const imgBase = `${IMAGEKIT_BASE}/${p.folder_id}/01`;
-                const currentLabel = p.label || "";
+                // Bersihkan string kategori
+                let cat = p.category ? p.category.trim() : 'Uncategorized';
+                // Ubah format "tema-wedding" jadi "Tema Wedding" agar lebih rapi
+                cat = cat.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                
+                let tier = p.tier ? p.tier.trim() : 'No Tier';
+                
+                if (!grouped[cat]) grouped[cat] = {};
+                if (!grouped[cat][tier]) grouped[cat][tier] = [];
+                grouped[cat][tier].push(p);
+            });
 
-                // Card HTML
-                const card = document.createElement('div');
-                card.className = "bg-slate-800 rounded-xl border border-slate-700 overflow-hidden group hover:border-slate-500 transition-colors";
-                card.innerHTML = `
-                    <div class="flex p-3 gap-3">
-                        <div class="w-16 h-16 shrink-0 rounded-lg bg-slate-900 overflow-hidden relative">
-                            <img src="${imgBase}.png?tr=w-100" 
-                                 onerror="this.src='${imgBase}.webp?tr=w-100'; this.onerror=null;" 
-                                 class="w-full h-full object-cover" loading="lazy">
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <h4 class="text-sm font-bold text-white truncate mb-1" title="${p.title}">${p.title}</h4>
-                            <p class="text-[10px] text-slate-400 mb-2">${p.tier} • ${p.category || '-'}</p>
-                            
-                            <!-- DROPDOWN LABEL -->
-                            <select onchange="updateProductLabel('${p.id}', this.value)" 
-                                    class="w-full bg-slate-900 border border-slate-600 text-xs text-slate-300 rounded px-2 py-1.5 focus:border-emerald-500 focus:outline-none cursor-pointer">
-                                <option value="" ${currentLabel === "" ? "selected" : ""}>⚪ Tanpa Label</option>
-                                <option value="Best Seller" ${currentLabel === "Best Seller" ? "selected" : ""}>🥇 Best Seller</option>
-                                <option value="New Arrival" ${currentLabel === "New Arrival" ? "selected" : ""}>🔥 New Arrival</option>
-                                <option value="Premium" ${currentLabel === "Premium" ? "selected" : ""}>💎 Premium</option>
-                                <option value="Recommended" ${currentLabel === "Recommended" ? "selected" : ""}>⭐ Recommended</option>
-                            </select>
+            // 2. Rendering Loop
+            const sortedCategories = Object.keys(grouped).sort();
+
+            sortedCategories.forEach(catName => {
+                // Wrapper Kategori
+                const catSection = document.createElement('div');
+                catSection.className = "bg-slate-800/30 p-5 rounded-2xl border border-slate-700/50";
+                
+                // Header Kategori
+                catSection.innerHTML = `
+                    <div class="mb-6 flex items-center gap-3 pb-4 border-b border-slate-700/50">
+                        <div class="w-1.5 h-8 bg-blue-500 rounded-full"></div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-100">${catName}</h3>
+                            <p class="text-[10px] text-slate-400">Total ${Object.values(grouped[catName]).flat().length} Tema</p>
                         </div>
                     </div>
                 `;
-                grid.appendChild(card);
+
+                const tiersObj = grouped[catName];
+                
+                // Urutan Tier Custom (agar Gold/Platinum tidak acak)
+                const tierOrder = ["Starter", "Bronze", "Silver", "Gold", "Platinum", "Diamond"];
+                const sortedTiers = Object.keys(tiersObj).sort((a, b) => {
+                    const idxA = tierOrder.indexOf(a);
+                    const idxB = tierOrder.indexOf(b);
+                    if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+                    if (idxA !== -1) return -1; 
+                    if (idxB !== -1) return 1;
+                    return a.localeCompare(b);
+                });
+
+                sortedTiers.forEach(tierName => {
+                    const tierItems = tiersObj[tierName];
+                    
+                    const tierBlock = document.createElement('div');
+                    tierBlock.className = "mb-8 last:mb-0 pl-2 md:pl-4";
+                    
+                    // Header Tier
+                    tierBlock.innerHTML = `<h4 class="text-xs font-bold text-emerald-400 mb-3 uppercase tracking-widest flex items-center gap-2">
+                        <i class="fas fa-layer-group opacity-50"></i> ${tierName}
+                    </h4>`;
+
+                    // Grid Kartu Produk
+                    const grid = document.createElement('div');
+                    grid.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4";
+
+                    tierItems.forEach(p => {
+                        const imgBase = `${IMAGEKIT_BASE}/${p.folder_id}/01`;
+                        const currentLabel = p.label || "";
+                        
+                        const card = document.createElement('div');
+                        card.className = "bg-slate-800 rounded-xl border border-slate-700 overflow-hidden group hover:border-slate-500 transition-colors relative shadow-sm";
+                        
+                        card.innerHTML = `
+                            <div class="flex p-3 gap-3">
+                                <div class="w-16 h-16 shrink-0 rounded-lg bg-slate-900 overflow-hidden relative group-hover:opacity-80 transition-opacity">
+                                    <img src="${imgBase}.png?tr=w-100" 
+                                         onerror="this.src='${imgBase}.webp?tr=w-100'; this.onerror=null;" 
+                                         class="w-full h-full object-cover" loading="lazy">
+                                </div>
+                                <div class="flex-1 min-w-0 flex flex-col justify-between">
+                                    <div>
+                                        <h4 class="text-sm font-bold text-white truncate mb-0.5" title="${p.title}">${p.title}</h4>
+                                        <p class="text-[9px] text-slate-500 mb-2 font-mono">${p.id}</p>
+                                    </div>
+                                    
+                                    <select onchange="updateProductLabel('${p.id}', this.value)" 
+                                            class="w-full bg-slate-900 border border-slate-600 text-[11px] text-slate-300 rounded px-2 py-1 focus:border-emerald-500 focus:outline-none cursor-pointer hover:bg-slate-700 transition-colors">
+                                        <option value="" ${currentLabel === "" ? "selected" : ""}>⚪ Tanpa Label</option>
+                                        <option value="Best Seller" ${currentLabel === "Best Seller" ? "selected" : ""}>🥇 Best Seller</option>
+                                        <option value="New Arrival" ${currentLabel === "New Arrival" ? "selected" : ""}>🔥 New Arrival</option>
+                                        <option value="Premium" ${currentLabel === "Premium" ? "selected" : ""}>💎 Premium</option>
+                                        <option value="Recommended" ${currentLabel === "Recommended" ? "selected" : ""}>⭐ Recommended</option>
+                                    </select>
+                                </div>
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    });
+
+                    tierBlock.appendChild(grid);
+                    catSection.appendChild(tierBlock);
+                });
+
+                container.appendChild(catSection);
             });
         }
 
@@ -294,9 +357,6 @@
                 // Feedback UI (Toast sederhana di log)
                 const labelText = newLabel ? `[${newLabel}]` : "[Hapus Label]";
                 log(`✅ Update sukses: ${docId} -> ${labelText}`, "text-emerald-400");
-                
-                // Opsional: Efek visual di row (flash green border)
-                // ... (simpel saja biar cepat)
 
             } catch (e) {
                 console.error("Gagal update label:", e);
@@ -456,15 +516,6 @@
                         "photo-required": row['photo-required'] || row['photo_required'] || 'no',
                         updated_at: new Date()
                     };
-                    
-                    // Jaga label yang sudah ada agar tidak tertimpa null jika CSV tidak punya kolom label
-                    // Note: set() dengan merge:true lebih aman, tapi struktur CSV master biasanya full replace.
-                    // Disini kita gunakan set tanpa merge untuk data inti, TAPI kita harus hati-hati dengan field 'label'.
-                    // Namun karena 'label' diatur via UI admin (bukan CSV), idealnya kita pakai {merge: true} 
-                    // ATAU kita baca dulu datanya.
-                    // DEMI PERFORMA: Kita anggap CSV adalah master data konten. 
-                    // Solusi Cepat: Gunakan update() jika doc exists, set() jika baru? 
-                    // Atau paling aman: set(data, {merge: true}) agar field 'label' yang ada di DB tidak hilang.
                     
                     batch.set(docRef, cleanData, { merge: true });
                 });
