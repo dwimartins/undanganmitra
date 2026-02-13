@@ -91,7 +91,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Sheet & Gallery Animations */
-        #view-gallery, #feature-sheet, #order-sheet, #animasi-sheet { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease; }
+        #view-gallery, #feature-sheet, #order-sheet, #animasi-sheet, #contact-sheet { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease; }
         .sheet-open { transform: translateY(0); }
         .sheet-closed { transform: translateY(100%); }
         .backdrop-open { opacity: 1; pointer-events: auto; }
@@ -180,9 +180,11 @@
                         <h2 class="text-3xl md:text-4xl font-bold text-white leading-tight mb-2 tracking-tight">Undangan Digital <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-emerald-500">Eksklusif & Modern</span></h2>
                         <p class="text-wa-gray text-xs md:text-sm max-w-md mx-auto leading-relaxed mt-2">Temukan berbagai undangan premium dengan desain eksklusif.</p>
                     </div>
-                    <button onclick="kirimPesanUmum()" class="bg-wa-teal text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-wa-teal/30 text-sm flex items-center gap-2 hover:bg-[#008f6f] active:scale-95 transition-all animate-[fadeIn_1s_ease-out_0.3s_both]">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                        Konsultasi Custom Design
+                    
+                    <!-- REVISI HERO BUTTON: NAVIGASI BUKAN WA -->
+                    <button onclick="document.getElementById('grid-menu').scrollIntoView({behavior: 'smooth'})" class="bg-wa-teal text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-wa-teal/30 text-sm flex items-center gap-2 hover:bg-[#008f6f] active:scale-95 transition-all animate-[fadeIn_1s_ease-out_0.3s_both]">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7"></path></svg>
+                        Lihat Pilihan Tema
                     </button>
                 </div>
             </div>
@@ -271,8 +273,11 @@
                     <div class="w-12 h-12 mx-auto bg-[#202c33] rounded-full flex items-center justify-center mb-3 border border-wa-teal/50 shadow-[0_0_15px_rgba(0,168,132,0.3)]"><svg class="w-6 h-6 text-wa-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></div>
                     <h3 class="text-lg font-bold text-white mb-2">Ingin Desain Lebih Exclusive?</h3>
                     <p class="text-xs text-wa-gray mb-4 leading-relaxed">Mau undangan yang belum pernah dipakai orang lain? Kamu bisa order <span class="text-wa-teal font-semibold">Custom Design</span> spesial sesuai keinginanmu.</p>
-                    <button onclick="kirimPesanCustom()" class="inline-flex items-center gap-2 bg-wa-teal hover:bg-[#008f6f] text-white text-xs font-bold px-6 py-3 rounded-full transition-all shadow-lg active:scale-95"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.017-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                        Konsultasi Custom Design
+                    
+                    <!-- REVISI BOTTOM BUTTON: BUKA SHEET CONTACT RESELLER -->
+                    <button onclick="openContactInfo()" class="inline-flex items-center gap-2 bg-wa-teal hover:bg-[#008f6f] text-white text-xs font-bold px-6 py-3 rounded-full transition-all shadow-lg active:scale-95">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        Pelajari Selengkapnya
                     </button>
                 </div>
             </div>
@@ -399,17 +404,35 @@
         </div>
     </div>
 
+    <!-- CONTACT INFO SHEET (RESELLER) -->
+    <div id="backdrop-contact-sheet" onclick="closeSheet('contact-sheet')" class="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm backdrop-closed transition-opacity duration-300 hidden"></div>
+    <div id="contact-sheet" class="fixed bottom-0 left-0 right-0 z-[61] bg-[#202c33] rounded-t-[2rem] p-6 sheet-closed border-t border-wa-divider shadow-2xl max-w-md mx-auto">
+        <div class="w-12 h-1.5 bg-wa-divider rounded-full mx-auto mb-6"></div>
+        <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-wa-teal/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-wa-teal/20">
+                <svg class="w-8 h-8 text-wa-teal" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Info Pemesanan</h3>
+            <p class="text-sm text-wa-gray leading-relaxed">
+                Untuk melakukan pemesanan, konsultasi, atau request custom design, silakan hubungi <strong class="text-wa-teal">Admin</strong> yang membagikan link katalog ini kepada Anda.
+            </p>
+        </div>
+        <button onclick="closeSheet('contact-sheet')" class="w-full bg-[#2a373f] py-3.5 rounded-xl text-sm font-bold text-white border border-wa-divider hover:bg-wa-divider transition">
+            Mengerti
+        </button>
+    </div>
+
     <div id="backdrop-order-sheet" onclick="closeSheet('order-sheet')" class="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm backdrop-closed transition-opacity duration-300 hidden"></div>
     <div id="order-sheet" class="fixed bottom-0 left-0 right-0 z-[61] bg-[#202c33] rounded-t-[2rem] p-6 sheet-closed border-t border-wa-divider shadow-2xl max-w-md mx-auto">
         <div class="w-12 h-1.5 bg-wa-divider rounded-full mx-auto mb-6"></div>
         <h3 class="text-xl font-bold text-white mb-6 text-center">📜 Cara Pemesanan</h3>
         <div class="space-y-4">
             <div class="flex items-start gap-4"><div class="w-8 h-8 rounded-full bg-wa-teal text-white flex items-center justify-center font-bold text-sm shrink-0">1</div><div><h4 class="text-sm font-bold text-white">Pilih Desain</h4><p class="text-xs text-wa-gray leading-relaxed">Pilih tema undangan yang kamu suka dari katalog kami.</p></div></div>
-            <div class="flex items-start gap-4"><div class="w-8 h-8 rounded-full bg-wa-teal text-white flex items-center justify-center font-bold text-sm shrink-0">2</div><div><h4 class="text-sm font-bold text-white">Klik Tombol Pesan</h4><p class="text-xs text-wa-gray leading-relaxed">Klik tombol "Pesan via WhatsApp" di bagian bawah layar.</p></div></div>
+            <div class="flex items-start gap-4"><div class="w-8 h-8 rounded-full bg-wa-teal text-white flex items-center justify-center font-bold text-sm shrink-0">2</div><div><h4 class="text-sm font-bold text-white">Hubungi Admin</h4><p class="text-xs text-wa-gray leading-relaxed">Hubungi admin/reseller yang mengirimkan link ini untuk info harga & pemesanan.</p></div></div>
             <div class="flex items-start gap-4"><div class="w-8 h-8 rounded-full bg-wa-teal text-white flex items-center justify-center font-bold text-sm shrink-0">3</div><div><h4 class="text-sm font-bold text-white">Isi Data</h4><p class="text-xs text-wa-gray leading-relaxed">Admin akan mengirimkan formulir data mempelai untuk diisi.</p></div></div>
             <div class="flex items-start gap-4"><div class="w-8 h-8 rounded-full bg-wa-teal text-white flex items-center justify-center font-bold text-sm shrink-0">4</div><div><h4 class="text-sm font-bold text-white">Proses Pengerjaan</h4><p class="text-xs text-wa-gray leading-relaxed">Undangan akan diproses 1-2 hari kerja setelah data lengkap.</p></div></div>
         </div>
-        <button onclick="kirimPesanUmum()" class="mt-8 w-full bg-wa-teal py-3.5 rounded-xl text-sm font-bold text-white hover:bg-[#008f6f] transition shadow-lg">Chat Admin Sekarang</button>
+        <button onclick="openContactInfo()" class="mt-8 w-full bg-wa-teal py-3.5 rounded-xl text-sm font-bold text-white hover:bg-[#008f6f] transition shadow-lg">Hubungi Pengundang</button>
     </div>
 
     <div id="backdrop-animasi-sheet" onclick="closeSheet('animasi-sheet')" class="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm backdrop-closed transition-opacity duration-300 hidden"></div>
@@ -687,16 +710,17 @@
             }
         }
 
+        function openContactInfo() {
+            closeSheet('order-sheet');
+            openSheet('contact-sheet');
+        }
+
         function kirimPesanUmum() {
-            const text = `Halo Admin 👋\nSaya ingin konsultasi mengenai pemesanan undangan digital.`;
-            const url = `https://wa.me/6285117173637?text=${encodeURIComponent(text)}`;
-            window.open(url, '_blank');
+            openContactInfo();
         }
 
         function kirimPesanCustom() {
-            const text = `Halo Admin 👋\nSaya tertarik untuk order Undangan Custom Design yang exclusive. Bisa info detailnya?`;
-            const url = `https://wa.me/6285117173637?text=${encodeURIComponent(text)}`;
-            window.open(url, '_blank');
+            openContactInfo();
         }
 
         window.addEventListener('hashchange', router);
@@ -706,6 +730,7 @@
             closeGallery(); 
             closeFeatureSheet(); 
             closeSheet('order-sheet');
+            closeSheet('contact-sheet');
             closeSheet('animasi-sheet');
 
             if (!hash || hash === '#/') {
@@ -1468,24 +1493,6 @@
             }
             btn.className = classes;
             container.appendChild(btn);
-        }
-
-        function kirimPesanWA() {
-            if(!window.currentItem) return;
-            const item = window.currentItem;
-            
-            // LOGIC PESAN WA RESELLER (Tanpa Harga)
-            let text = "";
-            if (SHOW_PRICE) {
-                const price = item.price_real.toLocaleString('id-ID');
-                text = `Halo kak 👋\nSaya ingin pesan tema *${item.title}* (Paket ${item.tier}).\nApakah betul harganya Rp. ${price}?`;
-            } else {
-                // Pesan Reseller/Mitra (Lebih umum)
-                text = `Halo kak 👋\nSaya ingin order tema *${item.title}* (Paket ${item.tier}).\nMohon info langkah selanjutnya.`;
-            }
-
-            const url = `https://wa.me/6285117173637?text=${encodeURIComponent(text)}`;
-            window.open(url, '_blank');
         }
 
         // --- NEW FUNCTION: OPEN PREVIEW DARI STICKY BUTTON ---
