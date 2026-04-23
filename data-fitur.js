@@ -227,7 +227,7 @@ const UI_NOTIFICATIONS = {
     },
     
     "wedding_optional_image": {
-        title: "Animasi Digital"
+        title: "Undangan Digital",
         message: `Tidak punya foto prewed? Tenang, tersedia animasi karakter 3D gratis sesuai kebutuhanmu, <a href="/animasi-digital" target="_blank" class="text-blue-400 hover:text-blue-300 underline font-semibold transition">cek disini</a>`,
         theme: "blue",
         iconType: "animasi"
