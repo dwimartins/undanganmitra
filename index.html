@@ -120,30 +120,25 @@
         .header-hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
         .header-visible { transform: translateY(0); opacity: 1; pointer-events: auto; }
 
-        /* Grid 3D Effect Enhanced */
-        .grid-3d {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        .grid-3d:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); }
-        .grid-3d:active { transform: translateY(1px); box-shadow: none; }
+        /* Grid Colors (Solid 3D + Persistent Glow) - From New Main */
+        .hover-shadow-gold { border-color: rgba(234, 179, 8, 0.2); box-shadow: 0 4px 0 0 rgba(255, 255, 255, 0.1), 0 0 20px rgba(234, 179, 8, 0.15); }
+        .hover-shadow-gold:hover { border-color: #eab308; box-shadow: 0 6px 0 0 #eab308, 0 0 25px rgba(234, 179, 8, 0.3); }
 
-        /* Grid Colors with Gradients */
-        .bg-gradient-gold { background: linear-gradient(145deg, rgba(32, 44, 51, 1) 0%, rgba(234, 179, 8, 0.15) 100%); }
-        .bg-gradient-cyan { background: linear-gradient(145deg, rgba(32, 44, 51, 1) 0%, rgba(34, 211, 238, 0.15) 100%); }
-        .bg-gradient-blue { background: linear-gradient(145deg, rgba(32, 44, 51, 1) 0%, rgba(59, 130, 246, 0.15) 100%); }
-        .bg-gradient-purple { background: linear-gradient(145deg, rgba(32, 44, 51, 1) 0%, rgba(168, 85, 247, 0.15) 100%); }
-        .bg-gradient-red { background: linear-gradient(145deg, rgba(32, 44, 51, 1) 0%, rgba(239, 68, 68, 0.15) 100%); }
-        .bg-gradient-yellow { background: linear-gradient(145deg, rgba(32, 44, 51, 1) 0%, rgba(250, 204, 21, 0.15) 100%); }
+        .hover-shadow-cyan { border-color: rgba(34, 211, 238, 0.2); box-shadow: 0 4px 0 0 rgba(255, 255, 255, 0.1), 0 0 20px rgba(34, 211, 238, 0.15); }
+        .hover-shadow-cyan:hover { border-color: #22d3ee; box-shadow: 0 6px 0 0 #22d3ee, 0 0 25px rgba(34, 211, 238, 0.3); }
 
-        .hover-shadow-gold:hover { border-color: rgba(234, 179, 8, 0.5); }
-        .hover-shadow-cyan:hover { border-color: rgba(34, 211, 238, 0.5); }
-        .hover-shadow-blue:hover { border-color: rgba(59, 130, 246, 0.5); }
-        .hover-shadow-purple:hover { border-color: rgba(168, 85, 247, 0.5); }
-        .hover-shadow-red:hover { border-color: rgba(239, 68, 68, 0.5); }
-        .hover-shadow-yellow:hover { border-color: rgba(250, 204, 21, 0.5); }
+        .hover-shadow-blue { border-color: rgba(59, 130, 246, 0.2); box-shadow: 0 4px 0 0 rgba(255, 255, 255, 0.1), 0 0 20px rgba(59, 130, 246, 0.15); }
+        .hover-shadow-blue:hover { border-color: #3b82f6; box-shadow: 0 6px 0 0 #3b82f6, 0 0 25px rgba(59, 130, 246, 0.3); }
 
+        .hover-shadow-purple { border-color: rgba(168, 85, 247, 0.2); box-shadow: 0 4px 0 0 rgba(255, 255, 255, 0.1), 0 0 20px rgba(168, 85, 247, 0.15); }
+        .hover-shadow-purple:hover { border-color: #a855f7; box-shadow: 0 6px 0 0 #a855f7, 0 0 25px rgba(168, 85, 247, 0.3); }
+
+        .hover-shadow-red { border-color: rgba(239, 68, 68, 0.2); box-shadow: 0 4px 0 0 rgba(255, 255, 255, 0.1), 0 0 20px rgba(239, 68, 68, 0.15); }
+        .hover-shadow-red:hover { border-color: #ef4444; box-shadow: 0 6px 0 0 #ef4444, 0 0 25px rgba(239, 68, 68, 0.3); }
+
+        .hover-shadow-yellow { border-color: rgba(250, 204, 21, 0.2); box-shadow: 0 4px 0 0 rgba(255, 255, 255, 0.1), 0 0 20px rgba(250, 204, 21, 0.15); }
+        .hover-shadow-yellow:hover { border-color: #facc15; box-shadow: 0 6px 0 0 #facc15, 0 0 25px rgba(250, 204, 21, 0.3); }
+        
         /* Badge Shimmer Effect */
         .badge-shine { position: relative; overflow: hidden; }
         .badge-shine::after {
@@ -196,11 +191,13 @@
                         <p class="text-wa-gray text-xs md:text-sm max-w-md mx-auto leading-relaxed mt-2">Temukan berbagai undangan premium dengan desain eksklusif.</p>
                     </div>
                     
-                    <!-- REVISI HERO BUTTON: NAVIGASI BUKAN WA -->
-                    <button onclick="document.getElementById('grid-menu').scrollIntoView({behavior: 'smooth'})" class="bg-wa-teal text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-wa-teal/30 text-sm flex items-center gap-2 hover:bg-[#008f6f] active:scale-95 transition-all animate-[fadeIn_1s_ease-out_0.3s_both]">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7"></path></svg>
-                        Lihat Pilihan Tema
-                    </button>
+                    <div class="flex flex-col gap-3 w-full max-w-[280px]">
+                        <!-- BUTTON RESELLER: Scroll to Grid -->
+                        <button onclick="document.getElementById('grid-menu').scrollIntoView({behavior: 'smooth'})" class="bg-wa-teal text-white font-bold py-3.5 px-8 rounded-full shadow-lg shadow-wa-teal/30 text-sm flex items-center justify-center gap-2 hover:bg-[#008f6f] active:scale-95 transition-all animate-[fadeIn_1s_ease-out_0.3s_both]">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7"></path></svg>
+                            Lihat Pilihan Tema
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -215,27 +212,27 @@
                 <div class="h-1 w-10 bg-wa-teal rounded-full"></div>
             </div>
             <div class="grid grid-cols-3 gap-3">
-                <div onclick="selectCategory('Wedding')" class="grid-3d hover-shadow-gold bg-gradient-gold group cursor-pointer rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
+                <div onclick="selectCategory('Wedding')" class="grid-3d hover-shadow-gold cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] group transition-all">
                     <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-yellow-500 transition-colors shadow-lg">💍</div>
                     <span class="text-[9px] md:text-[10px] font-bold text-white uppercase tracking-widest group-hover:text-yellow-500 transition-colors">WEDDING</span>
                 </div>
-                <div onclick="selectCategory('Kids')" class="grid-3d hover-shadow-cyan bg-gradient-cyan group cursor-pointer rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
+                <div onclick="selectCategory('Kids')" class="grid-3d hover-shadow-cyan cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] group transition-all">
                     <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-cyan-400 transition-colors shadow-lg">🎈</div>
                     <span class="text-[9px] md:text-[10px] font-bold text-white uppercase tracking-widest group-hover:text-cyan-400 transition-colors">ACARA ANAK</span>
                 </div>
-                <div onclick="selectCategory('Formal')" class="grid-3d hover-shadow-blue bg-gradient-blue group cursor-pointer rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
+                <div onclick="selectCategory('Formal')" class="grid-3d hover-shadow-blue cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] group transition-all">
                     <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-blue-500 transition-colors shadow-lg">🏢</div>
                     <span class="text-[9px] md:text-[10px] font-bold text-white uppercase tracking-widest group-hover:text-blue-500 transition-colors">ACARA FORMAL</span>
                 </div>
-                <div onclick="selectCategory('Teen')" class="grid-3d hover-shadow-purple bg-gradient-purple group cursor-pointer rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
+                <div onclick="selectCategory('Teen')" class="grid-3d hover-shadow-purple cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] group transition-all">
                     <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-purple-500 transition-colors shadow-lg">🎸</div>
                     <span class="text-[9px] md:text-[10px] font-bold text-white uppercase tracking-widest group-hover:text-purple-500 transition-colors">TEEN & CARD</span>
                 </div>
-                <div onclick="selectCategory('School')" class="grid-3d hover-shadow-red bg-gradient-red group cursor-pointer rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
+                <div onclick="selectCategory('School')" class="grid-3d hover-shadow-red cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] group transition-all">
                     <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-red-500 transition-colors shadow-lg">🎓</div>
                     <span class="text-[8px] md:text-[9px] font-bold text-white uppercase tracking-widest group-hover:text-red-500 transition-colors leading-tight">SCHOOL & GRADUATION</span>
                 </div>
-                <div onclick="selectCategory('Lainnya')" class="grid-3d hover-shadow-yellow bg-gradient-yellow group cursor-pointer rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3]">
+                <div onclick="selectCategory('Lainnya')" class="grid-3d hover-shadow-yellow cursor-pointer bg-[#202c33] rounded-xl p-3 flex flex-col items-center justify-center text-center aspect-[4/3] group transition-all">
                     <div class="w-10 h-10 rounded-full bg-[#111b21] flex items-center justify-center text-xl mb-3 text-white border border-white/5 group-hover:text-yellow-400 transition-colors shadow-lg">📂</div>
                     <span class="text-[9px] md:text-[10px] font-bold text-white uppercase tracking-widest group-hover:text-yellow-400 transition-colors">ACARA LAINNYA</span>
                 </div>
@@ -289,7 +286,7 @@
                     <h3 class="text-lg font-bold text-white mb-2">Ingin Desain Lebih Exclusive?</h3>
                     <p class="text-xs text-wa-gray mb-4 leading-relaxed">Mau undangan yang belum pernah dipakai orang lain? Kamu bisa order <span class="text-wa-teal font-semibold">Custom Design</span> spesial sesuai keinginanmu.</p>
                     
-                    <!-- REVISI BOTTOM BUTTON: BUKA SHEET CONTACT RESELLER -->
+                    <!-- RESELLER BUTTON: BUKA SHEET CONTACT -->
                     <button onclick="openContactInfo()" class="inline-flex items-center gap-2 bg-wa-teal hover:bg-[#008f6f] text-white text-xs font-bold px-6 py-3 rounded-full transition-all shadow-lg active:scale-95">
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
                         Pelajari Selengkapnya
@@ -342,8 +339,8 @@
                     <span id="detail-category" class="text-[10px] font-bold text-wa-teal bg-wa-teal/10 border border-wa-teal/20 px-2.5 py-1 rounded-full uppercase tracking-wider ml-2 shrink-0">Wedding</span>
                 </div>
                 
-                <!-- PRICE CONTAINER (Diberi ID agar mudah di hide via JS) -->
-                <div id="detail-price-container" class="mt-3 flex items-center gap-3">
+                <!-- RESELLER PRICE CONTAINER HIDDEN -->
+                <div id="detail-price-container" class="mt-3 flex items-center gap-3" style="display: none;">
                     <span id="detail-price-real" class="text-2xl font-bold text-wa-light"></span>
                     <span id="detail-price-fake" class="text-sm text-wa-gray line-through decoration-red-500/50 decoration-2"></span>
                 </div>
@@ -356,7 +353,6 @@
             </div>
             <div id="detail-photo-alert" class="mt-6 hidden"></div>
             
-            <!-- SECTION VARIAN TEMA (Diberi ID agar bisa di-hide via JS) -->
             <div id="section-variants-wrapper" class="mt-8 pt-5 border-t border-wa-divider">
                 <h3 class="text-xs font-bold text-wa-gray uppercase tracking-widest mb-3 flex items-center gap-2"><span class="w-1 h-4 bg-wa-teal rounded-full"></span>VARIAN TEMA</h3>
                 <div id="detail-variants" class="flex flex-wrap gap-2"></div>
@@ -373,7 +369,7 @@
             </div>
         </div>
         
-        <!-- FIXED BOTTOM BUTTON: REVISI - Menjadi Lihat Preview Tema -->
+        <!-- RESELLER BOTTOM BUTTON -->
         <div class="fixed bottom-0 w-full bg-wa-header/95 backdrop-blur-md border-t border-wa-divider p-3 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.2)]">
             <div class="max-w-md mx-auto flex gap-3">
                 <button onclick="openMainPreview()" class="flex-1 bg-wa-teal text-white font-bold py-3.5 rounded-full shadow-lg shadow-wa-teal/20 text-sm flex justify-center items-center gap-2 hover:bg-[#008f6f] active:scale-[0.98] transition group">
@@ -385,32 +381,26 @@
     </div>
 
     <!-- SHEETS & MODALS -->
-    <!-- REVISI 3: Galeri Fokus Slider dengan Navigasi dan Progress Bar -->
+    <!-- Galeri Fokus Slider dengan Navigasi dan Progress Bar -->
     <div id="view-gallery" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm gallery-closed flex flex-col">
-        <!-- Tombol Close Standalone di Pojok Kanan Atas -->
         <button onclick="closeGallery()" class="absolute top-5 right-5 z-[110] bg-black/40 hover:bg-black/80 text-white p-2.5 rounded-full backdrop-blur-md border border-white/20 transition active:scale-90 flex items-center justify-center shadow-lg">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
 
-        <!-- Tampilan Foto Mode Fokus -->
         <div class="flex-1 w-full h-full flex items-center justify-center relative overflow-hidden">
-            <!-- Navigasi Kiri -->
             <button onclick="changeGalleryImage(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-black/70 text-white p-3 rounded-full backdrop-blur-md border border-white/10 transition active:scale-90 flex items-center justify-center shadow-lg">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
             </button>
             
-            <!-- Area Gambar Utama -->
             <div class="w-full h-full p-4 pb-20 flex items-center justify-center relative z-10">
                 <img id="gallery-main-image" src="" alt="Gallery Image" class="max-w-full max-h-full object-contain drop-shadow-2xl transition-opacity duration-200 opacity-0">
             </div>
 
-            <!-- Navigasi Kanan -->
             <button onclick="changeGalleryImage(1)" class="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-black/70 text-white p-3 rounded-full backdrop-blur-md border border-white/10 transition active:scale-90 flex items-center justify-center shadow-lg">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </button>
         </div>
 
-        <!-- Progress Bar Elegan -->
         <div class="absolute bottom-8 left-0 right-0 px-6 flex flex-col items-center gap-3 z-30 pointer-events-none">
             <span id="gallery-counter" class="bg-black/60 text-white text-[10px] px-4 py-1.5 rounded-full backdrop-blur border border-white/10 font-bold tracking-[0.2em] shadow-lg">1 / 10</span>
             <div class="w-full max-w-xs h-1.5 bg-white/20 rounded-full overflow-hidden">
@@ -459,72 +449,48 @@
             <p class="text-xs text-wa-gray mt-2 leading-relaxed max-w-[280px] mx-auto">Buat kamu yang gak sempat foto prewed ataupun yang gak mau nampilin foto pribadimu, kami menyediakan ratusan karakter animasi digital yang bisa kamu pakai secara gratis untuk ditampilkan di undanganmu.</p>
         </div>
         
-        <!-- Grid Karakter -->
         <div class="grid grid-cols-2 gap-4 mb-8">
-            <!-- Jawa -->
             <div class="relative bg-[#111b21] rounded-2xl overflow-hidden border border-wa-divider group hover:border-wa-teal/50 transition duration-300">
                 <div class="h-36 w-full relative flex items-end justify-center pt-4">
-                    <!-- Background Glow Effect -->
                     <div class="absolute inset-0 bg-gradient-to-t from-wa-teal/20 via-transparent to-transparent opacity-50"></div>
                     <div class="absolute bottom-0 w-24 h-24 bg-wa-teal/20 blur-2xl rounded-full"></div>
-                    <!-- Image -->
-                    <img src="https://ik.imagekit.io/undangandigital/popup-animasi/jawa.png?tr=w-300" 
-                         class="h-full object-contain relative z-10 drop-shadow-xl transition-transform duration-500 group-hover:scale-105" 
-                         alt="Adat Jawa">
+                    <img src="https://ik.imagekit.io/undangandigital/popup-animasi/jawa.png?tr=w-300" class="h-full object-contain relative z-10 drop-shadow-xl transition-transform duration-500 group-hover:scale-105" alt="Adat Jawa">
                 </div>
-                <div class="p-3 bg-[#182329] border-t border-wa-divider relative z-20">
-                    <h4 class="text-xs font-bold text-wa-light text-center">Adat Jawa</h4>
-                </div>
+                <div class="p-3 bg-[#182329] border-t border-wa-divider relative z-20"><h4 class="text-xs font-bold text-wa-light text-center">Adat Jawa</h4></div>
             </div>
 
-            <!-- Batak -->
             <div class="relative bg-[#111b21] rounded-2xl overflow-hidden border border-wa-divider group hover:border-wa-teal/50 transition duration-300">
                 <div class="h-36 w-full relative flex items-end justify-center pt-4">
                     <div class="absolute inset-0 bg-gradient-to-t from-red-500/10 via-transparent to-transparent opacity-50"></div>
                     <div class="absolute bottom-0 w-24 h-24 bg-red-500/10 blur-2xl rounded-full"></div>
-                    <img src="https://ik.imagekit.io/undangandigital/popup-animasi/batak.png?tr=w-300" 
-                         class="h-full object-contain relative z-10 drop-shadow-xl transition-transform duration-500 group-hover:scale-105" 
-                         alt="Adat Batak">
+                    <img src="https://ik.imagekit.io/undangandigital/popup-animasi/batak.png?tr=w-300" class="h-full object-contain relative z-10 drop-shadow-xl transition-transform duration-500 group-hover:scale-105" alt="Adat Batak">
                 </div>
-                <div class="p-3 bg-[#182329] border-t border-wa-divider relative z-20">
-                    <h4 class="text-xs font-bold text-wa-light text-center">Adat Batak</h4>
-                </div>
+                <div class="p-3 bg-[#182329] border-t border-wa-divider relative z-20"><h4 class="text-xs font-bold text-wa-light text-center">Adat Batak</h4></div>
             </div>
 
-            <!-- Burgundy -->
             <div class="relative bg-[#111b21] rounded-2xl overflow-hidden border border-wa-divider group hover:border-wa-teal/50 transition duration-300">
                 <div class="h-36 w-full relative flex items-end justify-center pt-4">
                     <div class="absolute inset-0 bg-gradient-to-t from-rose-500/10 via-transparent to-transparent opacity-50"></div>
                     <div class="absolute bottom-0 w-24 h-24 bg-rose-500/10 blur-2xl rounded-full"></div>
-                    <img src="https://ik.imagekit.io/undangandigital/popup-animasi/burgundy.png?tr=w-300" 
-                         class="h-full object-contain relative z-10 drop-shadow-xl transition-transform duration-500 group-hover:scale-105" 
-                         alt="Modern Burgundy">
+                    <img src="https://ik.imagekit.io/undangandigital/popup-animasi/burgundy.png?tr=w-300" class="h-full object-contain relative z-10 drop-shadow-xl transition-transform duration-500 group-hover:scale-105" alt="Modern Burgundy">
                 </div>
-                <div class="p-3 bg-[#182329] border-t border-wa-divider relative z-20">
-                    <h4 class="text-xs font-bold text-wa-light text-center">Modern Burgundy</h4>
-                </div>
+                <div class="p-3 bg-[#182329] border-t border-wa-divider relative z-20"><h4 class="text-xs font-bold text-wa-light text-center">Modern Burgundy</h4></div>
             </div>
 
-            <!-- Ungu -->
             <div class="relative bg-[#111b21] rounded-2xl overflow-hidden border border-wa-divider group hover:border-wa-teal/50 transition duration-300">
                 <div class="h-36 w-full relative flex items-end justify-center pt-4">
                     <div class="absolute inset-0 bg-gradient-to-t from-purple-500/10 via-transparent to-transparent opacity-50"></div>
                     <div class="absolute bottom-0 w-24 h-24 bg-purple-500/10 blur-2xl rounded-full"></div>
-                    <img src="https://ik.imagekit.io/undangandigital/popup-animasi/ungu.png?tr=w-300" 
-                         class="h-full object-contain relative z-10 drop-shadow-xl transition-transform duration-500 group-hover:scale-105" 
-                         alt="Modern Lilac">
+                    <img src="https://ik.imagekit.io/undangandigital/popup-animasi/ungu.png?tr=w-300" class="h-full object-contain relative z-10 drop-shadow-xl transition-transform duration-500 group-hover:scale-105" alt="Modern Lilac">
                 </div>
-                <div class="p-3 bg-[#182329] border-t border-wa-divider relative z-20">
-                    <h4 class="text-xs font-bold text-wa-light text-center">Modern Lilac</h4>
-                </div>
+                <div class="p-3 bg-[#182329] border-t border-wa-divider relative z-20"><h4 class="text-xs font-bold text-wa-light text-center">Modern Lilac</h4></div>
             </div>
         </div>
         
-<button onclick="window.location.href='https://dwimartins.github.io/undangan/animasi-digital/'" class="w-full bg-[#2a373f] py-4 rounded-xl text-sm font-bold text-wa-teal border border-wa-divider hover:bg-wa-divider transition flex items-center justify-center gap-2 group">
-    Lihat 500+ Koleksi Lainnya
-    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-</button>
-
+        <button onclick="window.location.href='https://dwimartins.github.io/undangan/animasi-digital/'" class="w-full bg-[#2a373f] py-4 rounded-xl text-sm font-bold text-wa-teal border border-wa-divider hover:bg-wa-divider transition flex items-center justify-center gap-2 group">
+            Lihat 500+ Koleksi Lainnya
+            <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+        </button>
     </div>
 
     <div id="feature-backdrop" onclick="closeFeatureSheet()" class="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm backdrop-closed transition-opacity duration-300"></div>
@@ -537,76 +503,16 @@
         <button onclick="closeFeatureSheet()" class="mt-8 w-full bg-wa-button py-3 rounded-xl text-sm font-medium text-wa-teal hover:bg-wa-divider transition">Tutup</button>
     </div>
 
+    <!-- ========================================== -->
+    <!-- MEMANGGIL FILE DATA STATIS (CLEAN CODE)    -->
+    <!-- ========================================== -->
+    <script src="./data-fitur.js"></script>
+
     <!-- SCRIPT LOGIC -->
     <script>
-        // --- 1. DEFINISI DATA CONSTANT DI ATAS (AGAR AMAN) ---
-        
-        // !!! CONFIGURATION FOR RESELLER !!!
-        const SHOW_PRICE = false; // Set TRUE untuk katalog pusat, Set FALSE untuk katalog reseller
+        // --- 1. CONFIGURATION & STATE ---
+        const SHOW_PRICE = false; // MATIKAN HARGA UNTUK RESELLER
 
-        // ADD-ON FEATURES FOR FORMAL EVENTS
-        const FORMAL_FEATURES_ADDONS = [
-            { id: 'rundown', title: "Rundown Acara", icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z", desc: "Daftar susunan acara dari pembukaan hingga penutupan agar tamu mengetahui jadwal kegiatan." },
-            { id: 'speakers', title: "Profil Pembicara", icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z", desc: "Menampilkan foto dan bio singkat pembicara/narasumber untuk meningkatkan nilai jual acara." },
-            { id: 'materials', title: "Download Materi", icon: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4", desc: "Link khusus jika acara tersebut menyediakan file materi atau e-sertifikat yang bisa diunduh tamu." },
-            { id: 'sponsors', title: "Logo Partner", icon: "M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z", desc: "Section khusus untuk menampilkan logo-logo perusahaan partner atau sponsor yang bekerja sama." }
-        ];
-
-        // ADD-ON FEATURES FOR SCHOOL & GRADUATION
-        const SCHOOL_FEATURES_ADDONS = [
-            { id: 'rundown_school', title: "Susunan Acara", icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2", desc: "Jadwal lengkap prosesi wisuda/sidang dari pembukaan hingga penutupan untuk kelancaran acara." },
-            { id: 'dresscode', title: "Dress Code", icon: "M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z", desc: "Informasi ketentuan busana (Toga/Batik/Formal) bagi wisudawan dan tamu undangan." },
-            { id: 'rules', title: "Tata Tertib", icon: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z", desc: "Poin-poin protokol yang wajib dipatuhi tamu demi menjaga kekhidmatan prosesi sidang/wisuda." },
-            { id: 'streaming', title: "Live Streaming", icon: "M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z", desc: "Tautan langsung ke YouTube/Zoom bagi keluarga atau kerabat yang hadir secara virtual." }
-        ];
-        
-        // ADD-ON FEATURES FOR KIDS
-        const KIDS_FEATURES_ADDONS = [
-            { id: 'parents', title: "Profil Orang Tua", icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z", desc: "Menampilkan nama dan foto ayah bunda yang sedang berbahagia atas kelahiran/ulang tahun si kecil." },
-             { id: 'dresscode_kids', title: "Dress Code", icon: "M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z", desc: "Info kostum atau warna baju (e.g. Superhero, Princess) agar pesta semakin meriah." }
-        ];
-
-        // ADD-ON FEATURES FOR TEEN
-        const TEEN_FEATURES_ADDONS = [
-             { id: 'dresscode_teen', title: "Dress Code", icon: "M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z", desc: "Info tema outfit (e.g. Superhero, Retro, Pastel, White) agar foto-foto kita makin aesthetic." }
-        ];
-
-        // ADD-ON FEATURES FOR OTHER
-        const OTHER_FEATURES_ADDONS = [
-            { id: 'rundown_general', title: "Susunan Acara", icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2", desc: "Informasi waktu dan agenda kegiatan agar tamu tidak ketinggalan momen penting." },
-        ];
-
-
-        // DATA FITUR LENGKAP
-        const FEATURES_DB = [
-            { id: 'guest', title: "Custom Nama Tamu", icon: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z", desc: "Sebarkan undanganmu lebih personal dengan menulis nama mereka secara otomatis pada cover undangan." },
-            { id: 'unlimited', title: "Unlimited Tamu", icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z", desc: "Kamu bisa kirim undanganmu kepada sebanyak mungkin tamu yang mau kamu undang tanpa biaya tambahan." },
-            { id: 'music', title: "Autoplay Musik", icon: "M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3", desc: "Lagu favoritmu akan otomatis berputar mengiringi undangan saat dibuka oleh tamu." },
-            { id: 'gallery', title: "Galeri Foto/Video", icon: "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z", desc: "Bagikan momen bahagiamu dengan menampilkan galeri foto prewedding dan video cinematic." },
-            { id: 'animasi', title: "Animasi Gratis", icon: "M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z", desc: "Kami sediakan ratusan karakter animasi lucu dan menarik yang bisa kamu pakai gratis." },
-            { id: 'rsvp', title: "Fitur RSVP", icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4", desc: "Dapatkan kepastian jumlah tamu dengan fitur konfirmasi kehadiran (Hadir/Tidak/Ragu)." },
-            { id: 'wishes', title: "Ucapan & Doa", icon: "M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z", desc: "Tamu undangan bisa memberikan ucapan selamat dan doa restu langsung di dalam undangan." },
-            { id: 'gift', title: "Wedding Gift", icon: "M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7", desc: "Memudahkan tamu mengirimkan hadiah atau angpao digital melalui transfer bank/e-wallet." },
-            { id: 'love', title: "Love Story", icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z", desc: "Ceritakan perjalanan kisah cintamu dengan pasangan dari awal bertemu hingga pelaminan." },
-            { id: 'countdown', title: "Countdown", icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z", desc: "Hitung mundur waktu menuju momen bahagiamu agar tamu selalu ingat tanggalnya." },
-            { id: 'gcal', title: "Google Calendar", icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z", desc: "Tamu bisa menyimpan jadwal acaramu ke Google Calendar mereka dengan satu klik." },
-            { id: 'quotes', title: "Ayat & Quotes", icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253", desc: "Tampilkan ayat suci atau kata-kata mutiara favoritmu sebagai pemanis undangan." },
-            { id: 'maps', title: "Peta Navigasi", icon: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z", desc: "Panduan lokasi acara akurat dengan Google Maps agar tamu mudah menemukan tempatnya." },
-            { id: 'tools', title: "Sender Tools", icon: "M12 19l9 2-9-18-9 18 9-2zm0 0v-8", desc: "Fitur eksklusif untuk mengirim undangan ke banyak kontak WhatsApp secara otomatis & personal." },
-            { id: 'qrcode', title: "QR Code Check In", icon: "M12 4v1m6 11h2m-6 0h-2v4h2v-4zm-6 12v-2m0 0v-2m0 2H4m8-10V4m6 11v-4m-6 4H4m8 0h2m-6 0h2v4H6v-4zm2-6h2v4h-2V9zm-2 0h-2v4h2V9zm-6 0H4v4h2V9zm6-6h2v4h-2V3zm-2 0h-2v4h2V3zm-6 0H4v4h2V3z", desc: "Dapatkan Buku Tamu digital sekaligus QR Code otomatis yang akan membantumu mengetahui apakah tamu yang kamu undang hadir ke acaramu beserta waktu check in-nya" },
-            { id: 'screen', title: "Layar Sapa", icon: "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z", desc: "Layar Sapa Real Time. Saat tamu berhasil check in ke acaramu, maka nama tamu akan ditampilkan di layar sapa yang telah disediakan, sehingga tamu merasa lebih dihormati dan dihargai." }
-        ];
-
-        const EXTRA_SERVICES_DB = [
-            { id: 'revisi', title: "Free Revisi", icon: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15", desc: "Kami memastikan undangan yang kamu pesan tanpa ada kendala, untuk itu kami beri jaminan Revisi Gratis hingga hari H." },
-            { id: 'fee', title: "Fixed Fee", icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z", desc: "Kami memastikan harga yang tertera di katalog adalah harga final yang perlu kamu bayar. Tanpa biaya ini itu!" },
-            { id: 'response', title: "Fast Response", icon: "M13 10V3L4 14h7v7l9-11h-7z", desc: "Kami akan selalu berupaya untuk membalas pesanmu secepat yang kami bisa. Dan juga seramah yang kami bisa tentunya ^^" },
-            { id: 'pro', title: "Profesional", icon: "M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138z", desc: "Kami memastikan bahwa undangan yang kamu pesan dikerjakan dengan hati, profesional, baik, dan sungguh-sungguh." },
-            { id: 'privacy', title: "Privasi Data", icon: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z", desc: "Kami memastikan semua data yang kamu kirim, termasuk nama, foto, alamat, nomor WA, aman dan tidak disalahgunakan." },
-            { id: 'pay', title: "Bayar Setelah Jadi", icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z", desc: "Yup! Ini adalah bukti keseriusan kami dalam menjalankan usaha. Kami percaya orang baik pasti bertemu dengan orang baik." }
-        ];
-
-        // --- 2. CONFIGURATION & STATE ---
         const firebaseConfig = {
             apiKey: "AIzaSyDq6LjlUFRDm5CqGSqVLiJ9gItIyw71bAU",
             authDomain: "db-katalog.firebaseapp.com",
@@ -622,33 +528,15 @@
         let groupedProducts = {};
         let currentCategoryFilter = 'tema-wedding'; 
         let TIER_CONFIG = {};
-        
-        // REVISI: Variabel untuk melacak navigasi internal
         let hasInternalNavigation = false;
 
-        // Variabel Status Galeri Slider
         let currentGalleryIndex = 0;
         let galleryImagesArray = [];
 
-        const IMAGEKIT_BASE = "https://ik.imagekit.io/undangandigital";
-        
-        const TIER_ORDER = [
-            "Starter", "Bronze", "Silver", "Gold", "Platinum", "Diamond", 
-            "Birthday", "Khitan", "Aqiqah",
-            "Tema Adat Jawa", "Tema Adat Bugis", "Tema Adat Batak", "Tema Adat Karo", "Tema Adat Nias"
-        ];
+        // UPDATE URL IMAGEKIT SESUAI MAIN BARU
+        const IMAGEKIT_BASE = "https://ik.imagekit.io";
 
-        const CATEGORY_DATA = {
-            'Wedding': { id: 'tema-wedding', label: 'Wedding Collections', icon: '💍', desc: 'Temukan desain undangan pernikahan impian Anda.' },
-            'Kids': { id: 'acara-anak', label: 'Kids Collections', icon: '🎈', desc: 'Tema ceria untuk Aqiqah, Ulang Tahun, dan Khitan.' },
-            'Formal': { id: 'acara-formal', label: 'Formal Events', icon: '🏢', desc: 'Undangan resmi untuk Seminar, Rapat, dan Gathering.' },
-            'Teen': { id: 'teen-and-card', label: 'Teen & Cards', icon: '🎸', desc: 'Desain kekinian untuk Sweet 17 dan Ucapan Digital.' },
-            'School': { id: 'school-and-graduation', label: 'School & Grad', icon: '🎓', desc: 'Rayakan kelulusan dan perpisahan sekolah.' },
-            'Lainnya': { id: 'acara-lainnya', label: 'Other Events', icon: '📂', desc: 'Berbagai tema unik untuk kebutuhan acaramu.' }
-        };
-
-        // --- 3. UI LOGIC ---
-        
+        // --- 2. UI LOGIC & SCROLL ---
         let lastScrollTop = 0;
         const smartHeader = document.getElementById('smart-header');
         
@@ -668,33 +556,40 @@
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        function selectCategory(uiKey) {
+        function selectCategory(uiKey, scroll = true) {
             const catData = CATEGORY_DATA[uiKey];
             if (!catData) return;
 
-            currentCategoryFilter = catData.id;
-
-            document.getElementById('header-cat-text').innerText = uiKey; 
-            document.getElementById('header-cat-icon').innerText = catData.icon;
+            const newHash = '#/kategori/' + encodeURIComponent(uiKey);
             
-            document.getElementById('collection-title').innerText = catData.label;
-            document.getElementById('collection-desc').innerText = catData.desc;
+            if (window.location.hash !== newHash) {
+                navigateTo(newHash);
+            } else {
+                currentCategoryFilter = catData.id;
+                document.getElementById('header-cat-text').innerText = uiKey; 
+                document.getElementById('header-cat-icon').innerText = catData.icon;
+                document.getElementById('collection-title').innerText = catData.label;
+                document.getElementById('collection-desc').innerText = catData.desc;
+                renderHome();
+            }
 
-            renderHome();
-
-            const target = document.getElementById('tier-list-container');
-            if (target) {
-                const headerOffset = 85; 
-                const elementPosition = target.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+            if (scroll) {
+                setTimeout(() => {
+                    const target = document.getElementById('tier-list-container');
+                    if (target) {
+                        const headerOffset = 85; 
+                        const elementPosition = target.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                    }
+                }, 100);
             }
         }
 
+        // --- 3. MODALS & SHEETS ---
         function openSheet(id) {
             const sheet = document.getElementById(id);
             const backdrop = document.getElementById('backdrop-' + id);
-            
             if(backdrop) {
                 backdrop.classList.remove('hidden');
                 setTimeout(() => {
@@ -711,7 +606,6 @@
         function closeSheet(id) {
             const sheet = document.getElementById(id);
             const backdrop = document.getElementById('backdrop-' + id);
-            
             if(sheet) {
                 sheet.classList.remove('sheet-open');
                 sheet.classList.add('sheet-closed');
@@ -719,9 +613,7 @@
             if(backdrop) {
                 backdrop.classList.remove('backdrop-open');
                 backdrop.classList.add('backdrop-closed');
-                setTimeout(() => {
-                    backdrop.classList.add('hidden');
-                }, 300);
+                setTimeout(() => { backdrop.classList.add('hidden'); }, 300);
             }
         }
 
@@ -730,14 +622,33 @@
             openSheet('contact-sheet');
         }
 
-        function kirimPesanUmum() {
-            openContactInfo();
+        // FUNGSI WA OVERRIDE UNTUK RESELLER
+        function kirimPesanUmum() { openContactInfo(); }
+        function kirimPesanCustom() { openContactInfo(); }
+
+        function openFeatureSheet(feature) {
+            document.getElementById('sheet-title').innerText = feature.title;
+            document.getElementById('sheet-desc').innerText = feature.desc;
+            document.getElementById('sheet-icon').innerHTML = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${feature.icon}"></path></svg>`;
+            
+            const sheet = document.getElementById('feature-sheet');
+            const backdrop = document.getElementById('feature-backdrop');
+            backdrop.classList.remove('backdrop-closed');
+            backdrop.classList.add('backdrop-open');
+            sheet.classList.remove('sheet-closed');
+            sheet.classList.add('sheet-open');
         }
 
-        function kirimPesanCustom() {
-            openContactInfo();
+        function closeFeatureSheet() {
+            const sheet = document.getElementById('feature-sheet');
+            const backdrop = document.getElementById('feature-backdrop');
+            sheet.classList.remove('sheet-open');
+            sheet.classList.add('sheet-closed');
+            backdrop.classList.remove('backdrop-open');
+            backdrop.classList.add('backdrop-closed');
         }
 
+        // --- 4. ROUTING & NAVIGATION ---
         window.addEventListener('hashchange', router);
 
         function router() {
@@ -745,13 +656,38 @@
             closeGallery(); 
             closeFeatureSheet(); 
             closeSheet('order-sheet');
-            closeSheet('contact-sheet');
             closeSheet('animasi-sheet');
+            closeSheet('contact-sheet'); // Tutup juga modal reseller jika ada
 
             if (!hash || hash === '#/') {
+                if (typeof CATEGORY_DATA !== 'undefined' && CATEGORY_DATA['Wedding']) {
+                    const catData = CATEGORY_DATA['Wedding'];
+                    currentCategoryFilter = catData.id;
+                    document.getElementById('header-cat-text').innerText = 'Wedding'; 
+                    document.getElementById('header-cat-icon').innerText = catData.icon;
+                    document.getElementById('collection-title').innerText = catData.label;
+                    document.getElementById('collection-desc').innerText = catData.desc;
+                }
+                renderHome();
                 switchView('view-home');
                 return;
             }
+            
+            if (hash.startsWith('#/kategori/')) {
+                const uiKey = decodeURIComponent(hash.split('/')[2]);
+                if (typeof CATEGORY_DATA !== 'undefined' && CATEGORY_DATA[uiKey]) {
+                    const catData = CATEGORY_DATA[uiKey];
+                    currentCategoryFilter = catData.id;
+                    document.getElementById('header-cat-text').innerText = uiKey; 
+                    document.getElementById('header-cat-icon').innerText = catData.icon;
+                    document.getElementById('collection-title').innerText = catData.label;
+                    document.getElementById('collection-desc').innerText = catData.desc;
+                }
+                renderHome();
+                switchView('view-home');
+                return;
+            }
+
             if (hash.startsWith('#/category/')) {
                 const tier = decodeURIComponent(hash.split('/')[2]);
                 renderCategoryView(tier);
@@ -771,9 +707,7 @@
                             alert("Maaf, terjadi kesalahan saat memuat detail tema ini.");
                             window.location.hash = '#/';
                         }
-                    } else {
-                        window.location.hash = '#/';
-                    }
+                    } else { window.location.hash = '#/'; }
                 }
                 return;
             }
@@ -781,64 +715,44 @@
 
         function switchView(viewId) {
             const targetElement = document.getElementById(viewId);
-            if(!targetElement) {
-                console.error(`[Navigation Error] View dengan ID '${viewId}' tidak ditemukan.`);
-                return;
-            }
+            if(!targetElement) return;
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('view-active'));
             targetElement.classList.add('view-active');
             window.scrollTo(0,0);
         }
 
         function navigateTo(path) {
-            // REVISI: Tandai bahwa ini adalah navigasi internal
             hasInternalNavigation = true;
             window.location.hash = path;
         }
 
         function goBack() {
-            // REVISI: Logika Back Button Cerdas
-            // Jika user menavigasi dari dalam aplikasi, gunakan history browser
             if (hasInternalNavigation && window.history.length > 1) {
                 window.history.back();
             } else {
-                // Jika user membuka link langsung (Direct Link via WA), paksa kembali ke Home
                 window.location.hash = '#/';
             }
         }
 
+        // --- 5. DATA FETCHING ---
         async function loadData() {
             try {
-                // 1. Load Config
                 try {
                     const configSnap = await db.collection('config').doc('tiers').get();
-                    if (configSnap.exists) {
-                        TIER_CONFIG = configSnap.data();
-                    }
-                } catch (errConfig) {
-                    console.error("Config Error:", errConfig);
-                }
+                    if (configSnap.exists) TIER_CONFIG = configSnap.data();
+                } catch (errConfig) { console.error("Config Error:", errConfig); }
 
-                // 2. Load Products
                 const snapshot = await db.collection('themes').get();
                 const loadingEl = document.getElementById('home-loading');
                 if (loadingEl) loadingEl.style.display = 'none';
 
-                if (snapshot.empty) { 
-                    alert("Data kosong!"); 
-                    return; 
-                }
+                if (snapshot.empty) { alert("Data kosong!"); return; }
 
                 allProducts = snapshot.docs.map(doc => {
                     let d = doc.data();
-                    let variants = d.variants || [];
-                    if (Array.isArray(variants)) {
-                        variants = variants.map(v => v.trim()); 
-                    }
-                    
+                    let variants = Array.isArray(d.variants) ? d.variants.map(v => v.trim()) : [];
                     let desc = d.description || '';
-                    desc = desc.replace(/\n\uFFFD/g, '\n•').replace(/^\uFFFD/, '•');
-                    desc = desc.replace(/\uFFFD/g, '-');
+                    desc = desc.replace(/\n\uFFFD/g, '\n•').replace(/^\uFFFD/, '•').replace(/\uFFFD/g, '-');
                     desc = desc.replace(/Cek preview link dibawah ini:\s*\?+/gi, 'Cek preview link dibawah ini: 👇⤵️');
 
                     return {
@@ -852,8 +766,8 @@
                         tier: (d.tier || 'Starter').trim(),
                         variants: variants,
                         link: d.link || '#',
-                        photoRequired: d['photo-required'] || d.photo_required || 'no',
-                        label: d.label || '' // Logic Label Baru
+                        notification: d.notification || d['photo-required'] || d.photo_required || '',
+                        features_list: d.features_list || d.features || ''
                     };
                 });
 
@@ -872,13 +786,24 @@
             }
         }
 
+        // --- HELPER UNTUK TAMPILAN RESELLER BADGE ---
+        function getTierStyle(tierName) {
+            const t = tierName.toLowerCase();
+            if (t.includes('gold')) return "bg-gradient-to-r from-yellow-900/80 via-yellow-700/80 to-yellow-900/80 border border-yellow-500/30 text-yellow-100 shadow-[0_0_10px_rgba(234,179,8,0.1)]";
+            if (t.includes('platinum') || t.includes('silver')) return "bg-gradient-to-r from-slate-700/80 via-slate-600/80 to-slate-700/80 border border-slate-400/30 text-slate-100 shadow-[0_0_10px_rgba(148,163,184,0.1)]";
+            if (t.includes('diamond')) return "bg-gradient-to-r from-cyan-900/80 via-cyan-800/80 to-cyan-900/80 border border-cyan-400/30 text-cyan-100 shadow-[0_0_10px_rgba(34,211,238,0.1)]";
+            if (t.includes('bronze')) return "bg-gradient-to-r from-orange-900/80 via-orange-800/80 to-orange-900/80 border border-orange-500/30 text-orange-100";
+            // Default elegant dark
+            return "bg-gradient-to-r from-[#2a373f] to-[#202c33] border border-white/5 text-gray-300";
+        }
+
+        // --- 6. RENDER LOGIC ---
         function renderHome() {
             const container = document.getElementById('tier-list-container');
             if (!container) return;
             container.innerHTML = '';
 
             const filteredProducts = allProducts.filter(p => p.category === currentCategoryFilter);
-
             if (filteredProducts.length === 0) {
                 container.innerHTML = `<div class="text-center py-10 opacity-60"><p class="text-sm text-wa-gray">Belum ada tema di kategori ini</p></div>`;
                 return;
@@ -902,10 +827,10 @@
 
             availableTiers.forEach(tier => {
                 const products = grouped[tier];
-                const prices = products.map(p => p.price_real);
-                const minPrice = Math.min(...prices);
-                const maxPrice = Math.max(...prices);
-                const priceRange = minPrice === maxPrice ? `All price at Rp${Math.floor(minPrice/1000)}k` : `Rp${Math.floor(minPrice/1000)}k - Rp${Math.floor(maxPrice/1000)}k`;
+                
+                // Sorting berdasarkan harga tetap ada
+                products.sort((a, b) => a.price_real - b.price_real);
+
                 const emoji = TIER_CONFIG[tier] || "🔖"; 
                 const previewProducts = products.slice(0, 3);
                 
@@ -914,73 +839,35 @@
                     const imgPng = `${IMAGEKIT_BASE}/${item.folder_id}/01.png?tr=w-400`;
                     const imgWebp = `${IMAGEKIT_BASE}/${item.folder_id}/01.webp?tr=w-400`;
                     const imgJpg = `${IMAGEKIT_BASE}/${item.folder_id}/01.jpg?tr=w-400`;
-                    const price = 'Rp' + Math.floor(item.price_real / 1000) + 'k';
-                    const fakePrice = 'Rp' + Math.floor(item.price_fake / 1000) + 'k';
                     
-                    let discountHtml = '';
-                    let priceHtml = '';
+                    // LOGIKA TAMPILAN RESELLER: Gantikan Harga dengan Label Tier
+                    let shortTier = item.tier.replace(/Tema /gi, '').trim();
+                    let tierStyle = getTierStyle(item.tier);
                     
-                    // Logic Tampilan Harga (Toggle via SHOW_PRICE)
-                    if (SHOW_PRICE) {
-                        if (item.price_fake > item.price_real) {
-                            const discount = Math.round(((item.price_fake - item.price_real) / item.price_fake) * 100);
-                            discountHtml = `<div class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm z-10 border border-white/10">-${discount}%</div>`;
-                        }
-                        priceHtml = `<div class="flex items-center gap-1.5 mt-1.5">
-                                        <span class="text-sm text-wa-teal font-bold">${price}</span>
-                                        ${item.price_fake > item.price_real ? `<span class="text-[10px] text-wa-gray line-through decoration-red-500/50">${fakePrice}</span>` : ''}
-                                     </div>`;
-                    } else {
-                        // LOGIC BARU: TAMPILKAN TIER BADGE + BUTTON JIKA NO PRICE
-                        let shortTier = item.tier.replace(/Tema /gi, '').trim();
-                        let tierStyle = getTierStyle(item.tier); // NEW HELPER
-                        
-                        priceHtml = `
-                        <div class="mt-2 flex items-center justify-between gap-2">
-                            <!-- Tier Capsule -->
-                            <div class="flex-1 min-w-0">
-                                <div class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg w-full max-w-full ${tierStyle}">
-                                    <span class="text-[10px] shrink-0 filter drop-shadow-md">${emoji}</span>
-                                    <span class="text-[10px] font-semibold truncate tracking-wide">${shortTier}</span>
-                                </div>
+                    let badgeHtml = `
+                    <div class="mt-2 flex items-center justify-between gap-2">
+                        <div class="flex-1 min-w-0">
+                            <div class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg w-full max-w-full ${tierStyle}">
+                                <span class="text-[10px] shrink-0 filter drop-shadow-md">${emoji}</span>
+                                <span class="text-[10px] font-semibold truncate tracking-wide">${shortTier}</span>
                             </div>
-                            <!-- Action Button -->
-                            <div class="shrink-0">
-                                <div class="w-7 h-7 flex items-center justify-center rounded-full bg-wa-teal/10 text-wa-teal border border-wa-teal/20 group-hover:bg-wa-teal group-hover:text-white transition-all duration-300">
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                                </div>
+                        </div>
+                        <div class="shrink-0">
+                            <div class="w-7 h-7 flex items-center justify-center rounded-full bg-[#182329] text-wa-teal border border-wa-divider group-hover:bg-wa-teal group-hover:text-white group-hover:border-wa-teal transition-all duration-300 shadow-sm">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </div>
-                        </div>`;
-                    }
-
-                    // Logic Tampilan Badge Label (Best Seller dll)
-                    let badgeHtml = '';
-                    if (item.label) {
-                        let badgeColor = 'bg-gray-600';
-                        let badgeText = item.label;
-                        if(item.label === 'Best Seller') badgeColor = 'bg-gradient-to-r from-yellow-600 to-yellow-400';
-                        else if(item.label === 'New Arrival') badgeColor = 'bg-gradient-to-r from-teal-500 to-emerald-400';
-                        else if(item.label === 'Premium') badgeColor = 'bg-gradient-to-r from-purple-600 to-purple-400';
-                        else if(item.label === 'Recommended') badgeColor = 'bg-gradient-to-r from-blue-600 to-blue-400';
-                        
-                        badgeHtml = `<div class="absolute top-0 right-0 z-20">
-                                        <div class="${badgeColor} text-white text-[9px] font-bold px-3 py-1 rounded-bl-xl shadow-lg badge-shine tracking-wide uppercase">
-                                            ${badgeText}
-                                        </div>
-                                     </div>`;
-                    }
+                        </div>
+                    </div>`;
 
                     cardsHtml += `
-                        <div onclick="navigateTo('#/detail/${item.id}')" class="grid-3d group relative bg-[#202c33] rounded-xl overflow-hidden cursor-pointer animate-fade-up" style="animation-delay: 0.1s">
+                        <div onclick="navigateTo('#/detail/${item.id}')" class="group relative bg-[#202c33] rounded-xl overflow-hidden border border-wa-divider hover:border-wa-teal/50 transition-all duration-300 active:scale-[0.98] cursor-pointer shadow-sm">
                             <div class="aspect-square overflow-hidden relative">
-                                ${discountHtml}
-                                ${badgeHtml}
                                 <img src="${imgPng}" onerror="if(this.src.includes('.png')){this.src='${imgWebp}'}else if(this.src.includes('.webp')){this.src='${imgJpg}'}else{this.parentElement.remove()}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
                             </div>
                             <div class="p-3">
-                                <h4 class="text-xs text-wa-light font-bold truncate group-hover:text-wa-teal transition-colors tracking-wide">${item.title}</h4>
-                                ${priceHtml}
+                                <h4 class="text-sm text-wa-light font-medium truncate group-hover:text-white transition-colors tracking-tight">${item.title}</h4>
+                                ${badgeHtml}
                             </div>
                         </div>
                     `;
@@ -989,14 +876,11 @@
                 const encodedTier = encodeURIComponent(tier).replace(/'/g, '%27');
                 const section = document.createElement('div');
                 section.className = "mb-4"; 
-                // Hide price range in header if SHOW_PRICE is false
-                const headerPrice = SHOW_PRICE ? priceRange : "Lihat Koleksi Lengkap";
-
                 section.innerHTML = `
                     <div class="px-4 flex justify-between items-center mb-3">
                         <div class="border-l-4 border-wa-teal pl-3">
                             <div class="flex items-center gap-2"><span class="text-lg filter drop-shadow-sm">${emoji}</span><h2 class="text-wa-light font-bold text-base tracking-wide">${tier}</h2></div>
-                            <p class="text-[11px] text-wa-gray mt-0.5 font-medium tracking-wide uppercase">${headerPrice}</p>
+                            <p class="text-[11px] text-wa-gray mt-0.5 font-medium tracking-wide uppercase">LIHAT KOLEKSI LENGKAP</p>
                         </div>
                         <button onclick="navigateTo('#/category/${encodedTier}')" class="bg-[#2a373f] border border-wa-divider text-wa-teal text-[11px] font-bold px-3.5 py-1.5 rounded-full hover:bg-wa-teal hover:text-white hover:border-transparent transition active:scale-95 shadow-sm uppercase tracking-wider">Lihat Semua</button>
                     </div>
@@ -1011,141 +895,160 @@
             const products = groupedProducts[tierName];
             if(!products) return;
             
+            // Urutkan berdasarkan harga walau disembunyikan
+            products.sort((a, b) => a.price_real - b.price_real);
+
             const emoji = TIER_CONFIG[tierName] || "🔖";
-            const titleEl = document.getElementById('cat-header-title');
-            if(titleEl) titleEl.innerText = `${emoji} ${tierName}`;
-            const countEl = document.getElementById('cat-header-count');
-            if(countEl) countEl.innerText = `${products.length} Tema Tersedia`;
+            document.getElementById('cat-header-title').innerText = `${emoji} ${tierName}`;
+            document.getElementById('cat-header-count').innerText = `${products.length} Tema Tersedia`;
 
             const container = document.getElementById('cat-grid-container');
             if(!container) return; 
             container.innerHTML = '';
 
-            products.forEach((item, index) => {
+            products.forEach(item => {
                 const imgPng = `${IMAGEKIT_BASE}/${item.folder_id}/01.png?tr=w-400`;
                 const imgWebp = `${IMAGEKIT_BASE}/${item.folder_id}/01.webp?tr=w-400`;
                 const imgJpg = `${IMAGEKIT_BASE}/${item.folder_id}/01.jpg?tr=w-400`;
-                const price = 'Rp' + Math.floor(item.price_real / 1000) + 'k';
-                const fakePrice = 'Rp' + Math.floor(item.price_fake / 1000) + 'k';
                 
-                let discountHtml = '';
-                let priceHtml = '';
-
-                // Logic Tampilan Harga (Toggle via SHOW_PRICE)
-                if (SHOW_PRICE) {
-                    if (item.price_fake > item.price_real) {
-                        const discount = Math.round(((item.price_fake - item.price_real) / item.price_fake) * 100);
-                        discountHtml = `<div class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm z-10 border border-white/10">-${discount}%</div>`;
-                    }
-                    priceHtml = `<div class="flex items-center gap-1.5 mt-1.5"><span class="text-sm text-wa-teal font-bold">${price}</span>${item.price_fake > item.price_real ? `<span class="text-[10px] text-wa-gray line-through decoration-red-500/50">${fakePrice}</span>` : ''}</div>`;
-                } else {
-                    // LOGIC BARU: TAMPILKAN TIER BADGE + BUTTON JIKA NO PRICE
-                    let shortTier = item.tier.replace(/Tema /gi, '').trim();
-                    let tierStyle = getTierStyle(item.tier); // NEW HELPER
-                    
-                    priceHtml = `
-                    <div class="mt-2 flex items-center justify-between gap-2">
-                        <!-- Tier Capsule -->
-                        <div class="flex-1 min-w-0">
-                            <div class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg w-full max-w-full ${tierStyle}">
-                                <span class="text-[10px] shrink-0 filter drop-shadow-md">${emoji}</span>
-                                <span class="text-[10px] font-semibold truncate tracking-wide">${shortTier}</span>
-                            </div>
+                // LOGIKA TAMPILAN RESELLER: Gantikan Harga dengan Label Tier
+                let shortTier = item.tier.replace(/Tema /gi, '').trim();
+                let tierStyle = getTierStyle(item.tier);
+                
+                let badgeHtml = `
+                <div class="mt-2 flex items-center justify-between gap-2">
+                    <div class="flex-1 min-w-0">
+                        <div class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg w-full max-w-full ${tierStyle}">
+                            <span class="text-[10px] shrink-0 filter drop-shadow-md">${emoji}</span>
+                            <span class="text-[10px] font-semibold truncate tracking-wide">${shortTier}</span>
                         </div>
-                        <!-- Action Button -->
-                        <div class="shrink-0">
-                            <div class="w-7 h-7 flex items-center justify-center rounded-full bg-wa-teal/10 text-wa-teal border border-wa-teal/20 group-hover:bg-wa-teal group-hover:text-white transition-all duration-300">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            </div>
+                    </div>
+                    <div class="shrink-0">
+                        <div class="w-7 h-7 flex items-center justify-center rounded-full bg-[#182329] text-wa-teal border border-wa-divider group-hover:bg-wa-teal group-hover:text-white group-hover:border-wa-teal transition-all duration-300 shadow-sm">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </div>
-                    </div>`;
-                }
-
-                // Logic Badge di Kategori View
-                let badgeHtml = '';
-                if (item.label) {
-                    let badgeColor = 'bg-gray-600';
-                    if(item.label === 'Best Seller') badgeColor = 'bg-gradient-to-r from-yellow-600 to-yellow-400';
-                    else if(item.label === 'New Arrival') badgeColor = 'bg-gradient-to-r from-teal-500 to-emerald-400';
-                    else if(item.label === 'Premium') badgeColor = 'bg-gradient-to-r from-purple-600 to-purple-400';
-                    else if(item.label === 'Recommended') badgeColor = 'bg-gradient-to-r from-blue-600 to-blue-400';
-                    
-                    badgeHtml = `<div class="absolute top-0 right-0 z-20">
-                                    <div class="${badgeColor} text-white text-[9px] font-bold px-3 py-1 rounded-bl-xl shadow-lg badge-shine tracking-wide uppercase">
-                                        ${item.label}
-                                    </div>
-                                 </div>`;
-                }
+                    </div>
+                </div>`;
 
                 const card = document.createElement('div');
-                card.className = "grid-3d group relative bg-[#202c33] rounded-xl overflow-hidden cursor-pointer animate-fade-up";
-                card.style.animationDelay = `${index * 0.05}s`;
+                card.className = "group relative bg-[#202c33] rounded-xl overflow-hidden border border-wa-divider hover:border-wa-teal/50 transition-all duration-300 active:scale-[0.98] cursor-pointer shadow-sm";
                 card.onclick = () => navigateTo(`#/detail/${item.id}`);
                 card.innerHTML = `
                     <div class="aspect-square overflow-hidden relative">
-                        ${discountHtml}
-                        ${badgeHtml}
                         <img src="${imgPng}" onerror="if(this.src.includes('.png')){this.src='${imgWebp}'}else if(this.src.includes('.webp')){this.src='${imgJpg}'}else{this.parentElement.remove()}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
                     </div>
                     <div class="p-3">
-                        <h4 class="text-xs text-wa-light font-bold truncate group-hover:text-wa-teal transition-colors tracking-wide">${item.title}</h4>
-                        ${priceHtml}
+                        <h4 class="text-sm text-wa-light font-medium truncate group-hover:text-white transition-colors tracking-tight">${item.title}</h4>
+                        ${badgeHtml}
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
 
+        // ==========================================
+        // SMART PARSER UNTUK FITUR (DARI MAIN BARU)
+        // ==========================================
+        function getResolvedFeatures(featureString, category, tier) {
+            let featuresSet = new Set();
+            let safeString = featureString || '';
+            
+            if (!safeString.trim()) {
+                let lowerTier = (tier || '').toLowerCase();
+                if (category === 'tema-wedding') {
+                    if (lowerTier.includes('starter')) safeString = 'preset:paket_wedding_starter';
+                    else if (lowerTier.includes('diamond') || lowerTier.includes('platinum')) safeString = 'preset:paket_wedding_premium';
+                    else safeString = 'preset:paket_wedding_basic';
+                } else if (category === 'acara-anak') {
+                    safeString = 'preset:paket_kids_basic';
+                } else if (category === 'school-and-graduation') {
+                    safeString = 'preset:paket_school_basic';
+                } else if (category === 'acara-formal') {
+                    safeString = 'preset:paket_formal_basic';
+                } else if (category === 'teen-and-card') {
+                    safeString = 'preset:paket_teen_basic';
+                } else {
+                    safeString = 'preset:paket_other_basic';
+                }
+            }
+
+            const parts = safeString.split(',').map(s => s.trim()).filter(s => s);
+            
+            parts.forEach(part => {
+                if (part.startsWith('preset:')) {
+                    const presetName = part.substring(7);
+                    if (typeof PRESETS !== 'undefined' && PRESETS[presetName]) {
+                        PRESETS[presetName].forEach(f => featuresSet.add(f));
+                    }
+                } else if (part.startsWith('-')) {
+                    featuresSet.delete(part.substring(1));
+                } else if (part.startsWith('+')) {
+                    featuresSet.add(part.substring(1));
+                } else {
+                    featuresSet.add(part);
+                }
+            });
+            
+            return Array.from(featuresSet).map(id => {
+                if (typeof MASTER_FEATURES !== 'undefined') {
+                    const featureData = MASTER_FEATURES[id];
+                    if (featureData) {
+                        return { id, title: featureData.title, icon: featureData.icon, desc: featureData.desc };
+                    }
+                }
+                return null;
+            }).filter(f => f !== null);
+        }
+
         function renderDetailView(item) {
             window.currentItem = item;
             window.currentGalleryItem = item; 
 
-            // --- REVISI: Cek kategori ---
             const isWedding = item.category === 'tema-wedding';
-            const isSchoolEvent = item.category === 'school-and-graduation';
-            const isKidsEvent = item.category === 'acara-anak';
-            const isTeenEvent = item.category === 'teen-and-card';
-            const isOtherEvent = item.category === 'acara-lainnya';
-            const isFormalEvent = item.category === 'acara-formal';
-
-            const titleEl = document.getElementById('detail-title');
-            if(titleEl) titleEl.innerText = item.title;
             
-            // Logic Tampilan Harga Detail (Toggle via SHOW_PRICE)
-            const priceContainer = document.getElementById('detail-price-container');
-            if(priceContainer) {
-                if(SHOW_PRICE) {
-                    priceContainer.style.display = 'flex'; // Tampilkan
-                    const priceRealEl = document.getElementById('detail-price-real');
-                    if(priceRealEl) priceRealEl.innerText = 'Rp ' + item.price_real.toLocaleString('id-ID');
-                    const priceFakeEl = document.getElementById('detail-price-fake');
-                    if(priceFakeEl) priceFakeEl.innerText = 'Rp ' + item.price_fake.toLocaleString('id-ID');
-                } else {
-                    priceContainer.style.display = 'none'; // Sembunyikan
-                }
+            document.getElementById('detail-title').innerText = item.title;
+            
+            // SMART DESCRIPTION
+            let finalDesc = item.description.trim();
+            let namaTier = (item.tier || "").trim();
+            let teksMutlak = "";
+            if (typeof DESC_TEMPLATES !== 'undefined') {
+                teksMutlak = DESC_TEMPLATES[namaTier] || DESC_TEMPLATES['default'];
             }
-
-            const descEl = document.getElementById('detail-desc');
-            if(descEl) descEl.innerText = item.description;
+            if (teksMutlak && !finalDesc.includes('Swipe ke kiri')) {
+                finalDesc += "\n\n" + teksMutlak.trim();
+            }
+            document.getElementById('detail-desc').innerText = finalDesc;
 
             let categoryLabel = "Event";
             if(isWedding) categoryLabel = "Wedding";
-            else if(isKidsEvent) categoryLabel = "Kids";
-            else if(isFormalEvent) categoryLabel = "Formal";
-            else if(isTeenEvent) categoryLabel = "Teen";
-            else if(isSchoolEvent) categoryLabel = "School";
+            else if(item.category === 'acara-anak') categoryLabel = "Kids";
+            else if(item.category === 'acara-formal') categoryLabel = "Formal";
+            else if(item.category === 'teen-and-card') categoryLabel = "Teen";
+            else if(item.category === 'school-and-graduation') categoryLabel = "School";
             else categoryLabel = "General";
 
             let cleanTier = (item.tier || "").replace(/Tema|Wedding|Kids|Acara/gi, '').trim();
             let detailEmoji = TIER_CONFIG[item.tier] || TIER_CONFIG[cleanTier] || "✨"; 
-            const catEl = document.getElementById('detail-category');
-            if(catEl) catEl.innerText = `${detailEmoji} ${categoryLabel} ${cleanTier}`;
+            document.getElementById('detail-category').innerText = `${detailEmoji} ${categoryLabel} ${cleanTier}`;
 
+            // PHOTO ALERT / NOTIFICATIONS
             const alertContainer = document.getElementById('detail-photo-alert');
             if(alertContainer) {
-                if (item.photoRequired === 'yes') {
-                    alertContainer.innerHTML = `<div class="bg-yellow-900/20 border border-yellow-600/30 rounded-xl p-4 flex items-start gap-3"><svg class="w-5 h-5 text-yellow-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg><div><h4 class="text-sm font-bold text-yellow-500 mb-1">Penting!</h4><p class="text-xs text-wa-light/80 leading-relaxed">Tema ini memerlukan banyak foto prewedding (minimal 5 foto) untuk hasil maksimal.</p></div></div>`;
+                let alertKey = item.notification;
+                
+                if (typeof UI_NOTIFICATIONS !== 'undefined' && UI_NOTIFICATIONS[alertKey]) {
+                    const config = UI_NOTIFICATIONS[alertKey];
+                    const theme = getAlertThemeClasses(config.theme);
+                    const iconPath = (typeof ICONS !== 'undefined' && ICONS[config.iconType]) ? ICONS[config.iconType] : 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z';
+                    
+                    alertContainer.innerHTML = `<div class="${theme.bg} border ${theme.border} rounded-xl p-4 flex items-start gap-3"><svg class="w-5 h-5 ${theme.text} shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${iconPath}"></path></svg><div><h4 class="text-sm font-bold ${theme.text} mb-1">${config.title}</h4><p class="text-xs text-wa-light/80 leading-relaxed">${config.message}</p></div></div>`;
+                    alertContainer.classList.remove('hidden');
+                } else if (alertKey === 'yes') {
+                    const theme = getAlertThemeClasses('yellow');
+                    const iconPath = 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z';
+                    alertContainer.innerHTML = `<div class="${theme.bg} border ${theme.border} rounded-xl p-4 flex items-start gap-3"><svg class="w-5 h-5 ${theme.text} shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${iconPath}"></path></svg><div><h4 class="text-sm font-bold ${theme.text} mb-1">Penting!</h4><p class="text-xs text-wa-light/80 leading-relaxed">Tema ini memerlukan banyak foto prewedding (minimal 5 foto) untuk hasil maksimal.</p></div></div>`;
                     alertContainer.classList.remove('hidden');
                 } else {
                     alertContainer.classList.add('hidden');
@@ -1165,12 +1068,9 @@
                 buttonsWrapper.className = "flex flex-col gap-2";
                 previewContainer.appendChild(buttonsWrapper);
                 
-                // --- REVISI: LOGIC TOMBOL PREVIEW ---
                 if (!isWedding) {
-                    // JIKA BUKAN WEDDING, LANGSUNG TAMPILKAN TOMBOL DEFAULT
                     createPreviewButton(buttonsWrapper, item.link, "LIHAT PREVIEW UNDANGAN", "default", true);
                 } else {
-                    // JIKA WEDDING, GUNAKAN LOGIC VARIAN
                     const baseUrl = item.link.replace(/\/$/, ""); 
                     const sortOrder = ['foto', 'animasi', 'no-foto'];
                     const sortedVariants = (item.variants || [])
@@ -1199,12 +1099,10 @@
                 }
             }
 
-            // --- REVISI: SEMBUNYIKAN SECTION VARIAN JIKA BUKAN WEDDING ---
             const sectionVariantsWrapper = document.getElementById('section-variants-wrapper');
             if (sectionVariantsWrapper) {
                 if (isWedding) {
-                    sectionVariantsWrapper.classList.remove('hidden'); // Tampilkan jika wedding
-                    
+                    sectionVariantsWrapper.classList.remove('hidden'); 
                     const variantContainer = document.getElementById('detail-variants');
                     if(variantContainer) {
                         variantContainer.innerHTML = '';
@@ -1217,95 +1115,23 @@
                         }
                     }
                 } else {
-                    sectionVariantsWrapper.classList.add('hidden'); // Sembunyikan jika bukan wedding
+                    sectionVariantsWrapper.classList.add('hidden'); 
                 }
             }
 
+            // ==============================================================
+            // RENDER FITUR MENGGUNAKAN LOGIKA BARU
+            // ==============================================================
             const featuresContainer = document.getElementById('detail-features');
             if(featuresContainer) {
                 featuresContainer.innerHTML = '';
-                const isDwigital = item.link && item.link.includes('dwigital.com');
+                const finalFeaturesToRender = getResolvedFeatures(item.features_list, item.category, item.tier);
                 
-                let featuresToShow = FEATURES_DB.filter(f => {
-                    if (item.tier === 'Starter' && (f.id === 'gallery' || f.id === 'animasi')) return false;
-                    
-                    // Logic Filter Per Kategori
-                    if (isSchoolEvent) {
-                        if (['love', 'gift'].includes(f.id)) return false; 
-                        if (['qrcode', 'screen'].includes(f.id)) return true;
-                    } 
-                    else if (isKidsEvent) {
-                        if (['love'].includes(f.id)) return false;
-                        if (['rsvp', 'qrcode', 'screen'].includes(f.id)) return true; // RSVP useful for kids party
-                    }
-                    else if (isTeenEvent) {
-                        if (['love'].includes(f.id)) return false;
-                    }
-                    else if (isOtherEvent) {
-                        if (['love'].includes(f.id)) return false;
-                    }
-                    else if (isFormalEvent) {
-                        if (['love', 'gift', 'quotes'].includes(f.id)) return false;
-                        if (['qrcode', 'screen'].includes(f.id)) return true;
-                    }
-                    else {
-                         // Default / Wedding
-                        if ((f.id === 'qrcode' || f.id === 'screen') && !isDwigital) return false;
-                    }
-                    return true;
-                });
-
-                if (isFormalEvent) featuresToShow = [...featuresToShow, ...FORMAL_FEATURES_ADDONS];
-                if (isSchoolEvent) featuresToShow = [...featuresToShow, ...SCHOOL_FEATURES_ADDONS];
-                if (isKidsEvent) featuresToShow = [...featuresToShow, ...KIDS_FEATURES_ADDONS];
-                if (isTeenEvent) featuresToShow = [...featuresToShow, ...TEEN_FEATURES_ADDONS];
-                if (isOtherEvent) featuresToShow = [...featuresToShow, ...OTHER_FEATURES_ADDONS];
-
-                featuresToShow.forEach(f => {
-                    let displayTitle = f.title;
-                    let displayDesc = f.desc;
-                    
-                    // REVISI: Custom wording per kategori
-                    if (isKidsEvent) {
-                        if (f.id === 'music') { displayTitle = "Lagu Ceria"; displayDesc = "Musik latar ceria yang disukai anak-anak."; }
-                        if (f.id === 'gallery') { displayTitle = "Foto Si Kecil"; displayDesc = "Kumpulan foto kelucuan dan tumbuh kembang si kecil."; }
-                        if (f.id === 'gift') { displayTitle = "Kado Ulang Tahun"; displayDesc = "Kirim hadiah atau angpao digital untuk si kecil."; }
-                        if (f.id === 'quotes') { displayTitle = "Doa Orang Tua"; displayDesc = "Harapan dan doa terbaik ayah bunda untuk masa depan anak."; }
-                    }
-
-                    if (isTeenEvent) {
-                        if (f.id === 'music') { displayTitle = "Trending Music"; displayDesc = "Musik hits pilihanmu yang bikin suasana makin asik."; }
-                        if (f.id === 'gallery') { displayTitle = "Portrait Gallery"; displayDesc = "Deretan foto aesthetic dan momen seru kamu."; }
-                        if (f.id === 'wishes') { displayTitle = "Best Wishes"; displayDesc = "Kolom ucapan dan harapan dari bestie-bestie kamu."; }
-                        if (f.id === 'gift') { displayTitle = "Birthday Gift"; displayDesc = "Tanda sayang dan kado dari teman-teman."; }
-                    }
-
-                    if (isOtherEvent) {
-                        if (f.id === 'music') { displayTitle = "Backsound Acara"; displayDesc = "Musik pengiring yang sesuai dengan tema acara."; }
-                        if (f.id === 'gallery') { displayTitle = "Galeri"; displayDesc = "Dokumentasi foto terkait kegiatan acara."; }
-                        if (f.id === 'gift') { displayTitle = "Tanda Kasih"; displayDesc = "Fitur kirim hadiah digital (opsional)."; }
-                    }
-                    
-                    if (isFormalEvent) {
-                        if (f.id === 'wishes') displayTitle = "Message Wall";
-                        if (f.id === 'gallery') displayTitle = "Dokumentasi";
-                        if (f.id === 'music') displayDesc = "Lagu instrumen corporate atau grand yang elegan.";
-                        if (f.id === 'animasi') displayDesc = "Animasi transisi yang formal dan profesional.";
-                    }
-
-                    if (isSchoolEvent) {
-                        if (f.id === 'music') { displayTitle = "Mars & Hymne"; displayDesc = "Otomatis memutar lagu Mars Universitas atau Hymne Sekolah."; }
-                        if (f.id === 'gallery') { displayTitle = "Galeri Kenangan"; displayDesc = "Tampilkan foto-foto nostalgia masa sekolah/kuliah."; }
-                        if (f.id === 'wishes') { displayTitle = "Ucapan Selamat"; displayDesc = "Fitur bagi teman/keluarga memberikan ucapan selamat wisuda."; }
-                        if (f.id === 'quotes') { displayTitle = "Quotes Motivasi"; displayDesc = "Kata-kata mutiara tentang pendidikan dan masa depan."; }
-                        if (f.id === 'animasi') { displayTitle = "Animasi Opening"; displayDesc = "Animasi pembuka yang elegan sesuai tema institusi."; }
-                    }
-
-                    const featureObj = { ...f, title: displayTitle, desc: displayDesc };
+                finalFeaturesToRender.forEach(f => {
                     const chip = document.createElement('button');
                     chip.className = "border border-wa-divider bg-wa-header px-3 py-1.5 rounded-full text-[11px] text-wa-light flex items-center gap-2 hover:border-wa-teal/50 hover:bg-[#2a373f] transition active:scale-95";
-                    chip.onclick = () => openFeatureSheet(featureObj);
-                    chip.innerHTML = `<svg class="w-3.5 h-3.5 text-wa-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${f.icon}"></path></svg>${displayTitle}`;
+                    chip.onclick = () => openFeatureSheet(f);
+                    chip.innerHTML = `<svg class="w-3.5 h-3.5 text-wa-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${f.icon}"></path></svg>${f.title}`;
                     featuresContainer.appendChild(chip);
                 });
             }
@@ -1313,13 +1139,15 @@
             const extraContainer = document.getElementById('detail-extra-services');
             if(extraContainer) {
                 extraContainer.innerHTML = '';
-                EXTRA_SERVICES_DB.forEach(s => {
-                    const chip = document.createElement('button');
-                    chip.className = "border border-wa-divider bg-wa-header px-3 py-1.5 rounded-full text-[11px] text-wa-light flex items-center gap-2 hover:border-wa-teal/50 hover:bg-[#2a373f] transition active:scale-95";
-                    chip.onclick = () => openFeatureSheet(s);
-                    chip.innerHTML = `<svg class="w-3.5 h-3.5 text-wa-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${s.icon}"></path></svg>${s.title}`;
-                    extraContainer.appendChild(chip);
-                });
+                if(typeof EXTRA_SERVICES_DB !== 'undefined') {
+                    EXTRA_SERVICES_DB.forEach(s => {
+                        const chip = document.createElement('button');
+                        chip.className = "border border-wa-divider bg-wa-header px-3 py-1.5 rounded-full text-[11px] text-wa-light flex items-center gap-2 hover:border-wa-teal/50 hover:bg-[#2a373f] transition active:scale-95";
+                        chip.onclick = () => openFeatureSheet(s);
+                        chip.innerHTML = `<svg class="w-3.5 h-3.5 text-wa-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${s.icon}"></path></svg>${s.title}`;
+                        extraContainer.appendChild(chip);
+                    });
+                }
             }
 
             const slider = document.getElementById('detail-slider');
@@ -1328,7 +1156,7 @@
                 requestAnimationFrame(() => { slider.scrollLeft = 0; });
                 for (let i = 1; i <= 10; i++) {
                     const num = String(i).padStart(2, '0');
-                    let imgBase = (i <= 8) ? `${IMAGEKIT_BASE}/${item.folder_id}/${num}` : `${IMAGEKIT_BASE}/feature-service/${num}`;
+                    let imgBase = (i <= 8) ? `${IMAGEKIT_BASE}/${item.folder_id}/${num}` : `${IMAGEKIT_BASE}/undangandigital/feature-service/${num}`;
                     let imgPng = `${imgBase}.png?tr=w-400`;
                     let imgWebp = `${imgBase}.webp?tr=w-400`;
                     let imgJpg = `${imgBase}.jpg?tr=w-400`;
@@ -1336,7 +1164,6 @@
                     const slideItem = document.createElement('div');
                     slideItem.className = "snap-center shrink-0 w-[85%] h-full flex items-center justify-center bg-wa-header rounded-xl overflow-hidden relative border border-wa-divider cursor-pointer shadow-lg active:scale-[0.98] transition-transform";
                     
-                    // REVISI: Ambil index dari elemen DOM aktif karena yang error akan otomatis terhapus
                     slideItem.onclick = function() {
                         const index = Array.prototype.indexOf.call(this.parentNode.children, this);
                         openGallery(index); 
@@ -1357,28 +1184,16 @@
             }
         }
 
-        function openFeatureSheet(feature) {
-            document.getElementById('sheet-title').innerText = feature.title;
-            document.getElementById('sheet-desc').innerText = feature.desc;
-            document.getElementById('sheet-icon').innerHTML = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${feature.icon}"></path></svg>`;
-            
-            const sheet = document.getElementById('feature-sheet');
-            const backdrop = document.getElementById('feature-backdrop');
-            
-            backdrop.classList.remove('backdrop-closed');
-            backdrop.classList.add('backdrop-open');
-            sheet.classList.remove('sheet-closed');
-            sheet.classList.add('sheet-open');
-        }
-
-        function closeFeatureSheet() {
-            const sheet = document.getElementById('feature-sheet');
-            const backdrop = document.getElementById('feature-backdrop');
-            
-            sheet.classList.remove('sheet-open');
-            sheet.classList.add('sheet-closed');
-            backdrop.classList.remove('backdrop-open');
-            backdrop.classList.add('backdrop-closed');
+        // --- 7. UTILS & ACTIONS ---
+        function getAlertThemeClasses(color) {
+            const themes = {
+                yellow: { bg: "bg-yellow-900/20", border: "border-yellow-600/30", text: "text-yellow-500" },
+                blue: { bg: "bg-blue-900/20", border: "border-blue-500/30", text: "text-blue-400" },
+                purple: { bg: "bg-purple-900/20", border: "border-purple-600/30", text: "text-purple-400" },
+                teal: { bg: "bg-teal-900/20", border: "border-teal-600/30", text: "text-teal-400" },
+                red: { bg: "bg-red-900/20", border: "border-red-600/30", text: "text-red-500" }
+            };
+            return themes[color] || themes.blue;
         }
 
         function getVariantDetails(variant, item, allVariants) {
@@ -1403,30 +1218,15 @@
             return { url, label, icon };
         }
 
-        function getTierStyle(tierName) {
-            const t = tierName.toLowerCase();
-            if (t.includes('gold')) return "bg-gradient-to-r from-yellow-900/80 via-yellow-700/80 to-yellow-900/80 border border-yellow-500/30 text-yellow-100 shadow-[0_0_10px_rgba(234,179,8,0.1)]";
-            if (t.includes('platinum') || t.includes('silver')) return "bg-gradient-to-r from-slate-700/80 via-slate-600/80 to-slate-700/80 border border-slate-400/30 text-slate-100 shadow-[0_0_10px_rgba(148,163,184,0.1)]";
-            if (t.includes('diamond')) return "bg-gradient-to-r from-cyan-900/80 via-cyan-800/80 to-cyan-900/80 border border-cyan-400/30 text-cyan-100 shadow-[0_0_10px_rgba(34,211,238,0.1)]";
-            if (t.includes('bronze')) return "bg-gradient-to-r from-orange-900/80 via-orange-800/80 to-orange-900/80 border border-orange-500/30 text-orange-100";
-            // Default elegant dark
-            return "bg-gradient-to-r from-[#2a373f] to-[#202c33] border border-white/5 text-gray-300";
-        }
-
-        // --- REVISI 3: FUNGSI GALERI BERUBAH MENJADI SLIDER FOKUS 1 FOTO ---
         function openGallery(actualIndex = 0) {
             const item = window.currentGalleryItem;
             if(!item) return;
 
-            // Ambil semua img yang berhasil dimuat di thumbnail (karena yang error terhapus oleh onerror)
             const validImages = Array.from(document.querySelectorAll('#detail-slider img'));
-            if (validImages.length === 0) return; // safety check
+            if (validImages.length === 0) return;
 
-            // Mengganti resolusi w-400 dari DOM menjadi w-800 untuk versi galeri fullscreen
             galleryImagesArray = validImages.map(img => img.src.replace('tr=w-400', 'tr=w-800'));
-
             currentGalleryIndex = actualIndex;
-            // Pastikan index tidak out-of-bounds
             if (currentGalleryIndex >= galleryImagesArray.length) currentGalleryIndex = 0;
 
             updateGalleryDisplay();
@@ -1438,25 +1238,18 @@
 
         function updateGalleryDisplay() {
             if(galleryImagesArray.length === 0) return;
-            
             const imgEl = document.getElementById('gallery-main-image');
             const imgSrc = galleryImagesArray[currentGalleryIndex];
             
-            // Efek memudar transisi halus
             imgEl.classList.add('opacity-0');
-            
             setTimeout(() => {
                 imgEl.src = imgSrc; 
                 imgEl.onload = () => { imgEl.classList.remove('opacity-0'); };
-                // Fallback untuk antisipasi caching sehingga gambar tetap muncul
                 setTimeout(() => { imgEl.classList.remove('opacity-0'); }, 100);
-
             }, 200);
 
-            // Update status nomor dan progress bar menyesuaikan dengan jumlah gambar yang ada (3, 5, atau berapapun)
             const total = galleryImagesArray.length;
             const current = currentGalleryIndex + 1;
-            
             document.getElementById('gallery-counter').innerText = `${current} / ${total}`;
             const progressPct = (current / total) * 100;
             document.getElementById('gallery-progress').style.width = `${progressPct}%`;
@@ -1464,11 +1257,8 @@
 
         function changeGalleryImage(direction) {
             currentGalleryIndex += direction;
-            
-            // Loop array bila sudah di ujung (Continuous loop)
             if (currentGalleryIndex < 0) currentGalleryIndex = galleryImagesArray.length - 1;
             if (currentGalleryIndex >= galleryImagesArray.length) currentGalleryIndex = 0;
-            
             updateGalleryDisplay();
         }
 
@@ -1481,10 +1271,7 @@
         function scrollSlider(direction) {
             const slider = document.getElementById('detail-slider');
             const scrollAmount = slider.offsetWidth * 0.85; 
-            slider.scrollBy({
-                left: direction * scrollAmount,
-                behavior: 'smooth'
-            });
+            slider.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
         }
 
         function createPreviewButton(container, url, text, iconType, isPrimary = false) {
@@ -1510,14 +1297,10 @@
             container.appendChild(btn);
         }
 
-        // --- NEW FUNCTION: OPEN PREVIEW DARI STICKY BUTTON ---
+        // TAMPILKAN PREVIEW DI DETAIL
         function openMainPreview() {
             if(!window.currentItem) return;
             const item = window.currentItem;
-            
-            // Logic: Selalu buka item.link (ini adalah link utama/versi foto)
-            // Sesuai request: "Jika ada tema yang terdapat 3 varian, pakai link tema versi foto"
-            // Di data, item.link selalu merujuk ke versi foto/utama.
             window.open(item.link, '_blank');
         }
 
